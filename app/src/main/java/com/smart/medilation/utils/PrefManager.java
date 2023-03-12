@@ -1,0 +1,44 @@
+package com.smart.medilation.utils;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+public class PrefManager {
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+    Context _context;
+
+    // shared pref mode
+    int PRIVATE_MODE = 0;
+
+    // Shared preferences file name
+    private static final String PREF_NAME = "smartMediation";
+
+    private static final String IsDocLogin = "IsDocLogin";
+    private static final String Login = "Login";
+
+    public PrefManager(Context context) {
+        this._context = context;
+        pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        editor = pref.edit();
+    }
+
+    public void setLogIn(boolean login) {
+        editor.putBoolean(Login, login);
+        editor.commit();
+    }
+
+    public boolean getLogin() {
+        return pref.getBoolean(Login, false);
+    }
+
+    public void setIsDocLogin(boolean isDoc) {
+        editor.putBoolean(IsDocLogin, isDoc);
+        editor.commit();
+    }
+
+    public boolean getIsDocLogin() {
+        return pref.getBoolean(IsDocLogin, false);
+    }
+
+}

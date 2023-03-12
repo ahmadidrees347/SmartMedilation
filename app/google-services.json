@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1099192587832",
+    "project_id": "smart-medilation",
+    "storage_bucket": "smart-medilation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1099192587832:android:b8e785465f7851529178cd",
+        "android_client_info": {
+          "package_name": "com.smart.medilation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1099192587832-u3lcso150f5365hb4smdkvfjspq6ssst.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1YF1n69rn7E8ywWIRQbsVq5_-Do2EvDc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1099192587832-u3lcso150f5365hb4smdkvfjspq6ssst.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
