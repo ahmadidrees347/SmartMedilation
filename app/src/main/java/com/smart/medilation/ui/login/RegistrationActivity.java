@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smart.medilation.R;
 import com.smart.medilation.model.DoctorModel;
 import com.smart.medilation.model.PatientModel;
@@ -37,7 +38,7 @@ public class RegistrationActivity extends BaseActivity {
 
     ImageView imageBack;
     Button btn_signup;
-    ImageView imageView;
+    CircularImageView imageView;
     Spinner spnSpecialization;
     LinearLayout layoutSpecialization;
     private EditText edtName, edtEmail, edtPassword, edtPhoneNum, edtExp, edtQualification;

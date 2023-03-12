@@ -6,6 +6,7 @@
     <string name="login_desc">Enter your login details to access your account</string>
     <string name="message">This App will send you an SMS message for verification and standard rates apply.. Kindly enter your phone Number</string>
     <string name="log_in">Login</string>
+    <string name="login_as_admin">Login as Admin</string>
     <string name="login_register_as_doctor">Login / Register as Doctor</string>
     <string name="login_register_as_patient">Login / Register as Patient</string>
     <string name="create_account">Create Account</string>
@@ -36,6 +37,13 @@
     <string name="time">Time</string>
     <string name="reject">Reject</string>
     <string name="loading">Loading</string>
+    <string name="payment">Payment</string>
+    <string name="payment_methods">Payment Methods</string>
+    <string name="choose_your_desired">Choose your desired payment method given below</string>
+    <string name="jazz_cash">Jazz Cash</string>
+    <string name="easy_paisa">Easy Paisa</string>
+    <string name="cash">Cash</string>
+    <string name="default_method">Default Method</string>
 
 
     <string-array name="allCats">

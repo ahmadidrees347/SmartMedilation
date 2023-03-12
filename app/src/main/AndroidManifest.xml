@@ -16,8 +16,15 @@
         android:theme="@style/Theme.SmartMedilation"
         tools:targetApi="31">
         <activity
+            android:name=".ui.payment.PaymentActivity"
+            android:exported="false"
+            android:screenOrientation="nosensor"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
             android:name=".ui.admin.AllDoctorsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="nosensor"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".ui.DoctorDashboardActivity"
             android:exported="false"

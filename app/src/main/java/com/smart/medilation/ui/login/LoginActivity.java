@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -19,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smart.medilation.R;
 import com.smart.medilation.model.DoctorModel;
 import com.smart.medilation.model.PatientModel;
@@ -32,11 +32,13 @@ import java.util.regex.Pattern;
 public class LoginActivity extends BaseActivity {
     TextView txtTitle, btn_register;
     ImageView imageBack, imgAdmin;
+    CircularImageView image;
     EditText edt_email, edt_password;
     Button btn_login;
     //defining Firebase Auth object
     private FirebaseAuth mAuth;
     private boolean fromDoctor = false;
+    private boolean fromAdmin = false;
     FirebaseDatabase mDatabase;
 
     private boolean isValidEmail(String email) {
@@ -50,12 +52,19 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
 
         fromDoctor = getIntent().getBooleanExtra("fromDoctor", false);
+        fromAdmin = getIntent().getBooleanExtra("fromAdmin", false);
 
         txtTitle = findViewById(R.id.txtTitle);
-        if (fromDoctor) {
+        image = findViewById(R.id.image);
+        if (fromAdmin) {
+            txtTitle.setText(getString(R.string.login_as_admin));
+            image.setImageResource(R.drawable.ic_adm);
+        } else if (fromDoctor) {
             txtTitle.setText(getString(R.string.login_as_doctor));
+            image.setImageResource(R.drawable.ic_doc);
         } else {
             txtTitle.setText(getString(R.string.login_as_patient));
+            image.setImageResource(R.drawable.ic_patient);
         }
 
         // Initialize Firebase Auth
@@ -77,16 +86,22 @@ public class LoginActivity extends BaseActivity {
         btn_login = findViewById(R.id.btn_login);
         btn_register = findViewById(R.id.btn_register);
         btn_register.setOnClickListener(v -> {
-            Intent register = new Intent(getApplicationContext(), RegistrationActivity.class);
-            register.putExtra("fromDoctor", fromDoctor);
-            startActivity(register);
+            if (fromAdmin) {
+                Toast.makeText(LoginActivity.this, "Admin can not be Registered!", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent register = new Intent(getApplicationContext(), RegistrationActivity.class);
+                register.putExtra("fromDoctor", fromDoctor);
+                startActivity(register);
+            }
         });
         btn_login.setOnClickListener(v -> {
 
             final String email = edt_email.getText().toString().trim();
             final String password = edt_password.getText().toString().trim();
 
-            if (email.equalsIgnoreCase("admin") && password.equalsIgnoreCase("admin")) {
+            if (fromAdmin &&
+                    email.equalsIgnoreCase("admin") &&
+                    password.equalsIgnoreCase("admin")) {
                 imgAdmin.performClick();
                 return;
             }
