@@ -2,6 +2,7 @@ package com.smart.medilation.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -29,6 +30,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
+    protected void showToast(String strMsg) {
+        Toast.makeText(this, strMsg , Toast.LENGTH_SHORT).show();
+    }
     protected void showLDialog() {
         if (loadingDialog == null)
             loadingDialog = new LoadingDialog(this);
@@ -36,7 +40,7 @@ public class BaseActivity extends AppCompatActivity {
             loadingDialog.dismiss();
         try {
             loadingDialog.show();
-        } catch (Exception exp){}
+        } catch (Exception ignored){}
     }
 
     protected void dismissDialog() {
