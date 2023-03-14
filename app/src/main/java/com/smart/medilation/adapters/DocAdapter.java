@@ -4,13 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smart.medilation.R;
 import com.smart.medilation.model.DoctorModel;
 
@@ -42,6 +42,7 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.CustomViewHolder
             holder.image.setOnClickListener(v -> listener.onDocClick(docList.get(position)));
             Glide.with(context)
                     .load(docList.get(position).getImage())
+                    .placeholder(R.drawable.ic_user)
                     .into(holder.image);
         }
     }
@@ -64,7 +65,7 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.CustomViewHolder
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtName;
-        ImageView image;
+        CircularImageView image;
 
         public CustomViewHolder(View view) {
             super(view);

@@ -40,5 +40,6 @@
         android:fontFamily="@font/proximanovaregular"
         android:padding="15dp"
         android:text="Add Slots"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:visibility="gone" />
 </LinearLayout>

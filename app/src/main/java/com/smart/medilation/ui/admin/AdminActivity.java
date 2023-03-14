@@ -29,9 +29,5 @@ public class AdminActivity extends AppCompatActivity {
             Intent intent = new Intent(AdminActivity.this, AddCategoriesActivity.class);
             startActivity(intent);
         });
-        btn_slots.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminActivity.this, AddSlotsActivity.class);
-            startActivity(intent);
-        });
     }
 }

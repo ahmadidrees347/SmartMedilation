@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -29,101 +30,208 @@
             android:layout_centerInParent="true"
             android:fontFamily="@font/poppins"
             android:gravity="center_horizontal"
-            android:text="@string/profile"
+            android:text="@string/request_for_appointment"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
     </RelativeLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingHorizontal="5dp"
-        android:paddingTop="20dp">
-
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/image"
-            android:layout_width="125dp"
-            android:layout_height="105dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_user" />
-
-        <TextView
-            android:id="@+id/txtName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginVertical="4dp"
-            android:fontFamily="@font/poppins"
-            android:text="@string/name"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/txtType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginVertical="4dp"
-            android:fontFamily="@font/poppins"
-            android:text="@string/specialization"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgChat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:background="@drawable/bg_white"
-                android:padding="8dp"
-                android:src="@drawable/ic_chat" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingHorizontal="5dp"
+            android:paddingTop="20dp">
 
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgCall"
+                android:id="@+id/image"
+                android:layout_width="125dp"
+                android:layout_height="105dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_user" />
+
+            <TextView
+                android:id="@+id/txtName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_gravity="center"
+                android:layout_marginVertical="4dp"
+                android:fontFamily="@font/poppins"
+                android:text="@string/name"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginVertical="4dp"
+                android:fontFamily="@font/poppins"
+                android:text="@string/specialization"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgChat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/bg_white"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_chat" />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgCall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/bg_white"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_call" />
+            </LinearLayout>
+
+            <DatePicker
+                android:id="@+id/datePicker"
+                android:layout_width="wrap_content"
+                android:datePickerMode="spinner"
+                android:calendarViewShown="false"
+                android:layout_height="150dp"
+                android:layout_gravity="center" />
+
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:timePickerMode="spinner" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="20dp"
                 android:background="@drawable/bg_white"
-                android:padding="8dp"
-                android:src="@drawable/ic_call" />
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_time" />
+
+                <Spinner
+                    android:id="@+id/spnTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/timeSlot"
+                    android:padding="12dp"
+                    android:textSize="14sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/bg_white"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_bloodtype" />
+
+                <Spinner
+                    android:id="@+id/spnType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/appointmentType"
+                    android:fontFamily="@font/poppins"
+                    android:padding="12dp"
+                    android:textSize="14sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/physical1"
+                    android:layout_width="113dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:elevation="2dp"
+                    android:text="Physical Appointment"
+                    android:textColor="@color/white"
+                    android:textSize="8sp"
+                    app:backgroundTint="#0095D1"
+                    app:cornerRadius="5dp">
+
+                </com.google.android.material.button.MaterialButton>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/online2"
+                    android:layout_width="113dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:elevation="2dp"
+                    android:text="Online Appoinment"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    app:backgroundTint="#0095D1"
+                    app:cornerRadius="5dp">
+
+                </com.google.android.material.button.MaterialButton>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/door3"
+                    android:layout_width="113dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:elevation="2dp"
+                    android:text="Door-to-Door"
+                    android:textColor="@color/white"
+                    android:textSize="9sp"
+                    app:backgroundTint="#0095D1"
+                    app:cornerRadius="5dp">
+
+                </com.google.android.material.button.MaterialButton>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnRequest"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginVertical="12dp"
+                android:background="@drawable/bg_primary"
+                android:fontFamily="@font/poppins"
+                android:text="@string/request_appointment"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
         </LinearLayout>
-
-        <DatePicker
-            android:id="@+id/datePicker"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:layout_gravity="center"/>
-
-        <TimePicker
-            android:id="@+id/timePicker"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            android:timePickerMode="spinner" />
-
-        <Button
-            android:id="@+id/btnRequest"
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginVertical="12dp"
-            android:background="@drawable/bg_primary"
-            android:fontFamily="@font/poppins"
-            android:text="@string/request_appointment"
-            android:textAllCaps="false"
-            android:textColor="@color/white" />
-    </LinearLayout>
-
+    </ScrollView>
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
@@ -20,8 +21,6 @@ import com.smart.medilation.R;
 import com.smart.medilation.model.AppointmentModel;
 import com.smart.medilation.utils.Constants;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -31,8 +30,12 @@ public class AppointmentActivity extends BaseActivity {
     Button btnRequest;
     DatePicker datePicker;
     TimePicker timePicker;
+    Spinner spnTime, spnType;
 
     String doctorId = "";
+    String strTime = "";
+    String strType = "";
+    String strDate = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,9 @@ public class AppointmentActivity extends BaseActivity {
 
         doctorId = getIntent().getStringExtra("doctorId");
 
+        spnTime = findViewById(R.id.spnTime);
+        spnType = findViewById(R.id.spnType);
+
         imageBack = findViewById(R.id.imageBack);
         btnRequest = findViewById(R.id.btnRequest);
         datePicker = findViewById(R.id.datePicker);
@@ -50,6 +56,7 @@ public class AppointmentActivity extends BaseActivity {
         int timePeriodAdditionInDate = (1000 * 60 * 60 * 24);
         long time = System.currentTimeMillis() + timePeriodAdditionInDate;
         datePicker.setMinDate(time);
+        datePicker.setMaxDate(time + (timePeriodAdditionInDate * 7));
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -59,23 +66,33 @@ public class AppointmentActivity extends BaseActivity {
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH),
                 (datePicker, year, month, dayOfMonth) -> {
-                    Log.e("date*", "" + (month + 1) + "/" + dayOfMonth + "/" + year);
-                    SimpleDateFormat date = new SimpleDateFormat("MM dd yyyy", Locale.ENGLISH);
-                    String parseDate = "" + (month + 1) + " " + dayOfMonth + " " + year;
-                    try {
-                        Log.e("date*", "" + date.parse(parseDate));
-                    } catch (ParseException ignored) {
-                    }
+                    strDate = "" + (month + 1) + "/" + dayOfMonth + "/" + year;
+                    Log.e("date*", strDate);
                 }
         );
         timePicker.setOnTimeChangedListener((timePicker, hourOfDay, minute) -> {
             Log.e("time*", "" + hourOfDay + "/" + minute);
-            Log.e("time*", "" + getTimeText(hourOfDay, minute));
+            strTime = getTimeText(hourOfDay, minute);
+            Log.e("time*", "" + strTime);
         });
 
 
         imageBack.setOnClickListener(v -> onBackPressed());
         btnRequest.setOnClickListener(v -> {
+            strTime = spnTime.getSelectedItem().toString();
+            strType = spnType.getSelectedItem().toString();
+            if (strDate.isEmpty() ) {
+                showToast("Kindly Select Date");
+                return;
+            }
+            if (strTime.equalsIgnoreCase("Select Time Slot")) {
+                showToast("Kindly Select Time");
+                return;
+            }
+            if (strType.equalsIgnoreCase("Select Appointment Type")) {
+                showToast("Kindly Select Appointment Type");
+                return;
+            }
 
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             FirebaseUser user = mAuth.getCurrentUser();
@@ -85,28 +102,28 @@ public class AppointmentActivity extends BaseActivity {
                 mRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        boolean isAlreadyHasRecord = false;
+                        boolean isAlreadyHasAppointment = false;
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
                             AppointmentModel model = child.getValue(AppointmentModel.class);
                             if (model != null
-                                    && model.status.equalsIgnoreCase("Pending")
-                                    && model.doctorId.equalsIgnoreCase(doctorId)
-                                    && model.patientId.equalsIgnoreCase(user.getUid())) {
-                                isAlreadyHasRecord = true;
+                                    && model.getTime().equalsIgnoreCase(strTime)
+                                    && model.getDate().equalsIgnoreCase(strDate)) {
+                                isAlreadyHasAppointment = true;
                                 break;
                             }
                         }
-                        if (!isAlreadyHasRecord) {
-                            AppointmentModel model = new AppointmentModel(doctorId, user.getUid(), "5:01 PM", "3/10/2023", "Pending");
+                        if (!isAlreadyHasAppointment) {
+                            AppointmentModel model = new AppointmentModel(doctorId, user.getUid(), strTime, strDate, "Pending");
                             mRef.push().setValue(model).addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     showToast("Add Successfully");
                                 } else {
                                     showToast("" + task.getException());
+                                    showToast("Msg " + task.getException());
                                 }
                             });
                         } else {
-                            showToast("You has already has an appointment with Pending Status");
+                            showToast("Doctor has already an appointment at specific Date & time.");
                         }
                     }
 

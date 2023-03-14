@@ -56,11 +56,6 @@
             android:screenOrientation="nosensor"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name=".ui.admin.AddSlotsActivity"
-            android:exported="false"
-            android:screenOrientation="nosensor"
-            android:windowSoftInputMode="adjustNothing" />
-        <activity
             android:name=".ui.login.SelectionActivity"
             android:exported="false"
             android:screenOrientation="nosensor"

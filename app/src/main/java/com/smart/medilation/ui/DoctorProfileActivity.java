@@ -10,10 +10,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smart.medilation.R;
 
 public class DoctorProfileActivity extends AppCompatActivity {
-    ImageView imageBack, image, imgChat, imgCall;
+    ImageView imageBack, imgChat, imgCall;
+
+    CircularImageView image;
     TextView txtName, txtType, txtExp, txtCertificates;
 
     Button btnRequest;
@@ -58,6 +61,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
 
         Glide.with(this)
                 .load(imageText)
+                .placeholder(R.drawable.ic_user)
                 .into(image);
 
         txtName = findViewById(R.id.txtName);
@@ -66,7 +70,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
         txtCertificates = findViewById(R.id.txtCertificates);
 
         txtName.setText(name);
-        txtType.setText(specialization);
+        txtType.setText(specialization + " Specialist");
         txtExp.setText(exp + " Years");
         txtCertificates.setText(qualification);
     }

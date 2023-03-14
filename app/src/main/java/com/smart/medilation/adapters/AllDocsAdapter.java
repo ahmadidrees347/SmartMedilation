@@ -42,8 +42,8 @@ public class AllDocsAdapter extends RecyclerView.Adapter<AllDocsAdapter.CustomVi
             holder.doctorName.setText(docList.get(position).getName());
             holder.doctorSpec.setText(docList.get(position).getSpecialization());
             holder.doctorQualification.setText(docList.get(position).getQualification());
-            holder.btnApproved.setOnClickListener(v -> listener.onDocClick(docList.get(position),position, true));
-            holder.btbDecline.setOnClickListener(v -> listener.onDocClick(docList.get(position),position, false));
+            holder.btnApproved.setOnClickListener(v -> listener.onDocClick(docList.get(position), position, true));
+            holder.btbDecline.setOnClickListener(v -> listener.onDocClick(docList.get(position), position, false));
             Glide.with(context)
                     .load(docList.get(position).getImage())
                     .centerCrop()
@@ -85,6 +85,6 @@ public class AllDocsAdapter extends RecyclerView.Adapter<AllDocsAdapter.CustomVi
     }
 
     public interface ClickListener {
-        void onDocClick(DoctorModel model,int position, boolean status);
+        void onDocClick(DoctorModel model, int position, boolean status);
     }
 }

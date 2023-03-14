@@ -1,11 +1,11 @@
 package com.smart.medilation.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,11 +16,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.smart.medilation.R;
-import com.smart.medilation.adapters.CategoriesAdapter;
 import com.smart.medilation.adapters.AppointmentAdapter;
 import com.smart.medilation.model.AppointmentModel;
-import com.smart.medilation.model.CategoriesModel;
-import com.smart.medilation.ui.login.SelectionActivity;
 import com.smart.medilation.utils.Constants;
 
 import java.util.ArrayList;
@@ -31,6 +28,7 @@ public class DoctorDashboardActivity extends BaseActivity implements Appointment
 
     private FirebaseAuth mAuth;
     ImageView imageBack, imgLogout;
+    TextView txtNoApp;
     RecyclerView recyclerReservations;
     AppointmentAdapter appointmentAdapter;
     List<AppointmentModel> appointmentList = new ArrayList<>();
@@ -43,16 +41,18 @@ public class DoctorDashboardActivity extends BaseActivity implements Appointment
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
+        txtNoApp = findViewById(R.id.txtNoApp);
         imageBack = findViewById(R.id.imageBack);
         imageBack.setOnClickListener(v -> onBackPressed());
         imgLogout = findViewById(R.id.imgLogout);
         imgLogout.setOnClickListener(v -> showLogoutDialog());
 
         recyclerReservations = findViewById(R.id.recyclerReservations);
-        recyclerReservations.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        recyclerReservations.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
         appointmentAdapter = new AppointmentAdapter(getApplicationContext(), appointmentList, this);
         recyclerReservations.setAdapter(appointmentAdapter);
 
+        showLDialog();
 
         FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
         DatabaseReference mRef = mDatabase.getReference(Constants.Appointment);
@@ -62,14 +62,21 @@ public class DoctorDashboardActivity extends BaseActivity implements Appointment
                 appointmentList.clear();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     AppointmentModel user = child.getValue(AppointmentModel.class);
-                    appointmentList.add(user);
+                    if (user != null && user.doctorId.equalsIgnoreCase(mAuth.getCurrentUser().getUid()))
+                        appointmentList.add(user);
                 }
                 appointmentAdapter.notifyDataSetChanged();
+                dismissDialog();
+                if (appointmentList.isEmpty()) {
+                    txtNoApp.setVisibility(View.VISIBLE);
+                } else {
+                    txtNoApp.setVisibility(View.GONE);
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                dismissDialog();
             }
         });
     }

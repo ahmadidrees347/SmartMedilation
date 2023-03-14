@@ -26,6 +26,7 @@
     <string name="specialization">Specialization</string>
     <string name="add_profile_picture">Add Profile Picture</string>
     <string name="no_doctor_found">No Doctor Found</string>
+    <string name="no_app_found">No Appointment Found</string>
     <string name="profile">Profile</string>
     <string name="request_for_appointment">Request For Appointment</string>
     <string name="request_appointment">Request Appointment</string>
@@ -45,6 +46,26 @@
     <string name="cash">Cash</string>
     <string name="default_method">Default Method</string>
 
+
+    <string-array name="appointmentType">
+        <item>Select Appointment Type</item>
+        <item>Physical</item>
+        <item>Online</item>
+        <item>Door 2 Door</item>
+    </string-array>
+    <string-array name="timeSlot">
+        <item>Select Time Slot</item>
+        <item>09:00 AM - 10:00 AM</item>
+        <item>10:00 AM - 11:00 AM</item>
+        <item>11:00 AM - 12:00 PM</item>
+        <item>01:00 PM - 02:00 PM</item>
+        <item>02:00 PM - 03:00 PM</item>
+        <item>03:00 PM - 04:00 PM</item>
+        <item>04:00 PM - 05:00 PM</item>
+        <item>05:00 PM - 06:00 PM</item>
+        <item>06:00 PM - 07:00 PM</item>
+        <item>07:00 PM - 08:00 PM</item>
+    </string-array>
 
     <string-array name="allCats">
         <item>Anesthesiologists</item>

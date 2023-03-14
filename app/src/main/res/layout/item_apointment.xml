@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -21,7 +21,7 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/patientName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,10 +30,10 @@
                 android:drawablePadding="8dp"
                 android:text="@string/name"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="12sp" />
 
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/patientTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,10 +42,10 @@
                 android:drawablePadding="8dp"
                 android:text="@string/time"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="12sp" />
 
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/patientDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 android:drawablePadding="8dp"
                 android:text="@string/date"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,6 +66,7 @@
                     android:id="@+id/btnApproved"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
+                    android:textSize="12sp"
                     android:layout_marginHorizontal="8dp"
                     android:backgroundTint="@android:color/holo_green_dark"
                     android:fontFamily="@font/poppins"
@@ -77,6 +78,7 @@
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
+                    android:textSize="12sp"
                     android:backgroundTint="@android:color/holo_red_dark"
                     android:fontFamily="@font/poppins"
                     android:text="@string/reject"
@@ -84,6 +86,6 @@
             </LinearLayout>
         </LinearLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
