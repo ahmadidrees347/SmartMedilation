@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical"
-    tools:context=".ui.AppointmentActivity">
+    tools:context=".ui.patient.RequestAppointmentActivity">
 
     <RelativeLayout
         android:id="@+id/header"

@@ -45,6 +45,7 @@
     <string name="easy_paisa">Easy Paisa</string>
     <string name="cash">Cash</string>
     <string name="default_method">Default Method</string>
+    <string name="update_profile">Update Profile</string>
 
 
     <string-array name="appointmentType">

@@ -1,5 +1,6 @@
 package com.smart.medilation.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.smart.medilation.R;
 import com.smart.medilation.adapters.AppointmentAdapter;
 import com.smart.medilation.model.AppointmentModel;
+import com.smart.medilation.ui.patient.MainActivity;
 import com.smart.medilation.utils.Constants;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ public class DoctorDashboardActivity extends BaseActivity implements Appointment
 
 
     private FirebaseAuth mAuth;
-    ImageView imageBack, imgLogout;
+    ImageView imageBack, imgLogout, imgProfile;
     TextView txtNoApp;
     RecyclerView recyclerReservations;
     AppointmentAdapter appointmentAdapter;
@@ -41,11 +43,17 @@ public class DoctorDashboardActivity extends BaseActivity implements Appointment
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
+        imgProfile = findViewById(R.id.imgProfile);
         txtNoApp = findViewById(R.id.txtNoApp);
         imageBack = findViewById(R.id.imageBack);
         imageBack.setOnClickListener(v -> onBackPressed());
         imgLogout = findViewById(R.id.imgLogout);
         imgLogout.setOnClickListener(v -> showLogoutDialog());
+        imgProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(DoctorDashboardActivity.this, ProfileActivity.class);
+            intent.putExtra("fromDoctor", pref.getIsDocLogin());
+            startActivity(intent);
+        });
 
         recyclerReservations = findViewById(R.id.recyclerReservations);
         recyclerReservations.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));

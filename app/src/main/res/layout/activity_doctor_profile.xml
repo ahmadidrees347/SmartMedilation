@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/bg_color"
     android:orientation="vertical"
-    tools:context=".ui.DoctorProfileActivity">
+    tools:context=".ui.patient.DoctorProfileActivity">
 
     <RelativeLayout
         android:id="@+id/header"

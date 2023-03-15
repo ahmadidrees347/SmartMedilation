@@ -1,4 +1,4 @@
-package com.smart.medilation.ui;
+package com.smart.medilation.ui.patient;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.smart.medilation.R;
 import com.smart.medilation.adapters.DocAdapter;
 import com.smart.medilation.model.DoctorModel;
+import com.smart.medilation.ui.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.smart.medilation.ui;
+package com.smart.medilation.ui.patient;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -19,12 +19,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.smart.medilation.R;
 import com.smart.medilation.model.AppointmentModel;
+import com.smart.medilation.ui.BaseActivity;
 import com.smart.medilation.utils.Constants;
 
 import java.util.Calendar;
 import java.util.Locale;
 
-public class AppointmentActivity extends BaseActivity {
+public class RequestAppointmentActivity extends BaseActivity {
 
     ImageView imageBack;
     Button btnRequest;
@@ -40,7 +41,7 @@ public class AppointmentActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appointment);
+        setContentView(R.layout.activity_request_appointment);
 
 
         doctorId = getIntent().getStringExtra("doctorId");
@@ -81,7 +82,7 @@ public class AppointmentActivity extends BaseActivity {
         btnRequest.setOnClickListener(v -> {
             strTime = spnTime.getSelectedItem().toString();
             strType = spnType.getSelectedItem().toString();
-            if (strDate.isEmpty() ) {
+            if (strDate.isEmpty()) {
                 showToast("Kindly Select Date");
                 return;
             }
@@ -113,7 +114,7 @@ public class AppointmentActivity extends BaseActivity {
                             }
                         }
                         if (!isAlreadyHasAppointment) {
-                            AppointmentModel model = new AppointmentModel(doctorId, user.getUid(), strTime, strDate, "Pending");
+                            AppointmentModel model = new AppointmentModel(doctorId, user.getUid(), strTime, strDate, "Pending", strType, "Cash", false);
                             mRef.push().setValue(model).addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     showToast("Add Successfully");

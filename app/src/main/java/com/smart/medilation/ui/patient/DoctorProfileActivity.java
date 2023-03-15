@@ -1,4 +1,4 @@
-package com.smart.medilation.ui;
+package com.smart.medilation.ui.patient;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -42,7 +42,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
         btnRequest = findViewById(R.id.btnRequest);
         imageBack.setOnClickListener(v -> onBackPressed());
         btnRequest.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), AppointmentActivity.class);
+            Intent intent = new Intent(getApplicationContext(), RequestAppointmentActivity.class);
             intent.putExtra("doctorId", doctorId);
             startActivity(intent);
         });

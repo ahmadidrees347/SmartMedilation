@@ -21,6 +21,11 @@
             android:screenOrientation="nosensor"
             android:windowSoftInputMode="adjustNothing" />
         <activity
+            android:name=".ui.ProfileActivity"
+            android:exported="false"
+            android:screenOrientation="nosensor"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
             android:name=".ui.admin.AllDoctorsActivity"
             android:exported="false"
             android:screenOrientation="nosensor"
@@ -31,17 +36,17 @@
             android:screenOrientation="nosensor"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name=".ui.AppointmentActivity"
+            android:name=".ui.patient.RequestAppointmentActivity"
             android:exported="false"
             android:screenOrientation="nosensor"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name=".ui.DoctorProfileActivity"
+            android:name=".ui.patient.DoctorProfileActivity"
             android:exported="false"
             android:screenOrientation="nosensor"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name=".ui.SelectDoctorActivity"
+            android:name=".ui.patient.SelectDoctorActivity"
             android:exported="false"
             android:screenOrientation="nosensor"
             android:windowSoftInputMode="adjustNothing" />
@@ -71,7 +76,7 @@
             android:screenOrientation="nosensor"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.patient.MainActivity"
             android:exported="false"
             android:screenOrientation="nosensor"
             android:windowSoftInputMode="adjustNothing" />

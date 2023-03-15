@@ -15,7 +15,7 @@ import com.smart.medilation.utils.PrefManager;
 
 public class BaseActivity extends AppCompatActivity {
     public static String userId = "";
-    public static LoadingDialog loadingDialog;
+    public LoadingDialog loadingDialog;
     public PrefManager pref;
 
     private FirebaseAuth mAuth;

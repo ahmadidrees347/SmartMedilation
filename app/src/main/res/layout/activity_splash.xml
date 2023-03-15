@@ -11,13 +11,13 @@
         android:id="@+id/imageView7"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:layout_marginTop="-60dp"
         android:scaleType="fitXY"
+        android:layout_marginTop="-30dp"
         android:src="@drawable/top_splash_img"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView8"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -25,21 +25,25 @@
         android:layout_width="0dp"
         android:layout_height="300dp"
         android:scaleType="fitXY"
+        android:layout_marginStart="-45dp"
+        android:layout_marginEnd="-40dp"
+        android:layout_marginBottom="-50dp"
         android:src="@drawable/splash_screen_img"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/image"
         android:layout_width="120dp"
         android:layout_height="120dp"
+        android:layout_marginBottom="-100dp"
         android:src="@drawable/ic_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView8"
-        app:layout_constraintVertical_bias="0.32" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView7"
+        app:layout_constraintVertical_bias="0.12" />
 
     <TextView
         android:id="@+id/textView"
@@ -56,11 +60,21 @@
         app:layout_constraintStart_toStartOf="@+id/image"
         app:layout_constraintTop_toBottomOf="@+id/image" />
 
+    <com.tuyenmonkey.mkloader.MKLoader
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/imageView8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:mk_color="@color/primaryColor"
+        app:mk_type="TwinFishesSpinner" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgStart"
         android:layout_width="200dp"
         android:layout_height="65dp"
+        android:visibility="gone"
         android:src="@drawable/ic_start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

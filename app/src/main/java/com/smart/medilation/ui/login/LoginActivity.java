@@ -24,7 +24,7 @@ import com.smart.medilation.model.DoctorModel;
 import com.smart.medilation.model.PatientModel;
 import com.smart.medilation.ui.BaseActivity;
 import com.smart.medilation.ui.DoctorDashboardActivity;
-import com.smart.medilation.ui.MainActivity;
+import com.smart.medilation.ui.patient.MainActivity;
 import com.smart.medilation.ui.admin.AdminActivity;
 
 import java.util.regex.Pattern;
@@ -161,11 +161,10 @@ public class LoginActivity extends BaseActivity {
                                                         } else {
                                                             Toast.makeText(LoginActivity.this, "Your Account is not approved by admin yet!", Toast.LENGTH_SHORT).show();
                                                         }
-                                                        break;
                                                     } else {
                                                         Toast.makeText(LoginActivity.this, "Your Account is not approved by admin yet!", Toast.LENGTH_SHORT).show();
-                                                        break;
                                                     }
+                                                    break;
                                                 } else {
                                                     Toast.makeText(LoginActivity.this, "Your Account is not found!", Toast.LENGTH_SHORT).show();
                                                 }

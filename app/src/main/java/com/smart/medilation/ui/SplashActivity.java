@@ -9,6 +9,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.smart.medilation.R;
 import com.smart.medilation.ui.login.SelectionActivity;
+import com.smart.medilation.ui.patient.MainActivity;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends BaseActivity {
@@ -17,11 +21,15 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                launchHomeScreen();
+            }
+        }, 3000);
         ImageView imgStart = findViewById(R.id.imgStart);
-        imgStart.setOnClickListener(v -> {
-            launchHomeScreen();
-        });
+        imgStart.setOnClickListener(v -> launchHomeScreen());
     }
 
 

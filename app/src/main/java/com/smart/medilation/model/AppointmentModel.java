@@ -6,13 +6,19 @@ public class AppointmentModel {
     public String time;
     public String date;
     public String status;
+    String appointmentType;
+    String paymentType;
+    boolean paymentReceive;
     public AppointmentModel(){}
-    public AppointmentModel(String doctorId, String patientId, String time, String date, String status) {
+    public AppointmentModel(String doctorId, String patientId, String time, String date, String status, String appointmentType, String paymentType, boolean paymentReceive) {
         this.doctorId = doctorId;
         this.patientId = patientId;
         this.time = time;
         this.date = date;
         this.status = status;
+        this.appointmentType = appointmentType;
+        this.paymentType = paymentType;
+        this.paymentReceive = paymentReceive;
     }
 
     public String getDoctorId() {

@@ -1,4 +1,4 @@
-package com.smart.medilation.ui;
+package com.smart.medilation.ui.patient;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,13 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.smart.medilation.R;
 import com.smart.medilation.adapters.CategoriesAdapter;
 import com.smart.medilation.model.CategoriesModel;
+import com.smart.medilation.ui.BaseActivity;
+import com.smart.medilation.ui.ProfileActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity implements CategoriesAdapter.ClickListener {
 
-    ImageView imageBack, imgLogout;
+    ImageView imageBack, imgLogout, imgProfile;
     RecyclerView recyclerCategories;
     CategoriesAdapter categoryAdapter;
     List<CategoriesModel> categoryList = new ArrayList<>();
@@ -28,9 +30,15 @@ public class MainActivity extends BaseActivity implements CategoriesAdapter.Clic
         setContentView(R.layout.activity_main);
 
         imageBack = findViewById(R.id.imageBack);
+        imgProfile = findViewById(R.id.imgProfile);
         imageBack.setOnClickListener(v -> onBackPressed());
         imgLogout = findViewById(R.id.imgLogout);
         imgLogout.setOnClickListener(v -> showLogoutDialog());
+        imgProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            intent.putExtra("fromDoctor", pref.getIsDocLogin());
+            startActivity(intent);
+        });
 
         recyclerCategories = findViewById(R.id.recyclerCategories);
         recyclerCategories.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
