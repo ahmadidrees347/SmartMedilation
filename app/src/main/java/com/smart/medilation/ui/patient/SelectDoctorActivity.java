@@ -85,14 +85,14 @@ public class SelectDoctorActivity extends BaseActivity implements DocAdapter.Cli
     @Override
     public void onDocClick(DoctorModel model) {
         Intent intent = new Intent(SelectDoctorActivity.this, DoctorProfileActivity.class);
-        intent.putExtra("doctorId", model.getId());
-        intent.putExtra("name", model.getName());
-        intent.putExtra("email", model.getEmail());
-        intent.putExtra("phone", model.getPhoneNum());
-        intent.putExtra("image", model.getImage());
-        intent.putExtra("exp", model.getExperience());
-        intent.putExtra("qualification", model.getQualification());
-        intent.putExtra("specialization", model.getSpecialization());
+        intent.putExtra("doctorId", model.id);
+        intent.putExtra("name", model.name);
+        intent.putExtra("email", model.email);
+        intent.putExtra("phone", model.phoneNum);
+        intent.putExtra("image", model.image);
+        intent.putExtra("exp", model.experience);
+        intent.putExtra("qualification", model.qualification);
+        intent.putExtra("specialization", model.specialization);
         startActivity(intent);
     }
 }

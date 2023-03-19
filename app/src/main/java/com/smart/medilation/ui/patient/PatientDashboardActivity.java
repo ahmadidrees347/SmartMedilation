@@ -10,7 +10,7 @@ import com.smart.medilation.ui.BaseActivity;
 import com.smart.medilation.ui.MyAppointmentsActivity;
 import com.smart.medilation.ui.ProfileActivity;
 
-public class MainActivity extends BaseActivity {
+public class PatientDashboardActivity extends BaseActivity {
 
     ImageView imageBack, imgLogout, imgProfile;
     MaterialCardView btnSchedule, btnMySchedule;
@@ -18,7 +18,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_patient_dashboard);
 
         btnSchedule = findViewById(R.id.btnSchedule);
         btnMySchedule = findViewById(R.id.btnMySchedule);
@@ -29,16 +29,16 @@ public class MainActivity extends BaseActivity {
         imgLogout = findViewById(R.id.imgLogout);
         imgLogout.setOnClickListener(v -> showLogoutDialog());
         imgProfile.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            Intent intent = new Intent(PatientDashboardActivity.this, ProfileActivity.class);
             intent.putExtra("fromDoctor", pref.getIsDocLogin());
             startActivity(intent);
         });
         btnSchedule.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, SelectDomainActivity.class);
+            Intent intent = new Intent(PatientDashboardActivity.this, SelectDomainActivity.class);
             startActivity(intent);
         });
         btnMySchedule.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, MyAppointmentsActivity.class);
+            Intent intent = new Intent(PatientDashboardActivity.this, MyAppointmentsActivity.class);
             startActivity(intent);
         });
 

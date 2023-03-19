@@ -9,8 +9,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.smart.medilation.R;
 import com.smart.medilation.ui.admin.AdminActivity;
+import com.smart.medilation.ui.doctor.DoctorDashboardActivity;
 import com.smart.medilation.ui.login.SelectionActivity;
-import com.smart.medilation.ui.patient.MainActivity;
+import com.smart.medilation.ui.patient.PatientDashboardActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,7 +47,7 @@ public class SplashActivity extends BaseActivity {
             if (pref.getIsDocLogin() && pref.getLogin())
                 startActivity(new Intent(SplashActivity.this, DoctorDashboardActivity.class));
             else if (pref.getLogin())
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                startActivity(new Intent(SplashActivity.this, PatientDashboardActivity.class));
             else
                 startActivity(new Intent(SplashActivity.this, SelectionActivity.class));
         } else {

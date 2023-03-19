@@ -19,14 +19,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.smart.medilation.BuildConfig;
 import com.smart.medilation.R;
 import com.smart.medilation.model.DoctorModel;
 import com.smart.medilation.model.PatientModel;
 import com.smart.medilation.ui.BaseActivity;
-import com.smart.medilation.ui.DoctorDashboardActivity;
+import com.smart.medilation.ui.doctor.DoctorDashboardActivity;
 import com.smart.medilation.ui.admin.AdminActivity;
-import com.smart.medilation.ui.patient.MainActivity;
+import com.smart.medilation.ui.patient.PatientDashboardActivity;
 
 import java.util.regex.Pattern;
 
@@ -153,10 +152,9 @@ public class LoginActivity extends BaseActivity {
                                             if (fromDoctor) {
                                                 DoctorModel doctor = child.getValue(DoctorModel.class);
                                                 if (doctor != null && doctor.isApproved &&
-                                                        doctor.getId().equalsIgnoreCase(user.getUid()) &&
-                                                        doctor.getEmail().equalsIgnoreCase(edt_email.getText().toString()) &&
-                                                        doctor.getPassword().equalsIgnoreCase(edt_password.getText().toString())) {
+                                                        doctor.id.equalsIgnoreCase(user.getUid())) {
                                                     dismissDialog();
+                                                    pref.setUserName(doctor.name);
                                                     pref.setIsDocLogin(true);
                                                     pref.setLogIn(true);
                                                     Intent mainPage = new Intent(getApplicationContext(), DoctorDashboardActivity.class);
@@ -168,13 +166,12 @@ public class LoginActivity extends BaseActivity {
                                             } else {
                                                 PatientModel patient = child.getValue(PatientModel.class);
                                                 if (patient != null &&
-                                                        patient.getId().equalsIgnoreCase(user.getUid()) &&
-                                                        patient.getEmail().equalsIgnoreCase(edt_email.getText().toString()) &&
-                                                        patient.getPassword().equalsIgnoreCase(edt_password.getText().toString())) {
+                                                        patient.id.equalsIgnoreCase(user.getUid())) {
                                                     dismissDialog();
+                                                    pref.setUserName(patient.name);
                                                     pref.setIsDocLogin(false);
                                                     pref.setLogIn(true);
-                                                    Intent mainPage = new Intent(getApplicationContext(), MainActivity.class);
+                                                    Intent mainPage = new Intent(getApplicationContext(), PatientDashboardActivity.class);
                                                     startActivity(mainPage);
                                                     finishAffinity();
                                                     isRecordFound = true;

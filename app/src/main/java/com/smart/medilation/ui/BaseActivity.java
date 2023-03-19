@@ -67,6 +67,7 @@ public class BaseActivity extends AppCompatActivity {
                 .setPositiveButton("YES", (dialog, id_) -> {
                     mAuth.signOut();
 
+                    pref.setUserName("");
                     pref.setIsDocLogin(false);
                     pref.setLogIn(false);
                     pref.setIsAdminLogin(false);

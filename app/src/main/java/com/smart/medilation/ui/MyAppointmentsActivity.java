@@ -27,15 +27,23 @@ public class MyAppointmentsActivity extends BaseActivity implements AppointmentA
 
     ImageView imageBack;
     TextView txtNoApp;
+    Boolean fromDoctor = false;
+    Boolean fromHistory = false;
     RecyclerView recyclerAppointments;
     AppointmentAdapter appointmentAdapter;
     List<AppointmentModel> appointmentList = new ArrayList<>();
+
+    FirebaseAuth mAuth;
+    FirebaseDatabase mDatabase;
+    DatabaseReference mRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_appointments);
 
+        fromDoctor = getIntent().getBooleanExtra("fromDoctor", false);
+        fromHistory = getIntent().getBooleanExtra("fromHistory", false);
         showLDialog();
 
         txtNoApp = findViewById(R.id.txtNoApp);
@@ -45,12 +53,14 @@ public class MyAppointmentsActivity extends BaseActivity implements AppointmentA
         recyclerAppointments = findViewById(R.id.recyclerAppointments);
         recyclerAppointments.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
         appointmentAdapter = new AppointmentAdapter(getApplicationContext(), appointmentList, this);
+        appointmentAdapter.isFromDoctor = fromDoctor;
+        appointmentAdapter.isFromHistory = fromHistory;
         recyclerAppointments.setAdapter(appointmentAdapter);
 
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference mRef = mDatabase.getReference(Constants.Appointment);
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
+        mRef = mDatabase.getReference(Constants.Appointment);
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -61,16 +71,17 @@ public class MyAppointmentsActivity extends BaseActivity implements AppointmentA
                     if (user != null &&
                             (user.doctorId.equalsIgnoreCase(userID) ||
                                     user.patientId.equalsIgnoreCase(userID))) {
-                        appointmentList.add(user);
+                        if (fromHistory && !user.status.equalsIgnoreCase("Pending")) {
+                            appointmentList.add(user);
+                        }
+                        if (!fromHistory && user.status.equalsIgnoreCase("Pending")) {
+                            appointmentList.add(user);
+                        }
                     }
                 }
                 appointmentAdapter.notifyDataSetChanged();
                 dismissDialog();
-                if (appointmentList.isEmpty()) {
-                    txtNoApp.setVisibility(View.VISIBLE);
-                } else {
-                    txtNoApp.setVisibility(View.GONE);
-                }
+                checkList();
             }
 
             @Override
@@ -81,9 +92,32 @@ public class MyAppointmentsActivity extends BaseActivity implements AppointmentA
     }
 
     @Override
-    public void onAppointmentClick(AppointmentModel model, boolean status) {
-//        Intent intent = new Intent(DoctorDashboardActivity.this, DoctorsActivity.class);
-//        intent.putExtra("category", model.getName());
-//        startActivity(intent);
+    public void onAppointmentClick(AppointmentModel model, boolean status, int position) {
+        showLDialog();
+        if (status) {
+            model.status = "Schedule";
+        } else {
+            model.status = "Cancel";
+        }
+        mRef.child(model.id)
+                .setValue(model)
+                .addOnCompleteListener(task -> {
+                    dismissDialog();
+                    appointmentList.remove(position);
+                    appointmentAdapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(task -> dismissDialog());
+
+        showToast("Successfully updated user");
+
+        checkList();
+    }
+
+    private void checkList() {
+        if (appointmentList.isEmpty()) {
+            txtNoApp.setVisibility(View.VISIBLE);
+        } else {
+            txtNoApp.setVisibility(View.GONE);
+        }
     }
 }

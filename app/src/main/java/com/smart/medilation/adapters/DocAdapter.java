@@ -38,10 +38,10 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.CustomViewHolder
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, final int position) {
         if (docList.size() > 0) {
-            holder.txtName.setText(docList.get(position).getName());
+            holder.txtName.setText(docList.get(position).name);
             holder.image.setOnClickListener(v -> listener.onDocClick(docList.get(position)));
             Glide.with(context)
-                    .load(docList.get(position).getImage())
+                    .load(docList.get(position).image)
                     .placeholder(R.drawable.ic_user)
                     .into(holder.image);
         }

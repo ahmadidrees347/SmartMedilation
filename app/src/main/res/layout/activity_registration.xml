@@ -96,6 +96,7 @@
                     android:background="@drawable/bg_white"
                     android:drawableStart="@drawable/ic_name"
                     android:drawablePadding="14dp"
+                    android:text="Doctor "
                     android:fontFamily="@font/poppins"
                     android:hint="@string/name"
                     android:inputType="text"
@@ -111,6 +112,7 @@
                     android:background="@drawable/bg_white"
                     android:drawableStart="@drawable/ic_mail"
                     android:drawablePadding="12dp"
+                    android:text="d@gmail.com"
                     android:fontFamily="@font/poppins"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
@@ -123,6 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:autofillHints="@string/phone_number"
+                    android:text="03249632587"
                     android:background="@drawable/bg_white"
                     android:drawableStart="@drawable/ic_cell"
                     android:drawablePadding="12dp"
@@ -144,6 +147,7 @@
                     android:drawableStart="@drawable/ic_password"
                     android:drawablePadding="18dp"
                     android:fontFamily="@font/poppins"
+                    android:text="12345678"
                     android:hint="@string/password"
                     android:inputType="textPassword"
                     android:padding="12dp"
@@ -163,6 +167,7 @@
                     android:hint="@string/experience"
                     android:inputType="number"
                     android:padding="12dp"
+                    android:text="2"
                     android:maxLength="2"
                     android:textSize="14sp" />
 
@@ -178,6 +183,7 @@
                     android:drawablePadding="14dp"
                     android:fontFamily="@font/poppins"
                     android:hint="@string/qualification"
+                    android:text="MBBS"
                     android:inputType="text"
                     android:padding="12dp"
                     android:textSize="14sp" />

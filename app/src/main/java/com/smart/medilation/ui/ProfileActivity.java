@@ -45,6 +45,7 @@ public class ProfileActivity extends BaseActivity {
     FirebaseDatabase mDatabase;
     private DatabaseReference mRef;
     private boolean fromDoctor = false;
+    private String specialization = "";
 
     private Uri filePath = null;
     DoctorModel doctor;
@@ -147,10 +148,10 @@ public class ProfileActivity extends BaseActivity {
                 String userId = mAuth.getCurrentUser().getUid();
 
                 if (fromDoctor && doctor != null) {
-                    DoctorModel doctorModel = new DoctorModel(userId, name, email, doctor.getPassword(),
-                            phoneNum, exp, specialization, qualification, doctor.isApproved, doctor.isRejected());
+                    DoctorModel doctorModel = new DoctorModel(userId, name, email, doctor.password,
+                            phoneNum, exp, specialization, qualification, doctor.isApproved, doctor.isRejected);
 
-                    doctorModel.setImage(filePath.toString());
+                    doctorModel.image = (filePath.toString());
                     mRef.child(userId)
                             .setValue(doctorModel)
                             .addOnCompleteListener(task -> {
@@ -161,7 +162,6 @@ public class ProfileActivity extends BaseActivity {
                                 showToast("Msg " + task.getMessage());
                                 dismissDialog();
                             });
-//                    uploadImage(userId, doctor, null);
                 } else {
                     PatientModel patientModel = new PatientModel(userId, name, email, patient.getPassword(), phoneNum);
                     patientModel.setImagePath(filePath.toString());
@@ -175,7 +175,6 @@ public class ProfileActivity extends BaseActivity {
                                 showToast("Msg " + task.getMessage());
                                 dismissDialog();
                             });
-//                    uploadImage(userId, null, patient);
                 }
             }
         });
@@ -190,27 +189,29 @@ public class ProfileActivity extends BaseActivity {
 
                     if (fromDoctor) {
                         doctor = child.getValue(DoctorModel.class);
-                        if (doctor != null && doctor.getId().equalsIgnoreCase(mAuth.getCurrentUser().getUid())) {
-                            edtName.setText(doctor.getName());
-                            edtEmail.setText(doctor.getEmail());
-                            edtPhoneNum.setText(doctor.getPhoneNum());
-                            edtExp.setText(doctor.getExperience());
-                            edtQualification.setText(doctor.getQualification());
-                            filePath = Uri.parse(doctor.getImage());
+                        if (doctor != null && doctor.id.equalsIgnoreCase(mAuth.getCurrentUser().getUid())) {
+                            edtName.setText(doctor.name);
+                            edtEmail.setText(doctor.email);
+                            edtPhoneNum.setText(doctor.phoneNum);
+                            edtExp.setText(doctor.experience);
+                            edtQualification.setText(doctor.qualification);
+                            filePath = Uri.parse(doctor.image);
+                            specialization = doctor.specialization;
                             Glide.with(ProfileActivity.this)
                                     .load(filePath)
                                     .placeholder(R.drawable.ic_user)
                                     .into(imageView);
+                            selectValue(spnSpecialization, specialization);
                             dismissDialog();
                             break;
                         }
                     } else {
                         patient = child.getValue(PatientModel.class);
-                        if (patient != null && patient.getId().equalsIgnoreCase(mAuth.getCurrentUser().getUid())) {
-                            edtName.setText(patient.getName());
-                            edtEmail.setText(patient.getEmail());
-                            edtPhoneNum.setText(patient.getPhoneNum());
-                            filePath = Uri.parse(patient.getImagePath());
+                        if (patient != null && patient.id.equalsIgnoreCase(mAuth.getCurrentUser().getUid())) {
+                            edtName.setText(patient.name);
+                            edtEmail.setText(patient.email);
+                            edtPhoneNum.setText(patient.phoneNum);
+                            filePath = Uri.parse(patient.imagePath);
                             Glide.with(ProfileActivity.this)
                                     .load(filePath)
                                     .placeholder(R.drawable.ic_user)
@@ -229,6 +230,15 @@ public class ProfileActivity extends BaseActivity {
 
             }
         });
+    }
+
+    private void selectValue(Spinner spinner, Object value) {
+        for (int i = 0; i < spinner.getCount(); i++) {
+            if (spinner.getItemAtPosition(i).equals(value)) {
+                spinner.setSelection(i);
+                break;
+            }
+        }
     }
 
     private void chooseImage() {
@@ -257,10 +267,10 @@ public class ProfileActivity extends BaseActivity {
             ref.putFile(filePath).addOnSuccessListener(taskSnapshot -> ref.getDownloadUrl().addOnSuccessListener(uri -> {
                 Task<Void> task;
                 if (fromDoctor) {
-                    doctor.setImage(uri.toString());
+                    doctor.image = (uri.toString());
                     task = mRef.child(userId).setValue(doctor);
                 } else {
-                    patient.setImagePath(uri.toString());
+                    patient.imagePath = (uri.toString());
                     task = mRef.child(userId).setValue(patient);
                 }
                 task.addOnCompleteListener(task11 -> {

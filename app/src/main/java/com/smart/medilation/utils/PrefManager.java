@@ -17,6 +17,7 @@ public class PrefManager {
     private static final String IsAdminLogin = "IsAdminLogin";
     private static final String IsDocLogin = "IsDocLogin";
     private static final String Login = "Login";
+    private static final String USERNAME = "USERNAME";
 
     public PrefManager(Context context) {
         this._context = context;
@@ -27,6 +28,15 @@ public class PrefManager {
     public void setLogIn(boolean login) {
         editor.putBoolean(Login, login);
         editor.commit();
+    }
+
+    public void setUserName(String name) {
+        editor.putString(USERNAME, name);
+        editor.commit();
+    }
+
+    public String getUserName() {
+        return pref.getString(USERNAME, "");
     }
 
     public boolean getLogin() {
@@ -46,6 +56,7 @@ public class PrefManager {
         editor.putBoolean(IsAdminLogin, isAdminLogin);
         editor.commit();
     }
+
     public boolean getIsAdminLogin() {
         return pref.getBoolean(IsAdminLogin, false);
     }

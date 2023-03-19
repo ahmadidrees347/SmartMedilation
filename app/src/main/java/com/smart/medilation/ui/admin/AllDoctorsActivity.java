@@ -76,9 +76,9 @@ public class AllDoctorsActivity extends BaseActivity implements AllDocsAdapter.C
     public void onDocClick(DoctorModel model, int position, boolean status) {
         showLDialog();
         if (status) {
-            model.setApproved(true);
+            model.isApproved = true;
         } else {
-            model.setRejected(true);
+            model.isRejected = true;
         }
         mRef.child(model.id)
                 .setValue(model)

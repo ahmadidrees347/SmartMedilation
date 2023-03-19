@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="@color/white"
         app:cardElevation="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,42 +22,72 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <TextView
-                android:id="@+id/patientName"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/doctorName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
-                android:drawableStart="@drawable/ic_account"
-                android:drawablePadding="8dp"
+                android:drawableStart="@drawable/doctor_name"
+                android:gravity="center_vertical"
+                android:drawablePadding="12dp"
                 android:text="@string/name"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
 
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/patientName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:drawableStart="@drawable/patient_name"
+                android:gravity="center_vertical"
+                android:drawablePadding="12dp"
+                android:text="@string/name"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/patientTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
+                android:gravity="center_vertical"
                 android:drawableStart="@drawable/ic_time"
-                android:drawablePadding="8dp"
+                android:drawablePadding="12dp"
                 android:text="@string/time"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
 
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/patientDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
                 android:drawableStart="@drawable/ic_date"
-                android:drawablePadding="8dp"
+                android:drawablePadding="12dp"
+                android:gravity="center_vertical"
+                android:text="@string/date"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:drawableStart="@drawable/ic_date"
+                android:drawablePadding="12dp"
+                android:gravity="center_vertical"
                 android:text="@string/date"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
 
             <LinearLayout
+                android:id="@+id/layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -64,25 +95,25 @@
 
                 <Button
                     android:id="@+id/btnApproved"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
+                    android:layout_width="150dp"
+                    android:layout_height="55dp"
+                    android:textSize="14sp"
                     android:layout_marginHorizontal="8dp"
                     android:backgroundTint="@android:color/holo_green_dark"
                     android:fontFamily="@font/poppins"
-                    android:text="@string/accept"
+                    android:text="@string/schedule"
                     android:textColor="@color/white" />
 
                 <Button
                     android:id="@+id/btbDecline"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="55dp"
                     android:layout_marginHorizontal="8dp"
-                    android:textSize="12sp"
                     android:backgroundTint="@android:color/holo_red_dark"
                     android:fontFamily="@font/poppins"
-                    android:text="@string/reject"
-                    android:textColor="@color/white" />
+                    android:text="@string/cancel"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
 

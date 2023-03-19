@@ -130,15 +130,17 @@ public class RequestAppointmentActivity extends BaseActivity {
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
                             AppointmentModel model = child.getValue(AppointmentModel.class);
                             if (model != null
-                                    && model.getTime().equalsIgnoreCase(strTime)
-                                    && model.getDate().equalsIgnoreCase(strDate)) {
+                                    && model.time.equalsIgnoreCase(strTime)
+                                    && model.date.equalsIgnoreCase(strDate)) {
                                 isAlreadyHasAppointment = true;
                                 break;
                             }
                         }
                         if (!isAlreadyHasAppointment) {
-                            AppointmentModel model = new AppointmentModel(doctorId, user.getUid(), strTime, strDate, "Pending", strType, "Cash", false);
-                            mRef.push().setValue(model).addOnCompleteListener(task -> {
+                            DatabaseReference ref = mRef.push();
+                            String id = ref.getKey();
+                            AppointmentModel model = new AppointmentModel(id, doctorId, name, user.getUid(), pref.getUserName(), strTime, strDate, "Pending", strType, "Cash", false);
+                            ref.setValue(model).addOnCompleteListener(task -> {
                                 dismissDialog();
                                 if (task.isSuccessful()) {
                                     showToast("Add Successfully");

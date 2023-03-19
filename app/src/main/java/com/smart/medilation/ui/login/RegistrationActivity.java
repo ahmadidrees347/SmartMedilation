@@ -212,10 +212,10 @@ public class RegistrationActivity extends BaseActivity {
             ref.putFile(filePath).addOnSuccessListener(taskSnapshot -> ref.getDownloadUrl().addOnSuccessListener(uri -> {
                 Task<Void> task;
                 if (fromDoctor) {
-                    doctor.setImage(uri.toString());
+                    doctor.image = (uri.toString());
                     task = mRef.child(id).setValue(doctor);
                 } else {
-                    patient.setImagePath(uri.toString());
+                    patient.imagePath = (uri.toString());
                     task = mRef.child(id).setValue(patient);
                 }
                 task.addOnCompleteListener(task11 -> {

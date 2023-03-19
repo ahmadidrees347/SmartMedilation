@@ -21,14 +21,6 @@ public class DoctorProfileActivity extends AppCompatActivity {
 
     Button btnRequest;
 
-    String doctorId = "";
-    String name = "";
-    String email = "";
-    String phone = "";
-    String imageText = "";
-    String exp = "";
-    String qualification = "";
-    String specialization = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

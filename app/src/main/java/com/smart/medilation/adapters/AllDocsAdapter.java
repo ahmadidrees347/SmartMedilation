@@ -40,13 +40,13 @@ public class AllDocsAdapter extends RecyclerView.Adapter<AllDocsAdapter.CustomVi
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, final int position) {
         if (docList.size() > 0) {
-            holder.doctorName.setText(docList.get(position).getName());
-            holder.doctorSpec.setText(docList.get(position).getSpecialization());
-            holder.doctorQualification.setText(docList.get(position).getQualification());
+            holder.doctorName.setText(docList.get(position).name);
+            holder.doctorSpec.setText(docList.get(position).specialization);
+            holder.doctorQualification.setText(docList.get(position).qualification);
             holder.btnApproved.setOnClickListener(v -> listener.onDocClick(docList.get(position), position, true));
             holder.btbDecline.setOnClickListener(v -> listener.onDocClick(docList.get(position), position, false));
             Glide.with(context)
-                    .load(docList.get(position).getImage())
+                    .load(docList.get(position).image)
                     .placeholder(R.drawable.ic_user)
                     .into(holder.image);
         }
