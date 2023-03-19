@@ -41,20 +41,28 @@ public class DoctorProfileActivity extends AppCompatActivity {
         imgCall = findViewById(R.id.imgCall);
         btnRequest = findViewById(R.id.btnRequest);
         imageBack.setOnClickListener(v -> onBackPressed());
+
+
+        String doctorId = getIntent().getStringExtra("doctorId");
+        String name = getIntent().getStringExtra("name");
+        String email = getIntent().getStringExtra("email");
+        String phone = getIntent().getStringExtra("phone");
+        String imageText = getIntent().getStringExtra("image");
+        String exp = getIntent().getStringExtra("exp");
+        String qualification = getIntent().getStringExtra("qualification");
+        String specialization = getIntent().getStringExtra("specialization");
         btnRequest.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), RequestAppointmentActivity.class);
             intent.putExtra("doctorId", doctorId);
+            intent.putExtra("name", name);
+            intent.putExtra("email", email);
+            intent.putExtra("phone", phone);
+            intent.putExtra("image", imageText);
+            intent.putExtra("exp", exp);
+            intent.putExtra("qualification", qualification);
+            intent.putExtra("specialization", specialization);
             startActivity(intent);
         });
-
-        doctorId = getIntent().getStringExtra("doctorId");
-        name = getIntent().getStringExtra("name");
-        email = getIntent().getStringExtra("email");
-        phone = getIntent().getStringExtra("phone");
-        imageText = getIntent().getStringExtra("image");
-        exp = getIntent().getStringExtra("exp");
-        qualification = getIntent().getStringExtra("qualification");
-        specialization = getIntent().getStringExtra("specialization");
 
         imgChat.setOnClickListener(v -> startDialer(phone));
         imgCall.setOnClickListener(v -> startChat(phone));

@@ -163,6 +163,7 @@
                     android:hint="@string/experience"
                     android:inputType="number"
                     android:padding="12dp"
+                    android:maxLength="2"
                     android:textSize="14sp" />
 
 

@@ -4,6 +4,16 @@ public class DoctorModel {
     public String image;
     public String experience;
     public String specialization;
+    public String qualification;
+    public String id;
+
+    public String name;
+    public String email;
+    public String password;
+    public String phoneNum;
+    public boolean isApproved = false;
+    public boolean isRejected = false;
+
 
     public String getImage() {
         return image;
@@ -37,8 +47,6 @@ public class DoctorModel {
         this.qualification = qualification;
     }
 
-    public String qualification;
-    public String id;
 
     public String getId() {
         return id;
@@ -48,10 +56,6 @@ public class DoctorModel {
         this.id = id;
     }
 
-    public String name;
-    public String email;
-    public String password;
-    public String phoneNum;
 
     public boolean isApproved() {
         return isApproved;
@@ -61,22 +65,23 @@ public class DoctorModel {
         isApproved = approved;
     }
 
-    public boolean isApproved = false;
 
     public boolean isRejected() {
         return isRejected;
     }
 
-    public void setRejected(boolean rejected) {
-        isRejected = rejected;
+    public void setRejected(boolean isRejected) {
+        this.isRejected = isRejected;
     }
 
-    public boolean isRejected = false;
 
     public DoctorModel() {
     }
 
-    public DoctorModel(String id, String name, String email, String password, String phoneNum, String experience, String specialization, String qualification) {
+    public DoctorModel(String id, String name, String email, String password,
+                       String phoneNum, String experience,
+                       String specialization, String qualification,
+                       boolean isApproved, boolean isRejected) {
         this.id = id;
         this.experience = experience;
         this.specialization = specialization;
@@ -85,6 +90,8 @@ public class DoctorModel {
         this.email = email;
         this.password = password;
         this.phoneNum = phoneNum;
+        this.isApproved = isApproved;
+        this.isRejected = isRejected;
     }
 
     public String getName() {

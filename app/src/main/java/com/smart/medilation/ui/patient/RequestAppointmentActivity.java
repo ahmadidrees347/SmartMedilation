@@ -6,10 +6,12 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -17,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smart.medilation.R;
 import com.smart.medilation.model.AppointmentModel;
 import com.smart.medilation.ui.BaseActivity;
@@ -43,6 +46,13 @@ public class RequestAppointmentActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_appointment);
 
+        String name = getIntent().getStringExtra("name");
+        String email = getIntent().getStringExtra("email");
+        String phone = getIntent().getStringExtra("phone");
+        String imageText = getIntent().getStringExtra("image");
+        String exp = getIntent().getStringExtra("exp");
+        String qualification = getIntent().getStringExtra("qualification");
+        String specialization = getIntent().getStringExtra("specialization");
 
         doctorId = getIntent().getStringExtra("doctorId");
 
@@ -53,6 +63,18 @@ public class RequestAppointmentActivity extends BaseActivity {
         btnRequest = findViewById(R.id.btnRequest);
         datePicker = findViewById(R.id.datePicker);
         timePicker = findViewById(R.id.timePicker);
+
+        TextView txtName = findViewById(R.id.txtName);
+        TextView txtType = findViewById(R.id.txtType);
+
+
+        txtName.setText(name);
+        txtType.setText(specialization + " Specialist");
+        CircularImageView image = findViewById(R.id.image);
+        Glide.with(this)
+                .load(imageText)
+                .placeholder(R.drawable.ic_user)
+                .into(image);
 
         int timePeriodAdditionInDate = (1000 * 60 * 60 * 24);
         long time = System.currentTimeMillis() + timePeriodAdditionInDate;
@@ -97,7 +119,8 @@ public class RequestAppointmentActivity extends BaseActivity {
 
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             FirebaseUser user = mAuth.getCurrentUser();
-            if (user != null && user.isEmailVerified()) {
+            if (user != null && userVerification(user)) {
+                showLDialog();
                 FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
                 DatabaseReference mRef = mDatabase.getReference(Constants.Appointment);
                 mRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -116,6 +139,7 @@ public class RequestAppointmentActivity extends BaseActivity {
                         if (!isAlreadyHasAppointment) {
                             AppointmentModel model = new AppointmentModel(doctorId, user.getUid(), strTime, strDate, "Pending", strType, "Cash", false);
                             mRef.push().setValue(model).addOnCompleteListener(task -> {
+                                dismissDialog();
                                 if (task.isSuccessful()) {
                                     showToast("Add Successfully");
                                 } else {
@@ -124,6 +148,7 @@ public class RequestAppointmentActivity extends BaseActivity {
                                 }
                             });
                         } else {
+                            dismissDialog();
                             showToast("Doctor has already an appointment at specific Date & time.");
                         }
                     }
@@ -134,8 +159,8 @@ public class RequestAppointmentActivity extends BaseActivity {
                         dismissDialog();
                     }
                 });
-
-
+            } else {
+                showToast("User is Not Verified");
             }
         });
     }

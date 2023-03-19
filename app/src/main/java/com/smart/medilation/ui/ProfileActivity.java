@@ -60,6 +60,7 @@ public class ProfileActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        showLDialog();
         fromDoctor = getIntent().getBooleanExtra("fromDoctor", false);
 
         // Initialize Firebase Auth
@@ -94,7 +95,7 @@ public class ProfileActivity extends BaseActivity {
             edtQualification.setVisibility(View.GONE);
         }
 
-//        imageView.setOnClickListener(v -> chooseImage());
+        imageView.setOnClickListener(v -> chooseImage());
         btn_signup.setOnClickListener(v -> {
             final String name = edtName.getText().toString().trim();
             final String email = edtEmail.getText().toString().trim();
@@ -145,8 +146,9 @@ public class ProfileActivity extends BaseActivity {
             if (mAuth.getCurrentUser() != null) {
                 String userId = mAuth.getCurrentUser().getUid();
 
-                if (fromDoctor) {
-                    DoctorModel doctorModel = new DoctorModel(userId, name, email, doctor.getPassword(), phoneNum, exp, specialization, qualification);
+                if (fromDoctor && doctor != null) {
+                    DoctorModel doctorModel = new DoctorModel(userId, name, email, doctor.getPassword(),
+                            phoneNum, exp, specialization, qualification, doctor.isApproved, doctor.isRejected());
 
                     doctorModel.setImage(filePath.toString());
                     mRef.child(userId)
@@ -188,7 +190,7 @@ public class ProfileActivity extends BaseActivity {
 
                     if (fromDoctor) {
                         doctor = child.getValue(DoctorModel.class);
-                        if (doctor != null) {
+                        if (doctor != null && doctor.getId().equalsIgnoreCase(mAuth.getCurrentUser().getUid())) {
                             edtName.setText(doctor.getName());
                             edtEmail.setText(doctor.getEmail());
                             edtPhoneNum.setText(doctor.getPhoneNum());
@@ -199,11 +201,12 @@ public class ProfileActivity extends BaseActivity {
                                     .load(filePath)
                                     .placeholder(R.drawable.ic_user)
                                     .into(imageView);
+                            dismissDialog();
                             break;
                         }
                     } else {
                         patient = child.getValue(PatientModel.class);
-                        if (patient != null) {
+                        if (patient != null && patient.getId().equalsIgnoreCase(mAuth.getCurrentUser().getUid())) {
                             edtName.setText(patient.getName());
                             edtEmail.setText(patient.getEmail());
                             edtPhoneNum.setText(patient.getPhoneNum());
@@ -212,6 +215,7 @@ public class ProfileActivity extends BaseActivity {
                                     .load(filePath)
                                     .placeholder(R.drawable.ic_user)
                                     .into(imageView);
+                            dismissDialog();
                             break;
                         }
                     }
@@ -221,6 +225,7 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError
                                             databaseError) {
+                dismissDialog();
 
             }
         });
@@ -239,31 +244,34 @@ public class ProfileActivity extends BaseActivity {
         if (requestCode == 100 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
             imageView.setImageURI(filePath);
+
+            uploadImage();
         }
     }
 
-    private void uploadImage(String id, DoctorModel doctor, PatientModel patient) {
+    private void uploadImage() {
         if (filePath != null) {
+            showLDialog();
             StorageReference ref =
                     FirebaseStorage.getInstance().getReference().child("Smart/" + UUID.randomUUID().toString());
             ref.putFile(filePath).addOnSuccessListener(taskSnapshot -> ref.getDownloadUrl().addOnSuccessListener(uri -> {
                 Task<Void> task;
                 if (fromDoctor) {
                     doctor.setImage(uri.toString());
-                    task = mRef.child(id).setValue(doctor);
+                    task = mRef.child(userId).setValue(doctor);
                 } else {
                     patient.setImagePath(uri.toString());
-                    task = mRef.child(id).setValue(patient);
+                    task = mRef.child(userId).setValue(patient);
                 }
                 task.addOnCompleteListener(task11 -> {
+                    dismissDialog();
                     if (task11.isSuccessful()) {
-                        Toast.makeText(ProfileActivity.this, "Account Created Successfully, Verify your Email to Login your Account!", Toast.LENGTH_SHORT).show();
-                        finish();
+                        showToast("Update Image!");
                     } else {
-                        Toast.makeText(ProfileActivity.this, "" + task11.getException(), Toast.LENGTH_SHORT).show();
+                        showToast("" + task11.getException());
                     }
                 });
-            }).addOnFailureListener(e -> Toast.makeText(ProfileActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show()));
+            }).addOnFailureListener(e -> showToast("" + e.getMessage())));
         }
     }
 }

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/bg_color"
     android:orientation="vertical"
-    tools:context=".ui.DoctorDashboardActivity">
+    tools:context=".ui.patient.SelectDomainActivity">
 
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:background="@color/primaryColor"
-        android:layout_height="60dp">
+        android:layout_height="60dp"
+        android:background="@color/primaryColor">
 
         <ImageView
             android:id="@+id/imageBack"
@@ -29,30 +29,11 @@
             android:layout_centerInParent="true"
             android:fontFamily="@font/proximanovaregular"
             android:gravity="center_horizontal"
-            android:text="@string/app_name"
+            android:text="@string/select_domain"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
-
-        <ImageView
-            android:id="@+id/imgProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="45dp"
-            android:src="@drawable/ic_adm"
-            app:tint="@color/white" />
-
-        <ImageView
-            android:id="@+id/imgLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_logout" />
     </RelativeLayout>
 
     <LinearLayout
@@ -63,22 +44,12 @@
         android:paddingTop="20dp">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerReservations"
+            android:id="@+id/recyclerCategories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:overScrollMode="never"
             android:scrollbars="none" />
 
-        <TextView
-            android:id="@+id/txtNoApp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins"
-            android:layout_gravity="center"
-            android:text="@string/no_app_found"
-            android:visibility="gone"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
     </LinearLayout>
 </LinearLayout>

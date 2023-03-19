@@ -156,11 +156,12 @@ public class RegistrationActivity extends BaseActivity {
                             final FirebaseUser firebaseUser = mAuth.getCurrentUser();
                             if (firebaseUser != null) {
                                 firebaseUser.sendEmailVerification().addOnCompleteListener(task1 -> {
-                                    dismissDialog();
+
                                     if (task1.isSuccessful()) {
                                         if (fromDoctor) {
                                             String specialization = spnSpecialization.getSelectedItem().toString();
-                                            DoctorModel doctor = new DoctorModel(firebaseUser.getUid(), name, email, password, phoneNum, exp, specialization, qualification);
+                                            DoctorModel doctor = new DoctorModel(firebaseUser.getUid(), name, email, password,
+                                                    phoneNum, exp, specialization, qualification, false, false);
                                             uploadImage(firebaseUser.getUid(), doctor, null);
                                         } else {
                                             PatientModel patient = new PatientModel(firebaseUser.getUid(), name, email, password, phoneNum);
@@ -169,6 +170,7 @@ public class RegistrationActivity extends BaseActivity {
                                     }
                                 });
                             } else {
+                                dismissDialog();
                                 Toast.makeText(RegistrationActivity.this, "User not Found", Toast.LENGTH_SHORT).show();
                             }
 
@@ -217,6 +219,7 @@ public class RegistrationActivity extends BaseActivity {
                     task = mRef.child(id).setValue(patient);
                 }
                 task.addOnCompleteListener(task11 -> {
+                    dismissDialog();
                     if (task11.isSuccessful()) {
                         Toast.makeText(RegistrationActivity.this, "Account Created Successfully, Verify your Email to Login your Account!", Toast.LENGTH_SHORT).show();
                         finish();
@@ -224,7 +227,10 @@ public class RegistrationActivity extends BaseActivity {
                         Toast.makeText(RegistrationActivity.this, "" + task11.getException(), Toast.LENGTH_SHORT).show();
                     }
                 });
-            }).addOnFailureListener(e -> Toast.makeText(RegistrationActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show()));
+            }).addOnFailureListener(e -> {
+                dismissDialog();
+                Toast.makeText(RegistrationActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }));
         }
     }
 }

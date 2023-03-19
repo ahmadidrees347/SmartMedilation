@@ -19,13 +19,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.smart.medilation.BuildConfig;
 import com.smart.medilation.R;
 import com.smart.medilation.model.DoctorModel;
 import com.smart.medilation.model.PatientModel;
 import com.smart.medilation.ui.BaseActivity;
 import com.smart.medilation.ui.DoctorDashboardActivity;
-import com.smart.medilation.ui.patient.MainActivity;
 import com.smart.medilation.ui.admin.AdminActivity;
+import com.smart.medilation.ui.patient.MainActivity;
 
 import java.util.regex.Pattern;
 
@@ -78,6 +79,7 @@ public class LoginActivity extends BaseActivity {
         imgAdmin.setOnClickListener(v -> {
             Intent mainPage = new Intent(getApplicationContext(), AdminActivity.class);
             startActivity(mainPage);
+            finishAffinity();
         });
 
         edt_email = findViewById(R.id.edt_email);
@@ -102,6 +104,7 @@ public class LoginActivity extends BaseActivity {
             if (fromAdmin &&
                     email.equalsIgnoreCase("admin") &&
                     password.equalsIgnoreCase("admin")) {
+                pref.setIsAdminLogin(true);
                 imgAdmin.performClick();
                 return;
             }
@@ -138,67 +141,71 @@ public class LoginActivity extends BaseActivity {
                                 path = "Patient";
                             }
 
-                            dismissDialog();
                             DatabaseReference mRef = mDatabase.getReference(path);
-                            if (user != null && user.isEmailVerified()) {
+                            if (user != null && userVerification(user)) {
                                 mRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                                        boolean isRecordFound = false;
                                         for (DataSnapshot child : dataSnapshot.getChildren()) {
 
                                             if (fromDoctor) {
                                                 DoctorModel doctor = child.getValue(DoctorModel.class);
-                                                if (doctor != null) {
-                                                    if (doctor.getEmail().equals(edt_email.getText().toString()) &&
-                                                            doctor.getPassword().equals(edt_password.getText().toString())) {
-                                                        if (doctor.isApproved) {
-                                                            pref.setIsDocLogin(true);
-                                                            pref.setLogIn(true);
-                                                            Intent mainPage = new Intent(getApplicationContext(), DoctorDashboardActivity.class);
-                                                            startActivity(mainPage);
-                                                            finishAffinity();
-                                                        } else {
-                                                            Toast.makeText(LoginActivity.this, "Your Account is not approved by admin yet!", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    } else {
-                                                        Toast.makeText(LoginActivity.this, "Your Account is not approved by admin yet!", Toast.LENGTH_SHORT).show();
-                                                    }
+                                                if (doctor != null && doctor.isApproved &&
+                                                        doctor.getId().equalsIgnoreCase(user.getUid()) &&
+                                                        doctor.getEmail().equalsIgnoreCase(edt_email.getText().toString()) &&
+                                                        doctor.getPassword().equalsIgnoreCase(edt_password.getText().toString())) {
+                                                    dismissDialog();
+                                                    pref.setIsDocLogin(true);
+                                                    pref.setLogIn(true);
+                                                    Intent mainPage = new Intent(getApplicationContext(), DoctorDashboardActivity.class);
+                                                    startActivity(mainPage);
+                                                    finishAffinity();
+                                                    isRecordFound = true;
                                                     break;
-                                                } else {
-                                                    Toast.makeText(LoginActivity.this, "Your Account is not found!", Toast.LENGTH_SHORT).show();
                                                 }
                                             } else {
                                                 PatientModel patient = child.getValue(PatientModel.class);
-                                                if (patient != null && patient.getEmail().equals(edt_email.getText().toString()) &&
-                                                        patient.getPassword().equals(edt_password.getText().toString())) {
+                                                if (patient != null &&
+                                                        patient.getId().equalsIgnoreCase(user.getUid()) &&
+                                                        patient.getEmail().equalsIgnoreCase(edt_email.getText().toString()) &&
+                                                        patient.getPassword().equalsIgnoreCase(edt_password.getText().toString())) {
+                                                    dismissDialog();
                                                     pref.setIsDocLogin(false);
                                                     pref.setLogIn(true);
                                                     Intent mainPage = new Intent(getApplicationContext(), MainActivity.class);
                                                     startActivity(mainPage);
                                                     finishAffinity();
+                                                    isRecordFound = true;
                                                     break;
                                                 }
                                             }
+                                        }
+                                        if (!isRecordFound) {
+                                            dismissDialog();
+                                            showToast("Your Record is not found!");
                                         }
                                     }
 
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError
                                                                     databaseError) {
+                                        dismissDialog();
 
                                     }
                                 });
                             } else {
-                                Toast.makeText(LoginActivity.this, "Verify your Email to Login your Account!", Toast.LENGTH_SHORT).show();
+                                showToast("Verify your Email to Login your Account!");
+                                dismissDialog();
                             }
 
                         } else {
                             dismissDialog();
-                            Toast.makeText(LoginActivity.this, "Invalid Username or Password!", Toast.LENGTH_SHORT).show();
+                            showToast("Invalid Username or Password!");
                         }
                     }).addOnFailureListener(e -> {
-                        Toast.makeText(LoginActivity.this, "" + e, Toast.LENGTH_SHORT).show();
+                        showToast("" + e);
                         dismissDialog();
                     });
         });

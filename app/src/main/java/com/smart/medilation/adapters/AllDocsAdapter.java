@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smart.medilation.R;
 import com.smart.medilation.model.DoctorModel;
 
@@ -46,7 +47,7 @@ public class AllDocsAdapter extends RecyclerView.Adapter<AllDocsAdapter.CustomVi
             holder.btbDecline.setOnClickListener(v -> listener.onDocClick(docList.get(position), position, false));
             Glide.with(context)
                     .load(docList.get(position).getImage())
-                    .centerCrop()
+                    .placeholder(R.drawable.ic_user)
                     .into(holder.image);
         }
     }
@@ -69,7 +70,7 @@ public class AllDocsAdapter extends RecyclerView.Adapter<AllDocsAdapter.CustomVi
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
         TextView doctorName, doctorSpec, doctorQualification;
-        ImageView image;
+        CircularImageView image;
 
         Button btnApproved, btbDecline;
 

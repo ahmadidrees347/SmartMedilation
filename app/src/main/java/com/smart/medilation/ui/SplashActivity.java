@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.smart.medilation.R;
+import com.smart.medilation.ui.admin.AdminActivity;
 import com.smart.medilation.ui.login.SelectionActivity;
 import com.smart.medilation.ui.patient.MainActivity;
 
@@ -36,7 +37,11 @@ public class SplashActivity extends BaseActivity {
     private void launchHomeScreen() {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null && user.isEmailVerified()) {
+        if (pref.getIsAdminLogin()) {
+            Intent mainPage = new Intent(getApplicationContext(), AdminActivity.class);
+            startActivity(mainPage);
+        }
+        else if (user != null && userVerification(user)) {
             userId = user.getUid();
             if (pref.getIsDocLogin() && pref.getLogin())
                 startActivity(new Intent(SplashActivity.this, DoctorDashboardActivity.class));

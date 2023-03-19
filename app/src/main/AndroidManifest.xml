@@ -21,6 +21,16 @@
             android:screenOrientation="nosensor"
             android:windowSoftInputMode="adjustNothing" />
         <activity
+            android:name=".ui.MyAppointmentsActivity"
+            android:exported="false"
+            android:screenOrientation="nosensor"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".ui.patient.SelectDomainActivity"
+            android:exported="false"
+            android:screenOrientation="nosensor"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
             android:name=".ui.ProfileActivity"
             android:exported="false"
             android:screenOrientation="nosensor"

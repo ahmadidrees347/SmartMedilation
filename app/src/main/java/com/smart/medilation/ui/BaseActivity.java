@@ -9,6 +9,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.smart.medilation.BuildConfig;
 import com.smart.medilation.ui.dialog.LoadingDialog;
 import com.smart.medilation.ui.login.SelectionActivity;
 import com.smart.medilation.utils.PrefManager;
@@ -20,6 +22,12 @@ public class BaseActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+
+    protected boolean userVerification(FirebaseUser user) {
+        if (BuildConfig.DEBUG)
+            return true;
+        return user.isEmailVerified();
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +69,7 @@ public class BaseActivity extends AppCompatActivity {
 
                     pref.setIsDocLogin(false);
                     pref.setLogIn(false);
+                    pref.setIsAdminLogin(false);
                     Intent login = new Intent(getApplicationContext(), SelectionActivity.class);
                     startActivity(login);
                     finishAffinity();

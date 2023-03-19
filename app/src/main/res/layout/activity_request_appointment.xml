@@ -49,14 +49,15 @@
             android:paddingHorizontal="5dp"
             android:paddingTop="20dp">
 
-
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/image"
-                android:layout_width="125dp"
-                android:layout_height="105dp"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="8dp"
-                android:src="@drawable/ic_user" />
+                android:src="@drawable/ic_user"
+                app:civ_border_color="@color/primaryColor"
+                app:civ_border_width="2dp" />
 
             <TextView
                 android:id="@+id/txtName"
@@ -86,6 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal">
 
+
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgChat"
                     android:layout_width="wrap_content"
@@ -94,7 +96,6 @@
                     android:background="@drawable/bg_white"
                     android:padding="8dp"
                     android:src="@drawable/ic_chat" />
-
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgCall"
@@ -109,24 +110,24 @@
             <DatePicker
                 android:id="@+id/datePicker"
                 android:layout_width="wrap_content"
-                android:datePickerMode="spinner"
-                android:calendarViewShown="false"
                 android:layout_height="150dp"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner" />
 
             <TimePicker
                 android:id="@+id/timePicker"
                 android:layout_width="wrap_content"
                 android:layout_height="150dp"
-                android:visibility="gone"
                 android:layout_gravity="center"
-                android:timePickerMode="spinner" />
+                android:timePickerMode="spinner"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/bg_white"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -145,11 +146,12 @@
                     android:padding="12dp"
                     android:textSize="14sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/bg_white"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -169,13 +171,14 @@
                     android:padding="12dp"
                     android:textSize="14sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
                 android:gravity="center"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/physical1"

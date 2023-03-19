@@ -14,6 +14,7 @@ public class PrefManager {
     // Shared preferences file name
     private static final String PREF_NAME = "smartMediation";
 
+    private static final String IsAdminLogin = "IsAdminLogin";
     private static final String IsDocLogin = "IsDocLogin";
     private static final String Login = "Login";
 
@@ -39,6 +40,14 @@ public class PrefManager {
 
     public boolean getIsDocLogin() {
         return pref.getBoolean(IsDocLogin, false);
+    }
+
+    public void setIsAdminLogin(boolean isAdminLogin) {
+        editor.putBoolean(IsAdminLogin, isAdminLogin);
+        editor.commit();
+    }
+    public boolean getIsAdminLogin() {
+        return pref.getBoolean(IsAdminLogin, false);
     }
 
 }

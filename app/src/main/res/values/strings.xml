@@ -25,6 +25,7 @@
     <string name="qualification">Qualification</string>
     <string name="specialization">Specialization</string>
     <string name="add_profile_picture">Add Profile Picture</string>
+    <string name="edit_profile_picture">Edit Profile Picture</string>
     <string name="no_doctor_found">No Doctor Found</string>
     <string name="no_app_found">No Appointment Found</string>
     <string name="profile">Profile</string>
@@ -46,6 +47,10 @@
     <string name="cash">Cash</string>
     <string name="default_method">Default Method</string>
     <string name="update_profile">Update Profile</string>
+    <string name="admin">ADMIN</string>
+    <string name="my_appointments">My Appointments</string>
+    <string name="schedule_an_appointment">Schedule an Appointment</string>
+    <string name="select_domain">Select Domain</string>
 
 
     <string-array name="appointmentType">

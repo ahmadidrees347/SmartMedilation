@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -64,11 +63,6 @@ public class AllDoctorsActivity extends BaseActivity implements AllDocsAdapter.C
                 }
                 docAdapter.notifyDataSetChanged();
                 dismissDialog();
-                if (docList.isEmpty()) {
-                    txtNoDoc.setVisibility(View.VISIBLE);
-                } else {
-                    txtNoDoc.setVisibility(View.GONE);
-                }
             }
 
             @Override
@@ -81,26 +75,31 @@ public class AllDoctorsActivity extends BaseActivity implements AllDocsAdapter.C
     @Override
     public void onDocClick(DoctorModel model, int position, boolean status) {
         showLDialog();
-        if (status)
-            mRef.child(model.id)
-                    .child("isApproved")
-                    .setValue(true)
-                    .addOnCompleteListener(task -> {
-                        dismissDialog();
-                        docList.remove(position);
-                        docAdapter.notifyDataSetChanged();
-                    })
-                    .addOnFailureListener(task -> dismissDialog());
-        else
-            mRef.child(model.id)
-                    .child("isRejected")
-                    .setValue(true)
-                    .addOnCompleteListener(task -> {
-                        dismissDialog();
-                        docList.remove(position);
-                        docAdapter.notifyDataSetChanged();
-                    })
-                    .addOnFailureListener(task -> dismissDialog());
-        Toast.makeText(AllDoctorsActivity.this, "Successfully updated user", Toast.LENGTH_SHORT).show();
+        if (status) {
+            model.setApproved(true);
+        } else {
+            model.setRejected(true);
+        }
+        mRef.child(model.id)
+                .setValue(model)
+                .addOnCompleteListener(task -> {
+                    dismissDialog();
+                    docList.remove(position);
+                    docAdapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(task -> dismissDialog());
+
+        showToast("Successfully updated user");
+
+        checkList();
+    }
+
+    private void checkList() {
+
+        if (docList.isEmpty()) {
+            txtNoDoc.setVisibility(View.VISIBLE);
+        } else {
+            txtNoDoc.setVisibility(View.GONE);
+        }
     }
 }

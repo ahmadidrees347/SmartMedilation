@@ -13,6 +13,15 @@ public class PatientModel {
     public String name;
     public String email;
     public String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String password;
     public String phoneNum;
 
