@@ -34,7 +34,7 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 public class ProfileActivity extends BaseActivity {
-    ImageView imageBack;
+    ImageView imageBack, imgLogout;
     Button btn_signup;
     CircularImageView imageView;
     Spinner spnSpecialization;
@@ -60,6 +60,10 @@ public class ProfileActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+
+        imgLogout = findViewById(R.id.imgLogout);
+        imgLogout.setOnClickListener(v -> showLogoutDialog());
 
         showLDialog();
         fromDoctor = getIntent().getBooleanExtra("fromDoctor", false);

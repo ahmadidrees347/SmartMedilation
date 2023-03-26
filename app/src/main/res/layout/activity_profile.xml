@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/bg_color"
     android:orientation="vertical"
-    tools:context=".ui.login.ProfileActivity">
+    tools:context=".ui.ProfileActivity">
 
     <RelativeLayout
         android:id="@+id/header"
@@ -32,6 +32,14 @@
             android:text="@string/profile"
             android:textColor="@color/white"
             android:textSize="22sp" />
+        <ImageView
+            android:id="@+id/imgLogout"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/logout" />
     </RelativeLayout>
 
     <ScrollView

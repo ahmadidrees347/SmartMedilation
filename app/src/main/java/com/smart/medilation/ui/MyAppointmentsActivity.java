@@ -25,7 +25,7 @@ import java.util.List;
 
 public class MyAppointmentsActivity extends BaseActivity implements AppointmentAdapter.ClickListener {
 
-    ImageView imageBack;
+    ImageView imageBack, imgLogout;
     TextView txtNoApp;
     Boolean fromDoctor = false;
     Boolean fromHistory = false;
@@ -41,6 +41,9 @@ public class MyAppointmentsActivity extends BaseActivity implements AppointmentA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_appointments);
+
+        imgLogout = findViewById(R.id.imgLogout);
+        imgLogout.setOnClickListener(v -> showLogoutDialog());
 
         fromDoctor = getIntent().getBooleanExtra("fromDoctor", false);
         fromHistory = getIntent().getBooleanExtra("fromHistory", false);

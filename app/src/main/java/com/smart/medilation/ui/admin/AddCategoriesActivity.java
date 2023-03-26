@@ -24,7 +24,7 @@ public class AddCategoriesActivity extends BaseActivity {
         edt_cat = findViewById(R.id.edt_cat);
         btn_add = findViewById(R.id.btn_add);
 
-        btn_add.setOnClickListener(v -> {
+       /* btn_add.setOnClickListener(v -> {
             String str = edt_cat.getText().toString();
             if (!str.isEmpty()) {
                 showLDialog();
@@ -42,6 +42,6 @@ public class AddCategoriesActivity extends BaseActivity {
                     }
                 }).addOnFailureListener(task -> dismissDialog());
             }
-        });
+        });*/
     }
 }

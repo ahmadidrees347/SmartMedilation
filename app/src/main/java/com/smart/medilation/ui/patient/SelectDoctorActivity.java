@@ -25,7 +25,7 @@ import java.util.List;
 
 public class SelectDoctorActivity extends BaseActivity implements DocAdapter.ClickListener {
 
-    ImageView imageBack;
+    ImageView imageBack, imgLogout;
     TextView txtTitle, txtNoDoc;
     String category = "";
 
@@ -40,6 +40,8 @@ public class SelectDoctorActivity extends BaseActivity implements DocAdapter.Cli
 
         category = getIntent().getStringExtra("category");
 
+        imgLogout = findViewById(R.id.imgLogout);
+        imgLogout.setOnClickListener(v -> showLogoutDialog());
         showLDialog();
         imageBack = findViewById(R.id.imageBack);
         txtTitle = findViewById(R.id.txtTitle);

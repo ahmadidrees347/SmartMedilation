@@ -25,7 +25,7 @@ import java.util.List;
 public class AllDoctorsActivity extends BaseActivity implements AllDocsAdapter.ClickListener {
 
 
-    ImageView imageBack;
+    ImageView imageBack, imgLogout;
     TextView txtNoDoc;
     RecyclerView recyclerDocs;
     AllDocsAdapter docAdapter;
@@ -39,6 +39,8 @@ public class AllDoctorsActivity extends BaseActivity implements AllDocsAdapter.C
         setContentView(R.layout.activity_all_doctors);
 
 
+        imgLogout = findViewById(R.id.imgLogout);
+        imgLogout.setOnClickListener(v -> showLogoutDialog());
         imageBack = findViewById(R.id.imageBack);
         imageBack.setOnClickListener(v -> onBackPressed());
         txtNoDoc = findViewById(R.id.txtNoDoc);

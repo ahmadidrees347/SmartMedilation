@@ -16,6 +16,10 @@
         android:theme="@style/Theme.SmartMedilation"
         tools:targetApi="31">
         <activity
+            android:name=".ui.patient.SuccessActivity"
+            android:screenOrientation="nosensor"
+            android:exported="false" />
+        <activity
             android:name=".ui.payment.PaymentActivity"
             android:exported="false"
             android:screenOrientation="nosensor"

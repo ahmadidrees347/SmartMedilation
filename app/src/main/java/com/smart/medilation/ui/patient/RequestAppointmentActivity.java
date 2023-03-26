@@ -1,5 +1,6 @@
 package com.smart.medilation.ui.patient;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -30,7 +31,7 @@ import java.util.Locale;
 
 public class RequestAppointmentActivity extends BaseActivity {
 
-    ImageView imageBack;
+    ImageView imageBack, imgLogout;
     Button btnRequest;
     DatePicker datePicker;
     TimePicker timePicker;
@@ -56,6 +57,8 @@ public class RequestAppointmentActivity extends BaseActivity {
 
         doctorId = getIntent().getStringExtra("doctorId");
 
+        imgLogout = findViewById(R.id.imgLogout);
+        imgLogout.setOnClickListener(v -> showLogoutDialog());
         spnTime = findViewById(R.id.spnTime);
         spnType = findViewById(R.id.spnType);
 
@@ -144,6 +147,7 @@ public class RequestAppointmentActivity extends BaseActivity {
                                 dismissDialog();
                                 if (task.isSuccessful()) {
                                     showToast("Add Successfully");
+                                    startActivity(new Intent(RequestAppointmentActivity.this, SuccessActivity.class));
                                 } else {
                                     showToast("" + task.getException());
                                     showToast("Msg " + task.getException());

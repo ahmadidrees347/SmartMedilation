@@ -12,9 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smart.medilation.R;
+import com.smart.medilation.ui.BaseActivity;
 
-public class DoctorProfileActivity extends AppCompatActivity {
-    ImageView imageBack, imgChat, imgCall;
+public class DoctorProfileActivity extends BaseActivity {
+    ImageView imageBack, imgChat, imgCall, imgLogout;
 
     CircularImageView image;
     TextView txtName, txtType, txtExp, txtCertificates;
@@ -27,6 +28,9 @@ public class DoctorProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_profile);
 
+
+        imgLogout = findViewById(R.id.imgLogout);
+        imgLogout.setOnClickListener(v -> showLogoutDialog());
         image = findViewById(R.id.image);
         imageBack = findViewById(R.id.imageBack);
         imgChat = findViewById(R.id.imgChat);

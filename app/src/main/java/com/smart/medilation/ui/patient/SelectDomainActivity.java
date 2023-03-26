@@ -2,7 +2,6 @@ package com.smart.medilation.ui.patient;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -18,7 +17,7 @@ import java.util.List;
 
 public class SelectDomainActivity extends BaseActivity implements CategoriesAdapter.ClickListener {
 
-    ImageView imageBack;
+    ImageView imageBack, imgLogout;
     RecyclerView recyclerCategories;
     CategoriesAdapter categoryAdapter;
     List<CategoriesModel> categoryList = new ArrayList<>();
@@ -31,42 +30,46 @@ public class SelectDomainActivity extends BaseActivity implements CategoriesAdap
         imageBack = findViewById(R.id.imageBack);
         imageBack.setOnClickListener(v -> onBackPressed());
 
+        imgLogout = findViewById(R.id.imgLogout);
+        imgLogout.setOnClickListener(v -> showLogoutDialog());
 
         recyclerCategories = findViewById(R.id.recyclerCategories);
         recyclerCategories.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         categoryAdapter = new CategoriesAdapter(getApplicationContext(), categoryList, this);
         recyclerCategories.setAdapter(categoryAdapter);
 
-        final String[] values = getResources().getStringArray(R.array.allCats);
-        for (String child : values) {
-            CategoriesModel user = new CategoriesModel(child);
-            categoryList.add(user);
-            Log.e("d", "" + user.getName());
-        }
+
+        addAllList();
+    }
+
+    private void addAllList() {
+        categoryList.clear();
+        categoryList.add(new CategoriesModel("Anesthesiologists", R.drawable.anesthesiologists));
+        categoryList.add(new CategoriesModel("Cardiologists", R.drawable.cardiologist));
+        categoryList.add(new CategoriesModel("Child Specialist", R.drawable.child_specialist));
+        categoryList.add(new CategoriesModel("Dentist", R.drawable.dentist));
+        categoryList.add(new CategoriesModel("Dermatologists", R.drawable.dermatologists));
+        categoryList.add(new CategoriesModel("Endocrinologists", R.drawable.endocrinologist));
+        categoryList.add(new CategoriesModel("Eye Specialist", R.drawable.eye_specialist));
+        categoryList.add(new CategoriesModel("Family Physicians", R.drawable.family_physicians));
+        categoryList.add(new CategoriesModel("Gastroenterologists", R.drawable.gastroenterologist));
+        categoryList.add(new CategoriesModel("General Surgeon", R.drawable.general_surgeon));
+        categoryList.add(new CategoriesModel("Gynecologists", R.drawable.gynecologist));
+        categoryList.add(new CategoriesModel("Hematologists", R.drawable.hematologists));
+        categoryList.add(new CategoriesModel("Immunologists", R.drawable.immunologist));
+        categoryList.add(new CategoriesModel("Internists", R.drawable.internists));
+        categoryList.add(new CategoriesModel("Medical Geneticists", R.drawable.medical_geneticists));
+        categoryList.add(new CategoriesModel("Nephrologists", R.drawable.nephrologist));
+        categoryList.add(new CategoriesModel("Neurologists", R.drawable.neurologist));
+        categoryList.add(new CategoriesModel("Ophthalmologists", R.drawable.ophthalmologists));
+        categoryList.add(new CategoriesModel("Orthopedics", R.drawable.orthopedics));
+        categoryList.add(new CategoriesModel("Psychiatrist", R.drawable.psychiatrist));
+        categoryList.add(new CategoriesModel("Pulmonologist", R.drawable.pulmonologist));
+        categoryList.add(new CategoriesModel("Podiatrists", R.drawable.pulmonologist));
+        categoryList.add(new CategoriesModel("Skin Specialist", R.drawable.skin_specialist));
+        categoryList.add(new CategoriesModel("Urologist", R.drawable.urologist));
+
         categoryAdapter.notifyDataSetChanged();
-
-        /* showLDialog();
-        FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference mRef = mDatabase.getReference("Categories");
-        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                categoryList.clear();
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    CategoriesModel user = child.getValue(CategoriesModel.class);
-                    Log.e("d", ""+user.getName());
-                    categoryList.add(user);
-                }
-                categoryAdapter.notifyDataSetChanged();
-                dismissDialog();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                dismissDialog();
-            }
-        });*/
     }
 
     @Override

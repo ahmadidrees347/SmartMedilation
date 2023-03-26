@@ -22,9 +22,9 @@ public class AdminActivity extends BaseActivity {
         setContentView(R.layout.activity_admin);
 
         imageBack = findViewById(R.id.imageBack);
-        imgLogout = findViewById(R.id.imgLogout);
 
         imageBack.setOnClickListener(v -> onBackPressed());
+        imgLogout = findViewById(R.id.imgLogout);
         imgLogout.setOnClickListener(v -> showLogoutDialog());
 
         btn_docs = findViewById(R.id.btn_docs);

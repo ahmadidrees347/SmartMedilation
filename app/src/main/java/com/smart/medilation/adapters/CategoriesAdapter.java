@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.smart.medilation.R;
 import com.smart.medilation.model.CategoriesModel;
 
@@ -38,6 +40,11 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Cu
     public void onBindViewHolder(@NonNull CustomViewHolder holder, final int position) {
         if (categoryList.size() > 0) {
             holder.txtName.setText(categoryList.get(position).getName());
+            Glide.with(context)
+                    .load(categoryList.get(position).getImg())
+                    .placeholder(R.drawable.doctor_name)
+                    .into(holder.image);
+//            holder.image.setImageResource(categoryList.get(position).getImg());
             holder.root.setOnClickListener(v -> listener.onCategoryClick(categoryList.get(position)));
         }
     }
@@ -61,10 +68,12 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Cu
 
         TextView txtName;
         CardView root;
+        ImageView image;
 
         public CustomViewHolder(View view) {
             super(view);
             root = view.findViewById(R.id.root);
+            image = view.findViewById(R.id.image);
             txtName = view.findViewById(R.id.txtName);
         }
     }

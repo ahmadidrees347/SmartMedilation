@@ -54,6 +54,9 @@
     <string name="select_domain">Select Domain</string>
     <string name="history">Appointment History</string>
     <string name="cancel">Cancel</string>
+    <string name="done">DONE</string>
+    <string name="thank_you">Thank You!</string>
+    <string name="your_appointment_created_successfully">Your Appointment Created Successfully</string>
 
 
     <string-array name="appointmentType">
@@ -79,11 +82,15 @@
     <string-array name="allCats">
         <item>Anesthesiologists</item>
         <item>Cardiologists</item>
+        <item>Child Specialist</item>
+        <item>Dentist</item>
         <item>Dermatologists</item>
         <item>Endocrinologists</item>
+        <item>Eye Specialist</item>
         <item>Family Physicians</item>
         <item>Gastroenterologists</item>
         <item>Gynecologists</item>
+        <item>General Surgeon</item>
         <item>Hematologists</item>
         <item>Immunologists</item>
         <item>Internists</item>
@@ -91,26 +98,11 @@
         <item>Nephrologists</item>
         <item>Neurologists</item>
         <item>Ophthalmologists</item>
-        <item>Physiatrists</item>
+        <item>Orthopedics</item>
+        <item>Psychiatrist</item>
         <item>Podiatrists</item>
+        <item>Skin Specialist</item>
+        <item>Urologist</item>
     </string-array>
-    <string-array name="allCatsImages">
-        <item>Anesthesiologists</item>
-        <item>Cardiologists</item>
-        <item>Dermatologists</item>
-        <item>Endocrinologists</item>
-        <item>Family Physicians</item>
-        <item>Gastroenterologists</item>
-        <item>Gynecologists</item>
-        <item>Hematologists</item>
-        <item>Immunologists</item>
-        <item>Internists</item>
-        <item>Medical Geneticists</item>
-        <item>Nephrologists</item>
-        <item>Neurologists</item>
-        <item>Ophthalmologists</item>
-        <item>Physiatrists</item>
-        <item>Podiatrists</item>
-        <item>New</item>
-    </string-array>
+
 </resources>
