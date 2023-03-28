@@ -57,6 +57,7 @@
     <string name="done">DONE</string>
     <string name="thank_you">Thank You!</string>
     <string name="your_appointment_created_successfully">Your Appointment Created Successfully</string>
+    <string name="search_here">Search Here</string>
 
 
     <string-array name="appointmentType">

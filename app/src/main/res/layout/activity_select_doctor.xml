@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/bg_color"
     android:orientation="vertical"
     tools:context=".ui.patient.SelectDoctorActivity">
@@ -50,7 +51,27 @@
         android:orientation="vertical"
         android:paddingHorizontal="5dp"
         android:paddingTop="20dp">
-
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="4dp"
+            app:cardElevation="2dp"
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/search_field"
+                android:layout_width="match_parent"
+                android:paddingVertical="4dp"
+                android:paddingHorizontal="8dp"
+                android:drawablePadding="8dp"
+                android:singleLine="true"
+                android:lines="1"
+                android:inputType="text"
+                android:drawableStart="@drawable/ic_search"
+                android:textSize="15sp"
+                android:background="@null"
+                android:hint="@string/search_here"
+                android:layout_height="45dp" />
+        </androidx.cardview.widget.CardView>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerDocs"
             android:layout_width="match_parent"

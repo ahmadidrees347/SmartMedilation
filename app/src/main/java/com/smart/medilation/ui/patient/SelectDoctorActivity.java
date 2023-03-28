@@ -2,7 +2,10 @@ package com.smart.medilation.ui.patient;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,10 +55,26 @@ public class SelectDoctorActivity extends BaseActivity implements DocAdapter.Cli
 
 
         recyclerDocs = findViewById(R.id.recyclerDocs);
-        recyclerDocs.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        recyclerDocs.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
         docAdapter = new DocAdapter(getApplicationContext(), docList, this);
         recyclerDocs.setAdapter(docAdapter);
+        EditText searchField = findViewById(R.id.search_field);
+        searchField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                docAdapter.getFilter().filter(editable.toString());
+            }
+        });
 
         FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
         DatabaseReference mRef = mDatabase.getReference("Doctor");
@@ -68,7 +87,8 @@ public class SelectDoctorActivity extends BaseActivity implements DocAdapter.Cli
                     if (doc != null && category.equalsIgnoreCase(doc.specialization))
                         docList.add(doc);
                 }
-                docAdapter.notifyDataSetChanged();
+                docAdapter = new DocAdapter(getApplicationContext(), docList, SelectDoctorActivity.this);
+                recyclerDocs.setAdapter(docAdapter);
                 dismissDialog();
                 if (docList.isEmpty()) {
                     txtNoDoc.setVisibility(View.VISIBLE);

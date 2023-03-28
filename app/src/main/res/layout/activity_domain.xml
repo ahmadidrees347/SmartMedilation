@@ -52,11 +52,32 @@
         android:paddingHorizontal="15dp"
         android:paddingTop="20dp">
 
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="4dp"
+            app:cardElevation="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/search_field"
+                android:layout_width="match_parent"
+                android:paddingVertical="4dp"
+                android:paddingHorizontal="8dp"
+                android:drawablePadding="8dp"
+                android:singleLine="true"
+                android:lines="1"
+                android:inputType="text"
+                android:drawableStart="@drawable/ic_search"
+                android:textSize="15sp"
+                android:background="@null"
+                android:hint="@string/search_here"
+                android:layout_height="45dp" />
+        </androidx.cardview.widget.CardView>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerCategories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="8dp"
             android:overScrollMode="never"
             android:scrollbars="none" />
 

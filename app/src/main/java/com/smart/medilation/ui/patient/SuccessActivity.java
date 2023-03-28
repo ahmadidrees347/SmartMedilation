@@ -19,9 +19,7 @@ public class SuccessActivity extends AppCompatActivity {
         setContentView(R.layout.activity_success);
 
         btnDone = findViewById(R.id.btnDone);
-        btnDone.setOnClickListener(v-> {
-            onBackPressed();
-        });
+        btnDone.setOnClickListener(v-> onBackPressed());
     }
 
     @Override

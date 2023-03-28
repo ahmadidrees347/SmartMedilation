@@ -2,6 +2,9 @@ package com.smart.medilation.ui.patient;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -33,13 +36,32 @@ public class SelectDomainActivity extends BaseActivity implements CategoriesAdap
         imgLogout = findViewById(R.id.imgLogout);
         imgLogout.setOnClickListener(v -> showLogoutDialog());
 
+        addAllList();
+
         recyclerCategories = findViewById(R.id.recyclerCategories);
-        recyclerCategories.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        recyclerCategories.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
         categoryAdapter = new CategoriesAdapter(getApplicationContext(), categoryList, this);
         recyclerCategories.setAdapter(categoryAdapter);
 
+        EditText searchField = findViewById(R.id.search_field);
+        searchField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        addAllList();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                categoryAdapter.getFilter().filter(editable.toString());
+            }
+        });
+
+
     }
 
     private void addAllList() {
@@ -68,8 +90,6 @@ public class SelectDomainActivity extends BaseActivity implements CategoriesAdap
         categoryList.add(new CategoriesModel("Podiatrists", R.drawable.pulmonologist));
         categoryList.add(new CategoriesModel("Skin Specialist", R.drawable.skin_specialist));
         categoryList.add(new CategoriesModel("Urologist", R.drawable.urologist));
-
-        categoryAdapter.notifyDataSetChanged();
     }
 
     @Override
