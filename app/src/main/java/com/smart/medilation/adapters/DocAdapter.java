@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smart.medilation.R;
-import com.smart.medilation.model.CategoriesModel;
 import com.smart.medilation.model.DoctorModel;
 
 import java.util.ArrayList;
@@ -26,6 +25,7 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.CustomViewHolder
     private final ClickListener listener;
     private final List<DoctorModel> docList;
     private final List<DoctorModel> docListFull;
+    public boolean isFromDashboard = false;
 
     public DocAdapter(Context context, List<DoctorModel> docList, ClickListener listener) {
         this.context = context;
@@ -38,7 +38,10 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.CustomViewHolder
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.item_doc, parent, false));
+        if (isFromDashboard)
+            return new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.item_doc_row, parent, false));
+        else
+            return new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.item_doc, parent, false));
     }
 
     @Override
@@ -72,18 +75,18 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.CustomViewHolder
     public Filter getFilter() {
         return docFilter;
     }
+
     private final Filter docFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             List<DoctorModel> filteredList = new ArrayList<>();
 
-            if(charSequence == null || charSequence.length() == 0){
+            if (charSequence == null || charSequence.length() == 0) {
                 filteredList.addAll(docListFull);
-            }
-            else {
+            } else {
                 String filePattern = charSequence.toString().toLowerCase().trim();
-                for (DoctorModel item : docListFull ){
-                    if(item.name.toLowerCase().contains(filePattern)){
+                for (DoctorModel item : docListFull) {
+                    if (item.name.toLowerCase().contains(filePattern)) {
                         filteredList.add(item);
                     }
                 }

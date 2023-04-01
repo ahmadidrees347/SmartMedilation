@@ -4,46 +4,49 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.smart.medilation.R;
 import com.smart.medilation.adapters.CategoriesAdapter;
 import com.smart.medilation.model.CategoriesModel;
-import com.smart.medilation.ui.BaseActivity;
+import com.smart.medilation.ui.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectDomainActivity extends BaseActivity implements CategoriesAdapter.ClickListener {
+public class DomainFragment extends BaseFragment implements CategoriesAdapter.ClickListener {
 
-    ImageView imageBack, imgLogout;
     RecyclerView recyclerCategories;
     CategoriesAdapter categoryAdapter;
     List<CategoriesModel> categoryList = new ArrayList<>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_domain);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_domain, container, false);
+    }
 
-        imageBack = findViewById(R.id.imageBack);
-        imageBack.setOnClickListener(v -> onBackPressed());
-
-        imgLogout = findViewById(R.id.imgLogout);
-        imgLogout.setOnClickListener(v -> showLogoutDialog());
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         addAllList();
 
-        recyclerCategories = findViewById(R.id.recyclerCategories);
-        recyclerCategories.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
-        categoryAdapter = new CategoriesAdapter(getApplicationContext(), categoryList, this);
+        recyclerCategories = view.findViewById(R.id.recyclerCategories);
+        recyclerCategories.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+        categoryAdapter = new CategoriesAdapter(requireContext(), categoryList, this, false);
         recyclerCategories.setAdapter(categoryAdapter);
 
-        EditText searchField = findViewById(R.id.search_field);
+        EditText searchField = view.findViewById(R.id.search_field);
         searchField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -94,7 +97,7 @@ public class SelectDomainActivity extends BaseActivity implements CategoriesAdap
 
     @Override
     public void onCategoryClick(CategoriesModel model) {
-        Intent intent = new Intent(SelectDomainActivity.this, SelectDoctorActivity.class);
+        Intent intent = new Intent(requireContext(), SelectDoctorActivity.class);
         intent.putExtra("category", model.getName());
         startActivity(intent);
     }

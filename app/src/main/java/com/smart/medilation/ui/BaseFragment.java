@@ -1,66 +1,73 @@
 package com.smart.medilation.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.smart.medilation.BuildConfig;
 import com.smart.medilation.ui.dialog.LoadingDialog;
+import com.smart.medilation.ui.doctor.DoctorDashboardActivity;
 import com.smart.medilation.ui.login.SelectionActivity;
 import com.smart.medilation.utils.PrefManager;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseFragment extends Fragment {
     public LoadingDialog loadingDialog;
     public PrefManager pref;
 
     private FirebaseAuth mAuth;
 
-    public interface BottomMenuInterface {
-        void onNavChange();
-    }
-    protected boolean userVerification(FirebaseUser user) {
-        if (BuildConfig.DEBUG)
-            return true;
-        return user.isEmailVerified();
-    }
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        pref = new PrefManager(this);
+    public BaseActivity.BottomMenuInterface bottomMenuInterface = null;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            bottomMenuInterface = (BaseActivity.BottomMenuInterface) context;
+        } catch (Exception ignored){
+        }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        pref = new PrefManager(requireContext());
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
     }
 
-
     protected void showToast(String strMsg) {
-        Toast.makeText(this, strMsg , Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), strMsg, Toast.LENGTH_SHORT).show();
     }
+
     protected void showLDialog() {
         if (loadingDialog == null)
-            loadingDialog = new LoadingDialog(this);
+            loadingDialog = new LoadingDialog(requireContext());
         if (loadingDialog.isShowing())
             loadingDialog.dismiss();
         try {
             loadingDialog.show();
-        } catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
     }
 
     protected void dismissDialog() {
         if (loadingDialog == null)
-            loadingDialog = new LoadingDialog(this);
+            loadingDialog = new LoadingDialog(requireContext());
         if (loadingDialog.isShowing())
             loadingDialog.dismiss();
     }
 
     protected void showLogoutDialog() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(BaseActivity.this);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(requireContext());
         alertDialogBuilder.setTitle("Logout!");
         alertDialogBuilder
                 .setMessage("Are you sure, you want to logout?")
@@ -68,14 +75,13 @@ public class BaseActivity extends AppCompatActivity {
                 .setPositiveButton("YES", (dialog, id_) -> {
                     mAuth.signOut();
 
-                    pref.setUserId("");
                     pref.setUserName("");
                     pref.setIsDocLogin(false);
                     pref.setLogIn(false);
                     pref.setIsAdminLogin(false);
-                    Intent login = new Intent(getApplicationContext(), SelectionActivity.class);
+                    Intent login = new Intent(requireContext(), SelectionActivity.class);
                     startActivity(login);
-                    finishAffinity();
+                    getActivity().finishAffinity();
                 })
                 .setNegativeButton("NO", (dialog, id_) -> dialog.cancel());
         // create alert dialog

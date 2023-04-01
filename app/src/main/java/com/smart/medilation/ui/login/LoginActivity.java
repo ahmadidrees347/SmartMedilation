@@ -154,6 +154,8 @@ public class LoginActivity extends BaseActivity {
                                                 if (doctor != null && doctor.isApproved &&
                                                         doctor.id.equalsIgnoreCase(user.getUid())) {
                                                     dismissDialog();
+                                                    pref.setUserId(user.getUid());
+                                                    pref.setUserName(doctor.name);
                                                     pref.setUserName(doctor.name);
                                                     pref.setIsDocLogin(true);
                                                     pref.setLogIn(true);
@@ -168,6 +170,7 @@ public class LoginActivity extends BaseActivity {
                                                 if (patient != null &&
                                                         patient.id.equalsIgnoreCase(user.getUid())) {
                                                     dismissDialog();
+                                                    pref.setUserId(user.getUid());
                                                     pref.setUserName(patient.name);
                                                     pref.setIsDocLogin(false);
                                                     pref.setLogIn(true);

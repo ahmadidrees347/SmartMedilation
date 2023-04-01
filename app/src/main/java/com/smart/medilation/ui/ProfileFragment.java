@@ -1,16 +1,18 @@
 package com.smart.medilation.ui;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,8 +35,8 @@ import com.smart.medilation.model.PatientModel;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-public class ProfileActivity extends BaseActivity {
-    ImageView imageBack, imgLogout;
+public class ProfileFragment extends BaseFragment {
+
     Button btn_signup;
     CircularImageView imageView;
     Spinner spnSpecialization;
@@ -51,22 +53,31 @@ public class ProfileActivity extends BaseActivity {
     DoctorModel doctor;
     PatientModel patient;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null)
+            fromDoctor = getArguments().getBoolean("fromDoctor", false);
+    }
+
     private boolean isValidEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         return pattern.matcher(email).matches();
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_profile, container, false);
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        imgLogout = findViewById(R.id.imgLogout);
-        imgLogout.setOnClickListener(v -> showLogoutDialog());
-
+        fromDoctor = pref.getIsDocLogin();
         showLDialog();
-        fromDoctor = getIntent().getBooleanExtra("fromDoctor", false);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -80,19 +91,18 @@ public class ProfileActivity extends BaseActivity {
         }
         mRef = mDatabase.getReference(path);
 
-        imageView = findViewById(R.id.image);
+        imageView = view.findViewById(R.id.image);
 
-        imageBack = findViewById(R.id.imageBack);
-        imageBack.setOnClickListener(v -> onBackPressed());
-        btn_signup = findViewById(R.id.btn_signup);
 
-        edtName = findViewById(R.id.edtName);
-        edtEmail = findViewById(R.id.edt_email);
-        edtPhoneNum = findViewById(R.id.edtPhoneNum);
-        spnSpecialization = findViewById(R.id.spnSpecialization);
-        layoutSpecialization = findViewById(R.id.layoutSpecialization);
-        edtExp = findViewById(R.id.edtExp);
-        edtQualification = findViewById(R.id.edtQualification);
+        btn_signup = view.findViewById(R.id.btn_signup);
+
+        edtName = view.findViewById(R.id.edtName);
+        edtEmail = view.findViewById(R.id.edt_email);
+        edtPhoneNum = view.findViewById(R.id.edtPhoneNum);
+        spnSpecialization = view.findViewById(R.id.spnSpecialization);
+        layoutSpecialization = view.findViewById(R.id.layoutSpecialization);
+        edtExp = view.findViewById(R.id.edtExp);
+        edtQualification = view.findViewById(R.id.edtQualification);
 
         if (!fromDoctor) {
             layoutSpecialization.setVisibility(View.GONE);
@@ -126,7 +136,7 @@ public class ProfileActivity extends BaseActivity {
                 return;
             }
             if (filePath == null) {
-                Toast.makeText(ProfileActivity.this, "Upload Profile Image!", Toast.LENGTH_SHORT).show();
+                showToast("Upload Profile Image!");
                 return;
             }
 
@@ -193,7 +203,7 @@ public class ProfileActivity extends BaseActivity {
 
                     if (fromDoctor) {
                         doctor = child.getValue(DoctorModel.class);
-                        if (doctor != null && doctor.id.equalsIgnoreCase(mAuth.getCurrentUser().getUid())) {
+                        if (doctor != null && doctor.id.equalsIgnoreCase(pref.getUserId())) {
                             edtName.setText(doctor.name);
                             edtEmail.setText(doctor.email);
                             edtPhoneNum.setText(doctor.phoneNum);
@@ -201,7 +211,7 @@ public class ProfileActivity extends BaseActivity {
                             edtQualification.setText(doctor.qualification);
                             filePath = Uri.parse(doctor.image);
                             specialization = doctor.specialization;
-                            Glide.with(ProfileActivity.this)
+                            Glide.with(ProfileFragment.this)
                                     .load(filePath)
                                     .placeholder(R.drawable.ic_user)
                                     .into(imageView);
@@ -211,12 +221,12 @@ public class ProfileActivity extends BaseActivity {
                         }
                     } else {
                         patient = child.getValue(PatientModel.class);
-                        if (patient != null && patient.id.equalsIgnoreCase(mAuth.getCurrentUser().getUid())) {
+                        if (patient != null && patient.id.equalsIgnoreCase(pref.getUserId())) {
                             edtName.setText(patient.name);
                             edtEmail.setText(patient.email);
                             edtPhoneNum.setText(patient.phoneNum);
                             filePath = Uri.parse(patient.imagePath);
-                            Glide.with(ProfileActivity.this)
+                            Glide.with(ProfileFragment.this)
                                     .load(filePath)
                                     .placeholder(R.drawable.ic_user)
                                     .into(imageView);
@@ -253,7 +263,7 @@ public class ProfileActivity extends BaseActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
@@ -272,10 +282,10 @@ public class ProfileActivity extends BaseActivity {
                 Task<Void> task;
                 if (fromDoctor) {
                     doctor.image = (uri.toString());
-                    task = mRef.child(userId).setValue(doctor);
+                    task = mRef.child(pref.getUserId()).setValue(doctor);
                 } else {
                     patient.imagePath = (uri.toString());
-                    task = mRef.child(userId).setValue(patient);
+                    task = mRef.child(pref.getUserId()).setValue(patient);
                 }
                 task.addOnCompleteListener(task11 -> {
                     dismissDialog();

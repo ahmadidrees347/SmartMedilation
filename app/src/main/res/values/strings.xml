@@ -50,6 +50,7 @@
     <string name="admin">ADMIN</string>
     <string name="my_appointments">My Appointments</string>
     <string name="schedule_an_appointment">Schedule an Appointment</string>
+    <string name="schedule_appointment">Scheduled Appointment</string>
     <string name="schedule">Schedule</string>
     <string name="select_domain">Select Domain</string>
     <string name="history">Appointment History</string>
@@ -58,6 +59,7 @@
     <string name="thank_you">Thank You!</string>
     <string name="your_appointment_created_successfully">Your Appointment Created Successfully</string>
     <string name="search_here">Search Here</string>
+    <string name="home">Dashboard</string>
 
 
     <string-array name="appointmentType">
@@ -105,5 +107,12 @@
         <item>Skin Specialist</item>
         <item>Urologist</item>
     </string-array>
+
+    <string name="fitness_text">Your Health \nis our Priority.</string>
+    <string name="categories">Categories</string>
+    <string name="top_categories">Top Categories</string>
+    <string name="top_doctors">Top Doctors</string>
+    <string name="see_all">See All</string>
+    <string name="search_doc">Search Top Doctors</string>
 
 </resources>

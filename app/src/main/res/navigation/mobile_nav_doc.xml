@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navDocAppointments">
+
+    <fragment
+        android:id="@+id/navDocAppointments"
+        android:name="com.smart.medilation.ui.MyAppointmentsFragment"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_my_appointments" />
+
+    <fragment
+        android:id="@+id/navDocHistory"
+        android:name="com.smart.medilation.ui.MyAppointmentsFragment"
+        android:label="@string/schedule_appointment"
+        tools:layout="@layout/fragment_my_appointments" />
+
+
+    <fragment
+        android:id="@+id/navDocProfile"
+        android:name="com.smart.medilation.ui.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile" />
+</navigation>

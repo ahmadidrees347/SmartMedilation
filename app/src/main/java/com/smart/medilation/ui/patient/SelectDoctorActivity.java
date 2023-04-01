@@ -49,9 +49,10 @@ public class SelectDoctorActivity extends BaseActivity implements DocAdapter.Cli
         imageBack = findViewById(R.id.imageBack);
         txtTitle = findViewById(R.id.txtTitle);
         txtNoDoc = findViewById(R.id.txtNoDoc);
-        txtTitle.setText(category);
+        if (!category.isEmpty())
+            txtTitle.setText(category);
 
-        imageBack.setOnClickListener(v->onBackPressed());
+        imageBack.setOnClickListener(v -> onBackPressed());
 
 
         recyclerDocs = findViewById(R.id.recyclerDocs);
@@ -84,6 +85,8 @@ public class SelectDoctorActivity extends BaseActivity implements DocAdapter.Cli
                 docList.clear();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     DoctorModel doc = child.getValue(DoctorModel.class);
+                    if (doc != null && category.isEmpty())
+                        docList.add(doc);
                     if (doc != null && category.equalsIgnoreCase(doc.specialization))
                         docList.add(doc);
                 }

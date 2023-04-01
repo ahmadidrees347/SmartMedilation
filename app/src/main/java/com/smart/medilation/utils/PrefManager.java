@@ -18,6 +18,7 @@ public class PrefManager {
     private static final String IsDocLogin = "IsDocLogin";
     private static final String Login = "Login";
     private static final String USERNAME = "USERNAME";
+    private static final String USERID = "USERID";
 
     public PrefManager(Context context) {
         this._context = context;
@@ -37,6 +38,14 @@ public class PrefManager {
 
     public String getUserName() {
         return pref.getString(USERNAME, "");
+    }
+    public void setUserId(String name) {
+        editor.putString(USERID, name);
+        editor.commit();
+    }
+
+    public String getUserId() {
+        return pref.getString(USERID, "");
     }
 
     public boolean getLogin() {

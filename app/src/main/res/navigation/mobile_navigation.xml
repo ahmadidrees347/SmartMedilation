@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navHome">
+
+    <fragment
+        android:id="@+id/navHome"
+        android:name="com.smart.medilation.ui.patient.PatientHomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_patient_home" />
+
+    <fragment
+        android:id="@+id/navMyAppointments"
+        android:name="com.smart.medilation.ui.MyAppointmentsFragment"
+        android:label="@string/my_appointments"
+        tools:layout="@layout/fragment_my_appointments" />
+
+    <fragment
+        android:id="@+id/navDomain"
+        android:name="com.smart.medilation.ui.patient.DomainFragment"
+        android:label="@string/my_appointments"
+        tools:layout="@layout/fragment_domain" />
+
+    <fragment
+        android:id="@+id/navProfile"
+        android:name="com.smart.medilation.ui.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile" />
+</navigation>

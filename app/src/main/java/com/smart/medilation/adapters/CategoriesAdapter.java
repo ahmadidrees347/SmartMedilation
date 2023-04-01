@@ -26,12 +26,14 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Cu
     private final ClickListener listener;
     private final List<CategoriesModel> categoryList;
     private final List<CategoriesModel> categoryListFull;
+    private final boolean isDashboard;
 
 
-    public CategoriesAdapter(Context context, List<CategoriesModel> categoryList, ClickListener listener) {
+    public CategoriesAdapter(Context context, List<CategoriesModel> categoryList, ClickListener listener, boolean isDashboard) {
         this.context = context;
         this.listener = listener;
         this.categoryList = categoryList;
+        this.isDashboard = isDashboard;
         categoryListFull = new ArrayList<>(categoryList);
 
         setHasStableIds(true);
@@ -40,7 +42,10 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Cu
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.item_category, parent, false));
+        if (isDashboard)
+            return new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.item_category_row, parent, false));
+        else
+            return new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.item_category, parent, false));
     }
 
     @Override
@@ -60,18 +65,18 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Cu
     public Filter getFilter() {
         return categoryFilter;
     }
+
     private final Filter categoryFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             List<CategoriesModel> filteredList = new ArrayList<>();
 
-            if(charSequence == null || charSequence.length() == 0){
+            if (charSequence == null || charSequence.length() == 0) {
                 filteredList.addAll(categoryListFull);
-            }
-            else {
+            } else {
                 String filePattern = charSequence.toString().toLowerCase().trim();
-                for (CategoriesModel item : categoryListFull ){
-                    if(item.getName().toLowerCase().contains(filePattern)){
+                for (CategoriesModel item : categoryListFull) {
+                    if (item.getName().toLowerCase().contains(filePattern)) {
                         filteredList.add(item);
                     }
                 }

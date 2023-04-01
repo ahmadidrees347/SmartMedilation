@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navDocAppointments"
+        android:icon="@drawable/ic_dashboard"
+        android:title="@string/home" />
+
+    <item
+        android:id="@+id/navDocHistory"
+        android:icon="@drawable/ic_history"
+        android:menuCategory="secondary"
+        android:title="@string/history" />
+
+    <item
+        android:id="@+id/navDocProfile"
+        android:icon="@drawable/ic_profile"
+        android:menuCategory="secondary"
+        android:title="@string/profile" />
+
+</menu>

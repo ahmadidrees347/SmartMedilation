@@ -1,47 +1,57 @@
 package com.smart.medilation.ui.patient;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.google.android.material.card.MaterialCardView;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.smart.medilation.R;
 import com.smart.medilation.ui.BaseActivity;
-import com.smart.medilation.ui.MyAppointmentsActivity;
-import com.smart.medilation.ui.ProfileActivity;
 
-public class PatientDashboardActivity extends BaseActivity {
+public class PatientDashboardActivity extends BaseActivity implements BaseActivity.BottomMenuInterface {
 
-    ImageView imageBack, imgLogout, imgProfile;
-    MaterialCardView btnSchedule, btnMySchedule;
+    ImageView imageBack, imgLogout;
+    BottomNavigationView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_dashboard);
 
-        btnSchedule = findViewById(R.id.btnSchedule);
-        btnMySchedule = findViewById(R.id.btnMySchedule);
-
         imageBack = findViewById(R.id.imageBack);
-        imgProfile = findViewById(R.id.imgProfile);
         imageBack.setOnClickListener(v -> onBackPressed());
         imgLogout = findViewById(R.id.imgLogout);
         imgLogout.setOnClickListener(v -> showLogoutDialog());
-        imgProfile.setOnClickListener(v -> {
-            Intent intent = new Intent(PatientDashboardActivity.this, ProfileActivity.class);
-            intent.putExtra("fromDoctor", pref.getIsDocLogin());
-            startActivity(intent);
-        });
-        btnSchedule.setOnClickListener(v -> {
-            Intent intent = new Intent(PatientDashboardActivity.this, SelectDomainActivity.class);
-            startActivity(intent);
-        });
-        btnMySchedule.setOnClickListener(v -> {
-            Intent intent = new Intent(PatientDashboardActivity.this, MyAppointmentsActivity.class);
-            startActivity(intent);
-        });
 
+        navView = findViewById(R.id.nav_view);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupWithNavController(navView, navController);
+
+        navView.setOnItemSelectedListener(item -> {
+            if (navController.getCurrentDestination() != null &&
+                    navController.getCurrentDestination().getId() == item.getItemId()) {
+                return true;
+            } else if (R.id.navHome == item.getItemId()) {
+                navController.navigate(R.id.navHome);
+            } else if (R.id.navDomain == item.getItemId()) {
+                navController.navigate(R.id.navDomain);
+            } else if (R.id.navMyAppointments == item.getItemId()) {
+                navController.navigate(R.id.navMyAppointments);
+            } else if (R.id.navProfile == item.getItemId()) {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("fromDoctor", false);
+                navController.navigate(R.id.navProfile, bundle);
+            }
+            return true;
+        });
     }
 
+    @Override
+    public void onNavChange() {
+        navView.getMenu().getItem(1).setChecked(true);
+        navView.getMenu().getItem(1).setCheckable(true);
+    }
 }

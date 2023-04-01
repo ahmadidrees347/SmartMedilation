@@ -43,7 +43,6 @@ public class SplashActivity extends BaseActivity {
             startActivity(mainPage);
         }
         else if (user != null && userVerification(user)) {
-            userId = user.getUid();
             if (pref.getIsDocLogin() && pref.getLogin())
                 startActivity(new Intent(SplashActivity.this, DoctorDashboardActivity.class));
             else if (pref.getLogin())

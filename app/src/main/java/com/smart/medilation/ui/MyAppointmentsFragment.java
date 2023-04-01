@@ -1,11 +1,13 @@
 package com.smart.medilation.ui;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,9 +25,7 @@ import com.smart.medilation.utils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyAppointmentsActivity extends BaseActivity implements AppointmentAdapter.ClickListener {
-
-    ImageView imageBack, imgLogout;
+public class MyAppointmentsFragment extends BaseFragment implements AppointmentAdapter.ClickListener {
     TextView txtNoApp;
     Boolean fromDoctor = false;
     Boolean fromHistory = false;
@@ -38,24 +38,32 @@ public class MyAppointmentsActivity extends BaseActivity implements AppointmentA
     DatabaseReference mRef;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_appointments);
+        if (getArguments() != null) {
+            fromHistory = getArguments().getBoolean("fromHistory", false);
+        }
+    }
 
-        imgLogout = findViewById(R.id.imgLogout);
-        imgLogout.setOnClickListener(v -> showLogoutDialog());
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_my_appointments, container, false);
+    }
 
-        fromDoctor = getIntent().getBooleanExtra("fromDoctor", false);
-        fromHistory = getIntent().getBooleanExtra("fromHistory", false);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        fromDoctor = pref.getIsDocLogin();
         showLDialog();
 
-        txtNoApp = findViewById(R.id.txtNoApp);
-        imageBack = findViewById(R.id.imageBack);
-        imageBack.setOnClickListener(v -> onBackPressed());
+        txtNoApp = view.findViewById(R.id.txtNoApp);
 
-        recyclerAppointments = findViewById(R.id.recyclerAppointments);
-        recyclerAppointments.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-        appointmentAdapter = new AppointmentAdapter(getApplicationContext(), appointmentList, this);
+        recyclerAppointments = view.findViewById(R.id.recyclerAppointments);
+        recyclerAppointments.setLayoutManager(new GridLayoutManager(requireContext(), 1));
+        appointmentAdapter = new AppointmentAdapter(requireContext(), appointmentList, this);
         appointmentAdapter.isFromDoctor = fromDoctor;
         appointmentAdapter.isFromHistory = fromHistory;
         recyclerAppointments.setAdapter(appointmentAdapter);
