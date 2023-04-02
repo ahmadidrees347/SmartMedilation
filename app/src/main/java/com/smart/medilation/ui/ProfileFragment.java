@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
 
 public class ProfileFragment extends BaseFragment {
 
-    Button btn_signup;
+    Button btn_signup, btnLogout;
     CircularImageView imageView;
     Spinner spnSpecialization;
     LinearLayout layoutSpecialization;
@@ -94,6 +94,7 @@ public class ProfileFragment extends BaseFragment {
         imageView = view.findViewById(R.id.image);
 
 
+        btnLogout = view.findViewById(R.id.btnLogout);
         btn_signup = view.findViewById(R.id.btn_signup);
 
         edtName = view.findViewById(R.id.edtName);
@@ -111,6 +112,9 @@ public class ProfileFragment extends BaseFragment {
         }
 
         imageView.setOnClickListener(v -> chooseImage());
+        btnLogout.setOnClickListener(v -> {
+            showLogoutDialog();
+        });
         btn_signup.setOnClickListener(v -> {
             final String name = edtName.getText().toString().trim();
             final String email = edtEmail.getText().toString().trim();
@@ -204,6 +208,8 @@ public class ProfileFragment extends BaseFragment {
                     if (fromDoctor) {
                         doctor = child.getValue(DoctorModel.class);
                         if (doctor != null && doctor.id.equalsIgnoreCase(pref.getUserId())) {
+                            pref.setUserName(doctor.name);
+                            pref.setUserImage(doctor.image);
                             edtName.setText(doctor.name);
                             edtEmail.setText(doctor.email);
                             edtPhoneNum.setText(doctor.phoneNum);
@@ -222,6 +228,8 @@ public class ProfileFragment extends BaseFragment {
                     } else {
                         patient = child.getValue(PatientModel.class);
                         if (patient != null && patient.id.equalsIgnoreCase(pref.getUserId())) {
+                            pref.setUserName(patient.name);
+                            pref.setUserImage(patient.imagePath);
                             edtName.setText(patient.name);
                             edtEmail.setText(patient.email);
                             edtPhoneNum.setText(patient.phoneNum);
@@ -283,9 +291,11 @@ public class ProfileFragment extends BaseFragment {
                 if (fromDoctor) {
                     doctor.image = (uri.toString());
                     task = mRef.child(pref.getUserId()).setValue(doctor);
+                    pref.setUserImage(doctor.image);
                 } else {
                     patient.imagePath = (uri.toString());
                     task = mRef.child(pref.getUserId()).setValue(patient);
+                    pref.setUserImage(patient.imagePath);
                 }
                 task.addOnCompleteListener(task11 -> {
                     dismissDialog();

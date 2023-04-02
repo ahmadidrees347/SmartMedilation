@@ -16,11 +16,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smart.medilation.R;
 import com.smart.medilation.adapters.CategoriesAdapter;
 import com.smart.medilation.adapters.DocAdapter;
@@ -34,8 +36,10 @@ import java.util.List;
 public class PatientHomeFragment extends BaseFragment implements
         CategoriesAdapter.ClickListener, DocAdapter.ClickListener {
 
-    TextView seeAll;
+    TextView seeAll, seeAllDocs;
     CardView cardSearch;
+    CircularImageView image;
+    TextView txtName;
     RecyclerView recyclerCategories;
     CategoriesAdapter categoryAdapter;
     List<CategoriesModel> categoryList = new ArrayList<>();
@@ -56,18 +60,36 @@ public class PatientHomeFragment extends BaseFragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        image = view.findViewById(R.id.image);
+        txtName = view.findViewById(R.id.txtName);
+        Glide.with(getContext())
+                .load(pref.getUserImage())
+                .placeholder(R.drawable.ic_user)
+                .into(image);
+        String txt = "Hi " + pref.getUserName() + "!";
+        txtName.setText(txt);
         seeAll = view.findViewById(R.id.seeAll);
+        seeAllDocs = view.findViewById(R.id.seeAllDocs);
         cardSearch = view.findViewById(R.id.cardSearch);
         cardSearch.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), SelectDoctorActivity.class);
             intent.putExtra("category", "");
             startActivity(intent);
         });
+        seeAllDocs.setOnClickListener(v -> {
+            cardSearch.performClick();
+        });
         seeAll.setOnClickListener(v -> {
             if (bottomMenuInterface != null)
-                bottomMenuInterface.onNavChange();
+                bottomMenuInterface.onNavChange(1);
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
             navController.navigate(R.id.navDomain);
+        });
+        image.setOnClickListener(v -> {
+            if (bottomMenuInterface != null)
+                bottomMenuInterface.onNavChange(3);
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+            navController.navigate(R.id.navProfile);
         });
         recyclerCategories = view.findViewById(R.id.recyclerCategories);
         recyclerCategories.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false));

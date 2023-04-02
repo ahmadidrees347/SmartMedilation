@@ -169,6 +169,19 @@
                     android:text="@string/update_profile"
                     android:textColor="@color/white" />
 
+                <Button
+                    android:id="@+id/btnLogout"
+                    android:layout_width="260dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="14dp"
+                    app:backgroundTint="@color/red"
+                    android:background="@drawable/bg_primary"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/logout"
+                    android:textColor="@color/white" />
+
             </LinearLayout>
 
         </LinearLayout>

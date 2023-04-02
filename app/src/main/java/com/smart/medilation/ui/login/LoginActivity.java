@@ -157,6 +157,7 @@ public class LoginActivity extends BaseActivity {
                                                     pref.setUserId(user.getUid());
                                                     pref.setUserName(doctor.name);
                                                     pref.setUserName(doctor.name);
+                                                    pref.setUserImage(doctor.image);
                                                     pref.setIsDocLogin(true);
                                                     pref.setLogIn(true);
                                                     Intent mainPage = new Intent(getApplicationContext(), DoctorDashboardActivity.class);
@@ -172,6 +173,7 @@ public class LoginActivity extends BaseActivity {
                                                     dismissDialog();
                                                     pref.setUserId(user.getUid());
                                                     pref.setUserName(patient.name);
+                                                    pref.setUserImage(patient.getImagePath());
                                                     pref.setIsDocLogin(false);
                                                     pref.setLogIn(true);
                                                     Intent mainPage = new Intent(getApplicationContext(), PatientDashboardActivity.class);

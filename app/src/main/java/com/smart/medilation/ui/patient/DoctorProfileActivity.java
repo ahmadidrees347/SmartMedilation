@@ -7,8 +7,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.bumptech.glide.Glide;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smart.medilation.R;
@@ -60,8 +58,8 @@ public class DoctorProfileActivity extends BaseActivity {
             startActivity(intent);
         });
 
-        imgChat.setOnClickListener(v -> startDialer(phone));
-        imgCall.setOnClickListener(v -> startChat(phone));
+        imgCall.setOnClickListener(v -> startDialer(phone));
+        imgChat.setOnClickListener(v -> startChat(phone));
 
         Glide.with(this)
                 .load(imageText)
@@ -73,7 +71,7 @@ public class DoctorProfileActivity extends BaseActivity {
         txtExp = findViewById(R.id.txtExp);
         txtCertificates = findViewById(R.id.txtCertificates);
 
-        txtName.setText(name);
+        txtName.setText("Dr. " + name);
         txtType.setText(specialization + " Specialist");
         txtExp.setText(exp + " Years");
         txtCertificates.setText(qualification);

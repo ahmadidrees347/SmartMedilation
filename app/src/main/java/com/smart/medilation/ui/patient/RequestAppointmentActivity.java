@@ -87,6 +87,7 @@ public class RequestAppointmentActivity extends BaseActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
 
+
         datePicker.init(
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -96,6 +97,13 @@ public class RequestAppointmentActivity extends BaseActivity {
                     Log.e("date*", strDate);
                 }
         );
+
+        int dayOfMonth = datePicker.getDayOfMonth();
+        int month = datePicker.getMonth();
+        int year = datePicker.getYear();
+        strDate = "" + (month + 1) + "/" + dayOfMonth + "/" + year;
+        Log.e("date*", strDate);
+
         timePicker.setOnTimeChangedListener((timePicker, hourOfDay, minute) -> {
             Log.e("time*", "" + hourOfDay + "/" + minute);
             strTime = getTimeText(hourOfDay, minute);

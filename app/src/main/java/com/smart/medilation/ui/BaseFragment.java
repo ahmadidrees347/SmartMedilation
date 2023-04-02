@@ -76,6 +76,8 @@ public class BaseFragment extends Fragment {
                     mAuth.signOut();
 
                     pref.setUserName("");
+                    pref.setUserId("");
+                    pref.setUserImage("");
                     pref.setIsDocLogin(false);
                     pref.setLogIn(false);
                     pref.setIsAdminLogin(false);

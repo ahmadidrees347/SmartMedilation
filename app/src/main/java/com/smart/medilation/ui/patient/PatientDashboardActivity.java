@@ -50,8 +50,8 @@ public class PatientDashboardActivity extends BaseActivity implements BaseActivi
     }
 
     @Override
-    public void onNavChange() {
-        navView.getMenu().getItem(1).setChecked(true);
-        navView.getMenu().getItem(1).setCheckable(true);
+    public void onNavChange(int value) {
+        navView.getMenu().getItem(value).setChecked(true);
+        navView.getMenu().getItem(value).setCheckable(true);
     }
 }

@@ -22,7 +22,7 @@ public class BaseActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     public interface BottomMenuInterface {
-        void onNavChange();
+        void onNavChange(int value);
     }
     protected boolean userVerification(FirebaseUser user) {
         if (BuildConfig.DEBUG)
@@ -67,9 +67,9 @@ public class BaseActivity extends AppCompatActivity {
                 .setCancelable(true)
                 .setPositiveButton("YES", (dialog, id_) -> {
                     mAuth.signOut();
-
-                    pref.setUserId("");
                     pref.setUserName("");
+                    pref.setUserId("");
+                    pref.setUserImage("");
                     pref.setIsDocLogin(false);
                     pref.setLogIn(false);
                     pref.setIsAdminLogin(false);

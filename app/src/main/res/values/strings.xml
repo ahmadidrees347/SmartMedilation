@@ -30,6 +30,7 @@
     <string name="no_app_found">No Appointment Found</string>
     <string name="profile">Profile</string>
     <string name="request_for_appointment">Request For Appointment</string>
+    <string name="book_appointment">Book an Appointment</string>
     <string name="request_appointment">Request Appointment</string>
     <string name="certificates">Certificates</string>
     <string name="patient_time">Patient Time 09:00 AM to 06:00 PM</string>
@@ -108,11 +109,16 @@
         <item>Urologist</item>
     </string-array>
 
-    <string name="fitness_text">Your Health \nis our Priority.</string>
+    <string name="fitness_text">Your Health is \nour Priority.</string>
     <string name="categories">Categories</string>
     <string name="top_categories">Top Categories</string>
     <string name="top_doctors">Top Doctors</string>
     <string name="see_all">See All</string>
     <string name="search_doc">Search Top Doctors</string>
+    <string name="logout">Logout</string>
+    <string name="rating">Rating</string>
+    <string name="rate">4.5</string>
+    <string name="about">About</string>
+    <string name="about_text">Doctors, also known as physicians, are licensed health professionals who maintain and restore human health through the practice of medicine. They examine patients, review their medical history, diagnose illnesses or injuries, administer treatment, and counsel patients on their health and well-being.</string>
 
 </resources>
