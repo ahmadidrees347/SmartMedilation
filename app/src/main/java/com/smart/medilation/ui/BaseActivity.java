@@ -19,8 +19,6 @@ public class BaseActivity extends AppCompatActivity {
     public LoadingDialog loadingDialog;
     public PrefManager pref;
 
-    private FirebaseAuth mAuth;
-
     public interface BottomMenuInterface {
         void onNavChange(int value);
     }
@@ -34,8 +32,6 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         pref = new PrefManager(this);
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
     }
 
 
@@ -66,6 +62,7 @@ public class BaseActivity extends AppCompatActivity {
                 .setMessage("Are you sure, you want to logout?")
                 .setCancelable(true)
                 .setPositiveButton("YES", (dialog, id_) -> {
+                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
                     mAuth.signOut();
                     pref.setUserName("");
                     pref.setUserId("");
