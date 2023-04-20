@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smart.medilation.R;
 import com.smart.medilation.model.DoctorModel;
@@ -160,6 +161,7 @@ public class LoginActivity extends BaseActivity {
                                                     pref.setUserImage(doctor.image);
                                                     pref.setIsDocLogin(true);
                                                     pref.setLogIn(true);
+                                                    FirebaseMessaging.getInstance().subscribeToTopic(pref.getUserId());
                                                     Intent mainPage = new Intent(getApplicationContext(), DoctorDashboardActivity.class);
                                                     startActivity(mainPage);
                                                     finishAffinity();
@@ -176,6 +178,7 @@ public class LoginActivity extends BaseActivity {
                                                     pref.setUserImage(patient.getImagePath());
                                                     pref.setIsDocLogin(false);
                                                     pref.setLogIn(true);
+                                                    FirebaseMessaging.getInstance().subscribeToTopic(pref.getUserId());
                                                     Intent mainPage = new Intent(getApplicationContext(), PatientDashboardActivity.class);
                                                     startActivity(mainPage);
                                                     finishAffinity();

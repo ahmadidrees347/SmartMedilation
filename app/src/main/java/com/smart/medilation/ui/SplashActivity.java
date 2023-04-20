@@ -3,10 +3,12 @@ package com.smart.medilation.ui;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.smart.medilation.R;
 import com.smart.medilation.ui.admin.AdminActivity;
 import com.smart.medilation.ui.doctor.DoctorDashboardActivity;
@@ -32,6 +34,12 @@ public class SplashActivity extends BaseActivity {
         }, 3000);
         ImageView imgStart = findViewById(R.id.imgStart);
         imgStart.setOnClickListener(v -> launchHomeScreen());
+
+        if (!pref.getUserId().isEmpty())
+            FirebaseMessaging.getInstance().subscribeToTopic(pref.getUserId());
+
+
+        Log.d("TAG", "getUserId :" + pref.getUserId());
     }
 
 
@@ -41,8 +49,7 @@ public class SplashActivity extends BaseActivity {
         if (pref.getIsAdminLogin()) {
             Intent mainPage = new Intent(getApplicationContext(), AdminActivity.class);
             startActivity(mainPage);
-        }
-        else if (user != null && userVerification(user)) {
+        } else if (user != null && userVerification(user)) {
             if (pref.getIsDocLogin() && pref.getLogin())
                 startActivity(new Intent(SplashActivity.this, DoctorDashboardActivity.class));
             else if (pref.getLogin())

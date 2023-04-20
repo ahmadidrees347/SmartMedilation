@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.smart.medilation.BuildConfig;
+import com.smart.medilation.notification.FcmNotificationSender;
 import com.smart.medilation.ui.dialog.LoadingDialog;
 import com.smart.medilation.ui.login.SelectionActivity;
 import com.smart.medilation.utils.PrefManager;
@@ -18,15 +19,18 @@ import com.smart.medilation.utils.PrefManager;
 public class BaseActivity extends AppCompatActivity {
     public LoadingDialog loadingDialog;
     public PrefManager pref;
+    public FcmNotificationSender fcmNotification;
 
     public interface BottomMenuInterface {
         void onNavChange(int value);
     }
+
     protected boolean userVerification(FirebaseUser user) {
         if (BuildConfig.DEBUG)
             return true;
         return user.isEmailVerified();
     }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +40,17 @@ public class BaseActivity extends AppCompatActivity {
 
 
     protected void showToast(String strMsg) {
-        Toast.makeText(this, strMsg , Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, strMsg, Toast.LENGTH_SHORT).show();
     }
+
+
+    protected void sendNotification(String topic, String title, String message) {
+        if (fcmNotification == null)
+            fcmNotification = new FcmNotificationSender();
+        fcmNotification.sendNotificationToTopic(this, topic, title, message);
+    }
+
+
     protected void showLDialog() {
         if (loadingDialog == null)
             loadingDialog = new LoadingDialog(this);
@@ -45,7 +58,8 @@ public class BaseActivity extends AppCompatActivity {
             loadingDialog.dismiss();
         try {
             loadingDialog.show();
-        } catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
     }
 
     protected void dismissDialog() {

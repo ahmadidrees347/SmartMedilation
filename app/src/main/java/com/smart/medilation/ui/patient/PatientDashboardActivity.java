@@ -1,6 +1,7 @@
 package com.smart.medilation.ui.patient;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.navigation.NavController;
@@ -8,6 +9,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.smart.medilation.R;
 import com.smart.medilation.ui.BaseActivity;
 
@@ -47,6 +49,19 @@ public class PatientDashboardActivity extends BaseActivity implements BaseActivi
             }
             return true;
         });
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w("TAG", "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+                    // Get new FCM registration token
+                    String token = task.getResult();
+                    pref.setToken(token);
+                    Log.d("TAG", "FCM registration token: " + token);
+                    // Send this token to your server to send push notifications
+                });
     }
 
     @Override

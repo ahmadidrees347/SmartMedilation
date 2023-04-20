@@ -19,6 +19,7 @@ public class PrefManager {
     private static final String Login = "Login";
     private static final String USERNAME = "USERNAME";
     private static final String USERID = "USERID";
+    private static final String TOKEN = "TOKEN";
     private static final String USERIMage = "USERIMage";
 
     public PrefManager(Context context) {
@@ -42,6 +43,14 @@ public class PrefManager {
     }
     public void setUserId(String name) {
         editor.putString(USERID, name);
+        editor.commit();
+    }
+
+    public String getToken() {
+        return pref.getString(TOKEN, "");
+    }
+    public void setToken(String token) {
+        editor.putString(TOKEN, token);
         editor.commit();
     }
 
