@@ -23,6 +23,7 @@ public class PatientDashboardActivity extends BaseActivity implements BaseActivi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_dashboard);
 
+        requestPermissions();
         imageBack = findViewById(R.id.imageBack);
         imageBack.setOnClickListener(v -> onBackPressed());
         imgLogout = findViewById(R.id.imgLogout);

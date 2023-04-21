@@ -30,7 +30,7 @@
             android:layout_centerInParent="true"
             android:fontFamily="@font/poppins"
             android:gravity="center_horizontal"
-            android:text="@string/profile"
+            android:text="@string/book_appointment"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -399,6 +399,42 @@
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/poppins"
+                        android:text="@string/select_date"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/poppins"
+                        android:text="@string/select_time"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"/>
 
                     <View
                         android:layout_width="match_parent"

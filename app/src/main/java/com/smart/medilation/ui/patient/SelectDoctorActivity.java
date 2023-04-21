@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.smart.medilation.R;
 import com.smart.medilation.adapters.DocAdapter;
+import com.smart.medilation.adapters.GridSpacingItemDecoration;
 import com.smart.medilation.model.DoctorModel;
 import com.smart.medilation.ui.BaseActivity;
 
@@ -56,9 +57,12 @@ public class SelectDoctorActivity extends BaseActivity implements DocAdapter.Cli
 
 
         recyclerDocs = findViewById(R.id.recyclerDocs);
-        recyclerDocs.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
+        setGridManager(recyclerDocs);
         docAdapter = new DocAdapter(getApplicationContext(), docList, this);
         recyclerDocs.setAdapter(docAdapter);
+
+
+
         EditText searchField = findViewById(R.id.search_field);
         searchField.addTextChangedListener(new TextWatcher() {
             @Override

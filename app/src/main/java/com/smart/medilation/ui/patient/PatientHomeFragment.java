@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -97,10 +96,11 @@ public class PatientHomeFragment extends BaseFragment implements
         recyclerCategories.setAdapter(categoryAdapter);
 
         recyclerDocs = view.findViewById(R.id.recyclerDocs);
-        recyclerDocs.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+        setGridManager(recyclerDocs);
         docAdapter = new DocAdapter(requireContext(), docList, this);
         docAdapter.isFromDashboard = true;
         recyclerDocs.setAdapter(docAdapter);
+
 
         getTopCategories();
         getTopDoctors();

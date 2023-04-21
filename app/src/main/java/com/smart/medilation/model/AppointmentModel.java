@@ -9,10 +9,13 @@ public class AppointmentModel {
     public String time;
     public String date;
     public String status;
-    String appointmentType;
-    String paymentType;
-    boolean paymentReceive;
-    public AppointmentModel(){}
+    public String appointmentType;
+    public String paymentType;
+    public boolean paymentReceive;
+
+    public AppointmentModel() {
+    }
+
     public AppointmentModel(String id, String doctorId, String doctorName, String patientId, String patientName, String time, String date, String status, String appointmentType, String paymentType, boolean paymentReceive) {
         this.id = id;
         this.doctorId = doctorId;

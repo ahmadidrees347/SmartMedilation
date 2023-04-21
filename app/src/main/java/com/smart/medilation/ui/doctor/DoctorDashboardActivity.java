@@ -21,6 +21,7 @@ public class DoctorDashboardActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_dashboard);
 
+        requestPermissions();
         imageBack = findViewById(R.id.imageBack);
         imageBack.setOnClickListener(v -> onBackPressed());
         imgLogout = findViewById(R.id.imgLogout);

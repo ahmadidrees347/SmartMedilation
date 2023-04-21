@@ -42,7 +42,7 @@ public class DomainFragment extends BaseFragment implements CategoriesAdapter.Cl
         addAllList();
 
         recyclerCategories = view.findViewById(R.id.recyclerCategories);
-        recyclerCategories.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+        setGridManager(recyclerCategories);
         categoryAdapter = new CategoriesAdapter(requireContext(), categoryList, this, false);
         recyclerCategories.setAdapter(categoryAdapter);
 

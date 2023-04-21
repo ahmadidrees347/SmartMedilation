@@ -10,8 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.smart.medilation.R;
+import com.smart.medilation.adapters.GridSpacingItemDecoration;
 import com.smart.medilation.ui.dialog.LoadingDialog;
 import com.smart.medilation.ui.doctor.DoctorDashboardActivity;
 import com.smart.medilation.ui.login.SelectionActivity;
@@ -35,6 +39,18 @@ public class BaseFragment extends Fragment {
         }
     }
 
+    protected void setGridManager(RecyclerView recycler) {
+        GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 3);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return 1;
+            }
+        });
+        int spacing = getResources().getDimensionPixelSize(R.dimen.grid_spacing);
+        recycler.addItemDecoration(new GridSpacingItemDecoration(3, spacing, false));
+        recycler.setLayoutManager(layoutManager);
+    }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
