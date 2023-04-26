@@ -173,6 +173,8 @@ public class ProfileFragment extends BaseFragment {
                     mRef.child(userId)
                             .setValue(doctorModel)
                             .addOnCompleteListener(task -> {
+                                pref.setUserName(doctorModel.name);
+                                pref.setUserImage(doctorModel.image);
                                 showToast("Updated Record Successfully");
                                 dismissDialog();
                             })
@@ -186,6 +188,8 @@ public class ProfileFragment extends BaseFragment {
                     mRef.child(userId)
                             .setValue(patientModel)
                             .addOnCompleteListener(task -> {
+                                pref.setUserName(patientModel.name);
+                                pref.setUserImage(patientModel.imagePath);
                                 showToast("Updated Record Successfully");
                                 dismissDialog();
                             })

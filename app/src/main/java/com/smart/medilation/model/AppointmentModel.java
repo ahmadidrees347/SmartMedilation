@@ -1,6 +1,8 @@
 package com.smart.medilation.model;
 
-public class AppointmentModel {
+import java.io.Serializable;
+
+public class AppointmentModel implements Serializable {
     public String id;
     public String doctorId;
     public String doctorName;

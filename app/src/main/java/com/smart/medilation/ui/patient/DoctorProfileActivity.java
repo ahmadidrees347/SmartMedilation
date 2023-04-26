@@ -26,6 +26,7 @@ import com.smart.medilation.adapters.TimeSlotAdapter;
 import com.smart.medilation.model.AppointmentModel;
 import com.smart.medilation.model.DateModel;
 import com.smart.medilation.ui.BaseActivity;
+import com.smart.medilation.ui.payment.PaymentActivity;
 import com.smart.medilation.utils.Constants;
 
 import java.util.ArrayList;
@@ -76,11 +77,11 @@ public class DoctorProfileActivity extends BaseActivity {
         String email = getIntent().getStringExtra("email");
         String phone = getIntent().getStringExtra("phone");
         String imageText = getIntent().getStringExtra("image");
-        String exp = getIntent().getStringExtra("exp");
+        String exp = getIntent().getStringExtra("exp") + " Years";
         String qualification = getIntent().getStringExtra("qualification");
-        String specialization = getIntent().getStringExtra("specialization");
+        String specialization = getIntent().getStringExtra("specialization") + " Specialist";
         btnRequest.setOnClickListener(v -> {
-            /*Intent intent = new Intent(getApplicationContext(), RequestAppointmentActivity.class);
+            Intent intent = new Intent(getApplicationContext(), RequestAppointmentActivity.class);
             intent.putExtra("doctorId", doctorId);
             intent.putExtra("name", name);
             intent.putExtra("email", email);
@@ -89,7 +90,7 @@ public class DoctorProfileActivity extends BaseActivity {
             intent.putExtra("exp", exp);
             intent.putExtra("qualification", qualification);
             intent.putExtra("specialization", specialization);
-            startActivity(intent);*/
+//            startActivity(intent);
 
             bookAppointment(doctorId, name, timeSlotAdapter.getSelectedItem(), dateAdapter.getSelectedItem());
         });
@@ -108,8 +109,8 @@ public class DoctorProfileActivity extends BaseActivity {
         txtCertificates = findViewById(R.id.txtCertificates);
 
         txtName.setText(name);
-        txtType.setText(specialization + " Specialist");
-        txtExp.setText(exp + " Years");
+        txtType.setText(specialization);
+        txtExp.setText(exp);
         txtCertificates.setText(qualification);
     }
 
@@ -156,28 +157,14 @@ public class DoctorProfileActivity extends BaseActivity {
                         }
                     }
                     if (!isAlreadyHasAppointment) {
-                        DatabaseReference ref = mRef.push();
-                        String id = ref.getKey();
-                        String status = "Pending";
-                        String paymentType = "Cash";
-                        boolean paymentReceive = false;
-                        AppointmentModel model = new AppointmentModel(id, doctorId, name, user.getUid(),
-                                pref.getUserName(), strTime, strDate, status, strType,
-                                paymentType, paymentReceive);
-                        ref.setValue(model).addOnCompleteListener(task -> {
-                            dismissDialog();
-                            if (task.isSuccessful()) {
-                                showToast("Add Successfully");
-                                String msg = "Your Appointment with doctor is Successfully schedule at" + strTime + "," + strDate;
-                                String docMsg = "Appointment of " + name + " wanted to schedule at " + strTime + "," + strDate;
-                                sendNotification(pref.getUserId(), "Appointment Scheduled", msg);
-                                sendNotification(doctorId, "New Appointment", docMsg);
-                                startActivity(new Intent(DoctorProfileActivity.this, SuccessActivity.class));
-                            } else {
-                                showToast("" + task.getException());
-                                showToast("Msg " + task.getException());
-                            }
-                        });
+                        AppointmentModel model = new AppointmentModel("", doctorId, name, user.getUid(),
+                                pref.getUserName(), strTime, strDate, "Pending", strType,
+                                "", false);
+
+                        Intent intent = new Intent(DoctorProfileActivity.this, PaymentActivity.class);
+                        intent.putExtra("myModel", model);
+                        startActivity(intent);
+
                     } else {
                         dismissDialog();
                         showToast("Doctor has already an appointment at specific Date & time.");
