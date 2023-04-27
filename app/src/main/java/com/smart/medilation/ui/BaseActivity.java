@@ -1,8 +1,11 @@
 package com.smart.medilation.ui;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -44,6 +47,17 @@ public class BaseActivity extends AppCompatActivity {
 
     public interface BottomMenuInterface {
         void onNavChange(int value);
+    }
+
+    private boolean isInternetAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager != null) {
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+
+        return false;
     }
 
     protected boolean userVerification(FirebaseUser user) {
@@ -135,7 +149,8 @@ public class BaseActivity extends AppCompatActivity {
         if (loadingDialog.isShowing())
             loadingDialog.dismiss();
         try {
-            loadingDialog.show();
+            if (isInternetAvailable())
+                loadingDialog.show();
         } catch (Exception ignored) {
         }
     }

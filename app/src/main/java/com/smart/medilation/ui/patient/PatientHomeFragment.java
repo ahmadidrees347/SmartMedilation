@@ -2,6 +2,7 @@ package com.smart.medilation.ui.patient;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,6 +123,7 @@ public class PatientHomeFragment extends BaseFragment implements
         showLDialog();
         FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
         DatabaseReference mRef = mDatabase.getReference("Doctor");
+        mRef.keepSynced(false);
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -134,10 +136,12 @@ public class PatientHomeFragment extends BaseFragment implements
                 }
                 docAdapter.notifyDataSetChanged();
                 dismissDialog();
+                Log.e("data*", "onDataChange dismissDialog");
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("data*", "onCancelled dismissDialog");
                 dismissDialog();
             }
         });

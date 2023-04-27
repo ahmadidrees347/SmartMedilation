@@ -25,6 +25,7 @@ import com.smart.medilation.adapters.DateAdapter;
 import com.smart.medilation.adapters.TimeSlotAdapter;
 import com.smart.medilation.model.AppointmentModel;
 import com.smart.medilation.model.DateModel;
+import com.smart.medilation.model.DoctorModel;
 import com.smart.medilation.ui.BaseActivity;
 import com.smart.medilation.ui.payment.PaymentActivity;
 import com.smart.medilation.utils.Constants;
@@ -72,34 +73,19 @@ public class DoctorProfileActivity extends BaseActivity {
         imageBack.setOnClickListener(v -> onBackPressed());
 
 
-        String doctorId = getIntent().getStringExtra("doctorId");
-        String name = getIntent().getStringExtra("name");
-        String email = getIntent().getStringExtra("email");
-        String phone = getIntent().getStringExtra("phone");
-        String imageText = getIntent().getStringExtra("image");
-        String exp = getIntent().getStringExtra("exp") + " Years";
-        String qualification = getIntent().getStringExtra("qualification");
-        String specialization = getIntent().getStringExtra("specialization") + " Specialist";
-        btnRequest.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), RequestAppointmentActivity.class);
-            intent.putExtra("doctorId", doctorId);
-            intent.putExtra("name", name);
-            intent.putExtra("email", email);
-            intent.putExtra("phone", phone);
-            intent.putExtra("image", imageText);
-            intent.putExtra("exp", exp);
-            intent.putExtra("qualification", qualification);
-            intent.putExtra("specialization", specialization);
-//            startActivity(intent);
+        DoctorModel myModel = (DoctorModel) getIntent().getSerializableExtra("myModel");
+        String exp = myModel.experience + " Years";
+        String specialization = myModel.specialization + " Specialist";
 
-            bookAppointment(doctorId, name, timeSlotAdapter.getSelectedItem(), dateAdapter.getSelectedItem());
+        btnRequest.setOnClickListener(v -> {
+            bookAppointment(myModel, timeSlotAdapter.getSelectedItem(), dateAdapter.getSelectedItem());
         });
 
-        imgCall.setOnClickListener(v -> startDialer(phone));
-        imgChat.setOnClickListener(v -> startChat(phone));
+        imgCall.setOnClickListener(v -> startDialer(myModel.phoneNum));
+        imgChat.setOnClickListener(v -> startChat(myModel.phoneNum));
 
         Glide.with(this)
-                .load(imageText)
+                .load(myModel.image)
                 .placeholder(R.drawable.ic_user)
                 .into(image);
 
@@ -108,10 +94,10 @@ public class DoctorProfileActivity extends BaseActivity {
         txtExp = findViewById(R.id.txtExp);
         txtCertificates = findViewById(R.id.txtCertificates);
 
-        txtName.setText(name);
+        txtName.setText(myModel.name);
         txtType.setText(specialization);
         txtExp.setText(exp);
-        txtCertificates.setText(qualification);
+        txtCertificates.setText(myModel.qualification);
     }
 
     private void startDialer(String tel) {
@@ -126,7 +112,7 @@ public class DoctorProfileActivity extends BaseActivity {
         startActivity(sendIntent);
     }
 
-    public void bookAppointment(String doctorId, String name, String strTime, String strDate) {
+    public void bookAppointment(DoctorModel doctorModel, String strTime, String strDate) {
         String strType = "";
         if (strDate.isEmpty()) {
             showToast("Kindly Select Date");
@@ -157,8 +143,8 @@ public class DoctorProfileActivity extends BaseActivity {
                         }
                     }
                     if (!isAlreadyHasAppointment) {
-                        AppointmentModel model = new AppointmentModel("", doctorId, name, user.getUid(),
-                                pref.getUserName(), strTime, strDate, "Pending", strType,
+                        AppointmentModel model = new AppointmentModel("", doctorModel.id, doctorModel.name, user.getUid(),
+                                pref.getUserName(), strTime, strDate, "Pending", strType, doctorModel.rate,
                                 "", false);
 
                         Intent intent = new Intent(DoctorProfileActivity.this, PaymentActivity.class);

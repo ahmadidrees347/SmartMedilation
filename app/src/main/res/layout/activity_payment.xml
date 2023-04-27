@@ -38,6 +38,18 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/txtPayment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:fontFamily="@font/poppins"
+        android:gravity="center"
+        android:text="@string/total_payment"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="20dp"

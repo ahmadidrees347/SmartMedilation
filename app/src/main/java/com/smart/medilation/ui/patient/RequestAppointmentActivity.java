@@ -150,7 +150,8 @@ public class RequestAppointmentActivity extends BaseActivity {
                         if (!isAlreadyHasAppointment) {
                             DatabaseReference ref = mRef.push();
                             String id = ref.getKey();
-                            AppointmentModel model = new AppointmentModel(id, doctorId, name, user.getUid(), pref.getUserName(), strTime, strDate, "Pending", strType, "Cash", false);
+                            AppointmentModel model = new AppointmentModel(id, doctorId, name, user.getUid(), pref.getUserName(), strTime, strDate,
+                                    "Pending", strType,"150", "Cash", false);
                             ref.setValue(model).addOnCompleteListener(task -> {
                                 dismissDialog();
                                 if (task.isSuccessful()) {

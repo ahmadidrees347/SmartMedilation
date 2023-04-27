@@ -1,7 +1,10 @@
 package com.smart.medilation.model;
 
-public class DoctorModel {
+import java.io.Serializable;
+
+public class DoctorModel  implements Serializable {
     public String image;
+    public String rate;
     public String experience;
     public String specialization;
     public String qualification;
@@ -16,11 +19,12 @@ public class DoctorModel {
     public DoctorModel(){}
 
     public DoctorModel(String id, String name, String email, String password,
-                       String phoneNum, String experience,
+                       String phoneNum, String experience, String rate,
                        String specialization, String qualification,
                        boolean isApproved, boolean isRejected) {
         this.id = id;
         this.experience = experience;
+        this.rate = rate;
         this.specialization = specialization;
         this.qualification = qualification;
         this.name = name;

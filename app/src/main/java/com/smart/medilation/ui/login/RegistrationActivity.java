@@ -41,7 +41,7 @@ public class RegistrationActivity extends BaseActivity {
     CircularImageView imageView;
     Spinner spnSpecialization;
     LinearLayout layoutSpecialization;
-    private EditText edtName, edtEmail, edtPassword, edtPhoneNum, edtExp, edtQualification;
+    private EditText edtName, edtEmail, edtPassword, edtPhoneNum, edtExp, edtQualification, edtRate;
     //defining Firebase Auth object
     private FirebaseAuth mAuth;
     FirebaseDatabase mDatabase;
@@ -90,12 +90,15 @@ public class RegistrationActivity extends BaseActivity {
         spnSpecialization = findViewById(R.id.spnSpecialization);
         layoutSpecialization = findViewById(R.id.layoutSpecialization);
         edtExp = findViewById(R.id.edtExp);
+        edtRate = findViewById(R.id.edtRate);
         edtQualification = findViewById(R.id.edtQualification);
 
         if (!fromDoctor) {
             layoutSpecialization.setVisibility(View.GONE);
             edtExp.setVisibility(View.GONE);
             edtQualification.setVisibility(View.GONE);
+            edtName.setVisibility(View.GONE);
+            edtRate.setVisibility(View.GONE);
         }
 
         imageView.setOnClickListener(v -> chooseImage());
@@ -105,6 +108,7 @@ public class RegistrationActivity extends BaseActivity {
             final String password = edtPassword.getText().toString().trim();
             final String phoneNum = edtPhoneNum.getText().toString().trim();
             final String exp = edtExp.getText().toString().trim();
+            final String rate = edtRate.getText().toString().trim();
             final String qualification = edtQualification.getText().toString().trim();
 
             if (name.isEmpty()) {
@@ -141,12 +145,17 @@ public class RegistrationActivity extends BaseActivity {
                     edtQualification.setError("Qualification Required");
                     return;
                 }
+                if (rate.isEmpty()) {
+                    edtRate.setError("Session Price Required");
+                    return;
+                }
             }
             edtName.setError(null);
             edtEmail.setError(null);
             edtPassword.setError(null);
             edtPhoneNum.setError(null);
             edtExp.setError(null);
+            edtRate.setError(null);
             edtQualification.setError(null);
 
             showLDialog();
@@ -161,7 +170,7 @@ public class RegistrationActivity extends BaseActivity {
                                         if (fromDoctor) {
                                             String specialization = spnSpecialization.getSelectedItem().toString();
                                             DoctorModel doctor = new DoctorModel(firebaseUser.getUid(), name, email, password,
-                                                    phoneNum, exp, specialization, qualification, false, false);
+                                                    phoneNum, exp, rate, specialization, qualification, false, false);
                                             uploadImage(firebaseUser.getUid(), doctor, null);
                                         } else {
                                             PatientModel patient = new PatientModel(firebaseUser.getUid(), name, email, password, phoneNum);
