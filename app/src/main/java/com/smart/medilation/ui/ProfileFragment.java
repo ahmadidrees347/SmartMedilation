@@ -226,6 +226,7 @@ public class ProfileFragment extends BaseFragment {
                             edtEmail.setText(doctor.email);
                             edtPhoneNum.setText(doctor.phoneNum);
                             edtExp.setText(doctor.experience);
+                            edtRate.setText(doctor.rate);
                             edtQualification.setText(doctor.qualification);
                             filePath = Uri.parse(doctor.image);
                             specialization = doctor.specialization;
