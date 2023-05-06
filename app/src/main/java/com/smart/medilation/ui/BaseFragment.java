@@ -2,6 +2,8 @@ package com.smart.medilation.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -35,8 +37,19 @@ public class BaseFragment extends Fragment {
         super.onAttach(context);
         try {
             bottomMenuInterface = (BaseActivity.BottomMenuInterface) context;
-        } catch (Exception ignored){
+        } catch (Exception ignored) {
         }
+    }
+
+    private boolean isInternetAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager != null) {
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+
+        return false;
     }
 
     protected void setGridManager(RecyclerView recycler) {
@@ -51,6 +64,7 @@ public class BaseFragment extends Fragment {
         recycler.addItemDecoration(new GridSpacingItemDecoration(3, spacing, false));
         recycler.setLayoutManager(layoutManager);
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -70,7 +84,8 @@ public class BaseFragment extends Fragment {
         if (loadingDialog.isShowing())
             loadingDialog.dismiss();
         try {
-            loadingDialog.show();
+            if (isInternetAvailable())
+                loadingDialog.show();
         } catch (Exception ignored) {
         }
     }

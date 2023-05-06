@@ -7,7 +7,11 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class DoctorModel {
+import java.io.Serializable;
+
+public class DoctorModel  implements Serializable {
     public String image;
+    public String rate;
     public String experience;
     public String specialization;
     public String qualification;
@@ -55,10 +59,11 @@ public class DoctorModel {
 
     public DoctorModel(String id, String name, String email, String password,
                        String phoneNum, String experience,
-                       String specialization, String qualification, String about,
-                       boolean isApproved, boolean isRejected, String rating) {
+                       String specialization, String qualification,
+                       boolean isApproved, boolean isRejected) {
         this.id = id;
         this.experience = experience;
+        this.rate = rate;
         this.specialization = specialization;
         this.qualification = qualification;
         this.name = name;

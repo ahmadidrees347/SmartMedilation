@@ -3,6 +3,7 @@ package com.smart.medilation.ui.payment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 
@@ -18,6 +19,7 @@ public class PaymentActivity extends BaseActivity {
 
     ImageView imageBack;
     CardView jazzCash, easyPaisa, cash;
+    TextView txtPayment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,9 @@ public class PaymentActivity extends BaseActivity {
         setContentView(R.layout.activity_payment);
 
         AppointmentModel myModel = (AppointmentModel) getIntent().getSerializableExtra("myModel");
+        txtPayment = findViewById(R.id.txtPayment);
+        String paymentText = getString(R.string.total_payment) + " " + myModel.payment;
+        txtPayment.setText(paymentText);
 
         imageBack = findViewById(R.id.imageBack);
         imageBack.setOnClickListener(v -> onBackPressed());
@@ -32,9 +37,9 @@ public class PaymentActivity extends BaseActivity {
         jazzCash = findViewById(R.id.jazzCash);
         easyPaisa = findViewById(R.id.easyPaisa);
         cash = findViewById(R.id.cash);
-        jazzCash.setOnClickListener(v -> insertAppointmentRecord(myModel,"JazzCash", true));
-        easyPaisa.setOnClickListener(v -> insertAppointmentRecord(myModel,"EasyPaisa", true));
-        cash.setOnClickListener(v -> insertAppointmentRecord(myModel,"Cash", false));
+        jazzCash.setOnClickListener(v -> insertAppointmentRecord(myModel, "JazzCash", true));
+        easyPaisa.setOnClickListener(v -> insertAppointmentRecord(myModel, "EasyPaisa", true));
+        cash.setOnClickListener(v -> insertAppointmentRecord(myModel, "Cash", false));
     }
 
     private void insertAppointmentRecord(AppointmentModel myModel, String paymentType, boolean paymentReceive) {

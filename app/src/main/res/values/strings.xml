@@ -23,6 +23,7 @@
     <string name="phone_number">Phone Number</string>
     <string name="experience">Experience</string>
     <string name="about_me">About Me</string>
+    <string name="rate_per_session">Per Session Price</string>
     <string name="qualification">Qualification</string>
     <string name="specialization">Specialization</string>
     <string name="add_profile_picture">Add Profile Picture</string>
@@ -42,6 +43,7 @@
     <string name="reject">Reject</string>
     <string name="loading">Loading</string>
     <string name="payment">Payment</string>
+    <string name="total_payment">Total Payment : </string>
     <string name="payment_methods">Payment Methods</string>
     <string name="choose_your_desired">Choose your desired payment method given below</string>
     <string name="jazz_cash">Jazz Cash</string>
