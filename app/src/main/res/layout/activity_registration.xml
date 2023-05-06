@@ -211,6 +211,24 @@
                         android:textSize="14sp" />
                 </LinearLayout>
 
+
+                <EditText
+                    android:id="@+id/edtAbout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:autofillHints="@string/about_me"
+                    android:background="@drawable/bg_white"
+                    android:drawableStart="@drawable/ic_adm"
+                    android:drawablePadding="14dp"
+                    android:fontFamily="@font/poppins"
+                    android:hint="@string/about_me"
+                    android:inputType="text"
+                    android:lines="2"
+                    android:maxLength="120"
+                    android:padding="12dp"
+                    android:textSize="14sp" />
+
                 <Button
                     android:id="@+id/btn_signup"
                     android:layout_width="260dp"

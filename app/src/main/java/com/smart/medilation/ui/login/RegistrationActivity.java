@@ -30,6 +30,7 @@ import com.smart.medilation.model.DoctorModel;
 import com.smart.medilation.model.PatientModel;
 import com.smart.medilation.ui.BaseActivity;
 
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -41,7 +42,7 @@ public class RegistrationActivity extends BaseActivity {
     CircularImageView imageView;
     Spinner spnSpecialization;
     LinearLayout layoutSpecialization;
-    private EditText edtName, edtEmail, edtPassword, edtPhoneNum, edtExp, edtQualification;
+    private EditText edtName, edtEmail, edtPassword, edtPhoneNum, edtExp, edtQualification, edtAbout;
     //defining Firebase Auth object
     private FirebaseAuth mAuth;
     FirebaseDatabase mDatabase;
@@ -91,11 +92,13 @@ public class RegistrationActivity extends BaseActivity {
         layoutSpecialization = findViewById(R.id.layoutSpecialization);
         edtExp = findViewById(R.id.edtExp);
         edtQualification = findViewById(R.id.edtQualification);
+        edtAbout = findViewById(R.id.edtAbout);
 
         if (!fromDoctor) {
             layoutSpecialization.setVisibility(View.GONE);
             edtExp.setVisibility(View.GONE);
             edtQualification.setVisibility(View.GONE);
+            edtAbout.setVisibility(View.GONE);
         }
 
         imageView.setOnClickListener(v -> chooseImage());
@@ -106,6 +109,7 @@ public class RegistrationActivity extends BaseActivity {
             final String phoneNum = edtPhoneNum.getText().toString().trim();
             final String exp = edtExp.getText().toString().trim();
             final String qualification = edtQualification.getText().toString().trim();
+            final String about = edtAbout.getText().toString().trim();
 
             if (name.isEmpty()) {
                 edtName.setError("Name Required");
@@ -141,6 +145,10 @@ public class RegistrationActivity extends BaseActivity {
                     edtQualification.setError("Qualification Required");
                     return;
                 }
+                if (about.isEmpty()) {
+                    edtAbout.setError("About Text Required");
+                    return;
+                }
             }
             edtName.setError(null);
             edtEmail.setError(null);
@@ -148,6 +156,7 @@ public class RegistrationActivity extends BaseActivity {
             edtPhoneNum.setError(null);
             edtExp.setError(null);
             edtQualification.setError(null);
+            edtAbout.setError(null);
 
             showLDialog();
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -161,7 +170,8 @@ public class RegistrationActivity extends BaseActivity {
                                         if (fromDoctor) {
                                             String specialization = spnSpecialization.getSelectedItem().toString();
                                             DoctorModel doctor = new DoctorModel(firebaseUser.getUid(), name, email, password,
-                                                    phoneNum, exp, specialization, qualification, false, false);
+                                                    phoneNum, exp, specialization, qualification, about, false, false, "");
+                                            doctor.rating = doctor.arrayListToJson(new ArrayList<>());
                                             uploadImage(firebaseUser.getUid(), doctor, null);
                                         } else {
                                             PatientModel patient = new PatientModel(firebaseUser.getUid(), name, email, password, phoneNum);
