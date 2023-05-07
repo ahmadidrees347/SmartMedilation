@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.smart.medilation.R;
 import com.smart.medilation.adapters.GridSpacingItemDecoration;
+import com.smart.medilation.notification.FcmNotificationSender;
 import com.smart.medilation.ui.dialog.LoadingDialog;
 import com.smart.medilation.ui.doctor.DoctorDashboardActivity;
 import com.smart.medilation.ui.login.SelectionActivity;
@@ -28,8 +29,13 @@ public class BaseFragment extends Fragment {
     public PrefManager pref;
 
     private FirebaseAuth mAuth;
+    public FcmNotificationSender fcmNotification;
 
-
+    protected void sendNotification(String topic, String title, String message) {
+        if (fcmNotification == null)
+            fcmNotification = new FcmNotificationSender();
+        fcmNotification.sendNotificationToTopic(requireContext(), topic, title, message);
+    }
     public BaseActivity.BottomMenuInterface bottomMenuInterface = null;
 
     @Override

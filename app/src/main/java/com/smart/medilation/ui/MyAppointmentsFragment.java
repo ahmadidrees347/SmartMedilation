@@ -1,6 +1,7 @@
 package com.smart.medilation.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.smart.medilation.R;
 import com.smart.medilation.adapters.AppointmentAdapter;
 import com.smart.medilation.model.AppointmentModel;
+import com.smart.medilation.model.DoctorModel;
+import com.smart.medilation.ui.dialog.ReviewDialog;
 import com.smart.medilation.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MyAppointmentsFragment extends BaseFragment implements AppointmentAdapter.ClickListener {
     TextView txtNoApp;
@@ -72,6 +76,10 @@ public class MyAppointmentsFragment extends BaseFragment implements AppointmentA
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         mRef = mDatabase.getReference(Constants.Appointment);
+        getAllData();
+    }
+
+    private void getAllData() {
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -82,10 +90,11 @@ public class MyAppointmentsFragment extends BaseFragment implements AppointmentA
                     if (user != null &&
                             (user.doctorId.equalsIgnoreCase(userID) ||
                                     user.patientId.equalsIgnoreCase(userID))) {
-                        if (fromHistory && !user.status.equalsIgnoreCase("Pending")) {
+                        if (fromHistory && !user.status.equalsIgnoreCase(AppointmentAdapter.STATUS_Pending)) {
                             appointmentList.add(user);
                         }
-                        if (!fromHistory && user.status.equalsIgnoreCase("Pending")) {
+                        if (!fromHistory && (user.status.equalsIgnoreCase(AppointmentAdapter.STATUS_Pending) ||
+                                user.status.equalsIgnoreCase(AppointmentAdapter.STATUS_Schedule))) {
                             appointmentList.add(user);
                         }
                     }
@@ -102,20 +111,92 @@ public class MyAppointmentsFragment extends BaseFragment implements AppointmentA
         });
     }
 
-    @Override
-    public void onAppointmentClick(AppointmentModel model, boolean status, int position) {
+
+    private void getDoctors(String docId, DoctorModel.RatingModel ratingModel) {
         showLDialog();
-        if (status) {
-            model.status = "Schedule";
+        FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference mRef = mDatabase.getReference("Doctor");
+        mRef.keepSynced(false);
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DoctorModel myDocModel = null;
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    DoctorModel doc = child.getValue(DoctorModel.class);
+                    if (doc != null && Objects.equals(doc.id, docId)) {
+                        myDocModel = doc;
+                    }
+                }
+                if (myDocModel != null) {
+                    ArrayList<DoctorModel.RatingModel> list = myDocModel.jsonToArrayList(myDocModel.rating);
+                    list.add(ratingModel);
+                    myDocModel.rating = myDocModel.arrayListToJson(list);
+                    mRef.child(myDocModel.id)
+                            .setValue(myDocModel)
+                            .addOnCompleteListener(task -> {
+                                dismissDialog();
+                            })
+                            .addOnFailureListener(task -> dismissDialog());
+                } else {
+                    dismissDialog();
+                }
+                Log.e("data*", "onDataChange dismissDialog");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("data*", "onCancelled dismissDialog");
+                dismissDialog();
+            }
+        });
+    }
+
+    @Override
+    public void onAppointmentClick(AppointmentModel model, String status, int position) {
+        showLDialog();
+        String msg = "Your Appointment is schedule at time slot: "
+                + model.time + ", on " + model.date + " with " + model.doctorName;
+        String msgPatient = "Your Appointment is schedule at time slot: "
+                + model.time + ", on " + model.date + " with " + model.patientName;
+        String doctorCancelMsg = "Your Appointment is cancelled by " + model.doctorName;
+        String patientCancelMsg = "Your Appointment is cancelled by " + model.patientName;
+        String completedMsg = "Your Appointment is Successfully Completed.";
+        if (fromDoctor) {
+            if (Objects.equals(status, AppointmentAdapter.STATUS_Complete)) {
+                sendNotification(model.patientId, "Appointment Completed", completedMsg);
+            } else if (Objects.equals(status, AppointmentAdapter.STATUS_Cancel)) {
+                sendNotification(model.patientId, "Appointment Cancelled", doctorCancelMsg);
+            } else if (Objects.equals(status, AppointmentAdapter.STATUS_Schedule)) {
+                sendNotification(model.patientId, "Appointment Scheduled", msg);
+            }
         } else {
-            model.status = "Cancel";
+            if (Objects.equals(status, AppointmentAdapter.STATUS_Complete)) {
+                sendNotification(model.doctorId, "Appointment Completed", completedMsg);
+            } else if (Objects.equals(status, AppointmentAdapter.STATUS_Cancel)) {
+                sendNotification(model.doctorId, "Appointment Cancelled", patientCancelMsg);
+            } else if (Objects.equals(status, AppointmentAdapter.STATUS_Schedule)) {
+                sendNotification(model.doctorId, "Appointment Scheduled", msgPatient);
+            }
         }
+        model.status = status;
         mRef.child(model.id)
                 .setValue(model)
                 .addOnCompleteListener(task -> {
-                    dismissDialog();
-                    appointmentList.remove(position);
-                    appointmentAdapter.notifyDataSetChanged();
+                    if (fromHistory) {
+                        getAllData();
+                    } else {
+                        dismissDialog();
+                        appointmentList.remove(position);
+                        appointmentAdapter.notifyDataSetChanged();
+                        checkList();
+
+                        if (Objects.equals(status, AppointmentAdapter.STATUS_Complete)) {
+                            ReviewDialog dialog = new ReviewDialog(requireContext(), (text, rating) -> {
+                                getDoctors(model.doctorId, new DoctorModel.RatingModel(rating, text));
+                            });
+                            dialog.show();
+                        }
+                    }
                 })
                 .addOnFailureListener(task -> dismissDialog());
 

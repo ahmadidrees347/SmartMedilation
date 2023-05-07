@@ -24,10 +24,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smart.medilation.R;
+import com.smart.medilation.adapters.AppointmentAdapter;
 import com.smart.medilation.adapters.DateAdapter;
 import com.smart.medilation.adapters.TimeSlotAdapter;
 import com.smart.medilation.model.AppointmentModel;
 import com.smart.medilation.model.DateModel;
+import com.smart.medilation.model.DoctorModel;
 import com.smart.medilation.ui.BaseActivity;
 import com.smart.medilation.ui.payment.PaymentActivity;
 import com.smart.medilation.utils.Constants;
@@ -122,27 +124,25 @@ public class RequestAppointmentActivity extends BaseActivity {
         imageBack.setOnClickListener(v -> onBackPressed());
 
 
-        String doctorId = getIntent().getStringExtra("doctorId");
-        String name = getIntent().getStringExtra("name");
-        String phone = getIntent().getStringExtra("phone");
-        String imageText = getIntent().getStringExtra("image");
-        String specialization = getIntent().getStringExtra("specialization") + " Specialist";
+        DoctorModel myModel = (DoctorModel) getIntent().getSerializableExtra("myModel");
+        String specialization = myModel.specialization + " Specialist";
+
         btnRequest.setOnClickListener(v -> {
-            bookAppointment(doctorId, name, timeSlotAdapter.getSelectedItem(), dateAdapter.getSelectedItem());
+            bookAppointment(myModel, timeSlotAdapter.getSelectedItem(), dateAdapter.getSelectedItem());
         });
 
-        imgCall.setOnClickListener(v -> startDialer(phone));
-        imgChat.setOnClickListener(v -> startChat(phone));
+        imgCall.setOnClickListener(v -> startDialer(myModel.phoneNum));
+        imgChat.setOnClickListener(v -> startChat(myModel.phoneNum));
 
         Glide.with(this)
-                .load(imageText)
+                .load(myModel.image)
                 .placeholder(R.drawable.ic_user)
                 .into(image);
 
         txtName = findViewById(R.id.txtName);
         txtType = findViewById(R.id.txtType);
 
-        txtName.setText(name);
+        txtName.setText(myModel.name);
         txtType.setText(specialization);
     }
 
@@ -158,7 +158,7 @@ public class RequestAppointmentActivity extends BaseActivity {
         startActivity(sendIntent);
     }
 
-    public void bookAppointment(String doctorId, String name, String strTime, String strDate) {
+    public void bookAppointment(DoctorModel docModel, String strTime, String strDate) {
 
         if (strDate.isEmpty()) {
             showToast("Kindly Select Date");
@@ -193,14 +193,15 @@ public class RequestAppointmentActivity extends BaseActivity {
                         }
                     }
                     if (!isAlreadyHasAppointment) {
-                        AppointmentModel model = new AppointmentModel("", doctorId, name, user.getUid(),
-                                pref.getUserName(), strTime, strDate, "Pending", strType,
-                                "", false);
+                        AppointmentModel model = new AppointmentModel("", docModel.id, docModel.name, user.getUid(),
+                                pref.getUserName(), strTime, strDate, AppointmentAdapter.STATUS_Pending, strType,
+                                docModel.rate, "", false);
 
                         Intent intent = new Intent(RequestAppointmentActivity.this, PaymentActivity.class);
                         intent.putExtra("myModel", model);
                         startActivity(intent);
 
+                        dismissDialog();
                     } else {
                         dismissDialog();
                         showToast("Doctor has already an appointment at specific Date & time.");

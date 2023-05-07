@@ -133,5 +133,12 @@
     <string name="physical">Physical</string>
     <string name="online">Online</string>
     <string name="door_door">Door 2 Door</string>
+    <string name="complete">Complete</string>
+    <string name="rate_doctor_services">Rate Doctor Services</string>
+    <string name="enter_text">Enter Text</string>
+    <string name="send">Send</string>
+    <string name="reviews">Reviews</string>
+    <string name="no_reviews">No Reviews Found</string>
+    <string name="note"> Note Your Payment is Due.\n You select Cash in Payment Method.</string>
 
 </resources>

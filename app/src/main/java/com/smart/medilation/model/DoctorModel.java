@@ -3,15 +3,14 @@ package com.smart.medilation.model;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class DoctorModel {
 import java.io.Serializable;
+public class DoctorModel implements Serializable {
 
-public class DoctorModel  implements Serializable {
     public String image;
-    public String rate;
     public String experience;
     public String specialization;
     public String qualification;
@@ -24,6 +23,7 @@ public class DoctorModel  implements Serializable {
     public boolean isApproved = false;
     public boolean isRejected = false;
 
+    public String rate;
     public String rating;
 
     public static class RatingModel {
@@ -58,12 +58,11 @@ public class DoctorModel  implements Serializable {
     }
 
     public DoctorModel(String id, String name, String email, String password,
-                       String phoneNum, String experience,
-                       String specialization, String qualification,
-                       boolean isApproved, boolean isRejected) {
+                       String phoneNum, String experience,String rate,
+                       String specialization, String qualification,String about,
+                       boolean isApproved, boolean isRejected,String rating) {
         this.id = id;
         this.experience = experience;
-        this.rate = rate;
         this.specialization = specialization;
         this.qualification = qualification;
         this.name = name;
@@ -73,5 +72,7 @@ public class DoctorModel  implements Serializable {
         this.about = about;
         this.isApproved = isApproved;
         this.isRejected = isRejected;
+        this.rating = rating;
+        this.rate = rate;
     }
 }

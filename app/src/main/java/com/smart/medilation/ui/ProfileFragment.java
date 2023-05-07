@@ -41,7 +41,7 @@ public class ProfileFragment extends BaseFragment {
     CircularImageView imageView;
     Spinner spnSpecialization;
     LinearLayout layoutSpecialization;
-    private EditText edtName, edtEmail, edtPhoneNum, edtExp, edtQualification, edtAbout;
+    private EditText edtName, edtEmail, edtPhoneNum, edtExp, edtQualification, edtAbout, edtRate;
     //defining Firebase Auth object
     private FirebaseAuth mAuth;
     FirebaseDatabase mDatabase;
@@ -105,12 +105,14 @@ public class ProfileFragment extends BaseFragment {
         edtExp = view.findViewById(R.id.edtExp);
         edtQualification = view.findViewById(R.id.edtQualification);
         edtAbout = view.findViewById(R.id.edtAbout);
+        edtRate = view.findViewById(R.id.edtRate);
 
         if (!fromDoctor) {
             layoutSpecialization.setVisibility(View.GONE);
             edtExp.setVisibility(View.GONE);
             edtQualification.setVisibility(View.GONE);
             edtAbout.setVisibility(View.GONE);
+            edtRate.setVisibility(View.GONE);
         }
 
         imageView.setOnClickListener(v -> chooseImage());
@@ -124,6 +126,7 @@ public class ProfileFragment extends BaseFragment {
             final String exp = edtExp.getText().toString().trim();
             final String qualification = edtQualification.getText().toString().trim();
             final String about = edtAbout.getText().toString().trim();
+            final String rate = edtRate.getText().toString().trim();
             String specialization = spnSpecialization.getSelectedItem().toString();
 
             if (name.isEmpty()) {
@@ -160,6 +163,10 @@ public class ProfileFragment extends BaseFragment {
                     edtAbout.setError("About Text Required");
                     return;
                 }
+                if (rate.isEmpty()) {
+                    edtRate.setError("Rate Per session Required");
+                    return;
+                }
             }
             edtName.setError(null);
             edtEmail.setError(null);
@@ -167,6 +174,7 @@ public class ProfileFragment extends BaseFragment {
             edtExp.setError(null);
             edtQualification.setError(null);
             edtAbout.setError(null);
+            edtRate.setError(null);
 
             showLDialog();
 
@@ -175,7 +183,7 @@ public class ProfileFragment extends BaseFragment {
 
                 if (fromDoctor && doctor != null) {
                     DoctorModel doctorModel = new DoctorModel(userId, name, email, doctor.password,
-                            phoneNum, exp, specialization, qualification, about, doctor.isApproved,
+                            phoneNum, exp, rate, specialization, qualification, about, doctor.isApproved,
                             doctor.isRejected, doctor.rating);
 
                     doctorModel.image = (filePath.toString());
@@ -227,8 +235,9 @@ public class ProfileFragment extends BaseFragment {
                             edtEmail.setText(doctor.email);
                             edtPhoneNum.setText(doctor.phoneNum);
                             edtExp.setText(doctor.experience);
+                            edtRate.setText(doctor.rate);
                             edtQualification.setText(doctor.qualification);
-                            edtAbout.setText(doctor.qualification);
+                            edtAbout.setText(doctor.about);
                             filePath = Uri.parse(doctor.image);
                             specialization = doctor.specialization;
                             Glide.with(ProfileFragment.this)

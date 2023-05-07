@@ -42,7 +42,7 @@ public class RegistrationActivity extends BaseActivity {
     CircularImageView imageView;
     Spinner spnSpecialization;
     LinearLayout layoutSpecialization;
-    private EditText edtName, edtEmail, edtPassword, edtPhoneNum, edtExp, edtQualification, edtAbout;
+    private EditText edtName, edtEmail, edtPassword, edtPhoneNum, edtExp, edtQualification, edtAbout, edtRate;
     //defining Firebase Auth object
     private FirebaseAuth mAuth;
     FirebaseDatabase mDatabase;
@@ -93,12 +93,14 @@ public class RegistrationActivity extends BaseActivity {
         edtExp = findViewById(R.id.edtExp);
         edtQualification = findViewById(R.id.edtQualification);
         edtAbout = findViewById(R.id.edtAbout);
+        edtRate = findViewById(R.id.edtRate);
 
         if (!fromDoctor) {
             layoutSpecialization.setVisibility(View.GONE);
             edtExp.setVisibility(View.GONE);
             edtQualification.setVisibility(View.GONE);
             edtAbout.setVisibility(View.GONE);
+            edtRate.setVisibility(View.GONE);
         }
 
         imageView.setOnClickListener(v -> chooseImage());
@@ -110,6 +112,7 @@ public class RegistrationActivity extends BaseActivity {
             final String exp = edtExp.getText().toString().trim();
             final String qualification = edtQualification.getText().toString().trim();
             final String about = edtAbout.getText().toString().trim();
+            final String rate = edtRate.getText().toString().trim();
 
             if (name.isEmpty()) {
                 edtName.setError("Name Required");
@@ -149,6 +152,10 @@ public class RegistrationActivity extends BaseActivity {
                     edtAbout.setError("About Text Required");
                     return;
                 }
+                if (rate.isEmpty()) {
+                    edtRate.setError("Rate Per Session Required");
+                    return;
+                }
             }
             edtName.setError(null);
             edtEmail.setError(null);
@@ -170,7 +177,7 @@ public class RegistrationActivity extends BaseActivity {
                                         if (fromDoctor) {
                                             String specialization = spnSpecialization.getSelectedItem().toString();
                                             DoctorModel doctor = new DoctorModel(firebaseUser.getUid(), name, email, password,
-                                                    phoneNum, exp, specialization, qualification, about, false, false, "");
+                                                    phoneNum, exp, rate, specialization, qualification, about, false, false, "");
                                             doctor.rating = doctor.arrayListToJson(new ArrayList<>());
                                             uploadImage(firebaseUser.getUid(), doctor, null);
                                         } else {

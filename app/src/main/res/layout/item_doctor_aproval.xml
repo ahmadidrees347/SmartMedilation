@@ -27,11 +27,11 @@
                 android:id="@+id/image"
                 android:layout_width="165dp"
                 android:layout_height="165dp"
-                app:civ_border_color="@color/primaryColor"
-                app:civ_border_width="2dp"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
-                android:src="@drawable/ic_user" />
+                android:src="@drawable/ic_user"
+                app:civ_border_color="@color/primaryColor"
+                app:civ_border_width="2dp" />
 
             <TextView
                 android:id="@+id/doctorName"
@@ -68,23 +68,34 @@
 
                 <Button
                     android:id="@+id/btnApproved"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="38dp"
                     android:layout_margin="8dp"
-                    android:backgroundTint="@android:color/holo_green_dark"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/round"
                     android:fontFamily="@font/poppins"
+                    android:gravity="center"
                     android:text="@string/accept"
-                    android:textColor="@color/white" />
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:backgroundTint="@android:color/holo_green_dark" />
 
                 <Button
                     android:id="@+id/btbDecline"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="38dp"
                     android:layout_margin="8dp"
-                    android:backgroundTint="@android:color/holo_red_dark"
+                    android:layout_weight="1"
+                    android:background="@drawable/round"
                     android:fontFamily="@font/poppins"
+                    android:gravity="center"
                     android:text="Reject"
-                    android:textColor="@color/white" />
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:backgroundTint="@android:color/holo_red_dark" />
             </LinearLayout>
 
         </LinearLayout>

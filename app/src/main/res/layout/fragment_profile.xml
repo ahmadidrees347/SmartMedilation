@@ -108,6 +108,21 @@
                 android:padding="12dp"
                 android:textSize="14sp" />
 
+            <EditText
+                android:id="@+id/edtRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:autofillHints="@string/experience"
+                android:background="@drawable/bg_white"
+                android:drawableStart="@drawable/dollar"
+                android:drawablePadding="14dp"
+                android:fontFamily="@font/poppins"
+                android:hint="@string/rate_per_session"
+                android:inputType="number"
+                android:maxLength="4"
+                android:padding="12dp"
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/edtQualification"
