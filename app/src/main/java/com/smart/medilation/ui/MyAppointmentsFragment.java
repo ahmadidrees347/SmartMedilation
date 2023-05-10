@@ -94,7 +94,8 @@ public class MyAppointmentsFragment extends BaseFragment implements AppointmentA
                             appointmentList.add(user);
                         }
                         if (!fromHistory && (user.status.equalsIgnoreCase(AppointmentAdapter.STATUS_Pending) ||
-                                user.status.equalsIgnoreCase(AppointmentAdapter.STATUS_Schedule))) {
+                                user.status.equalsIgnoreCase(AppointmentAdapter.STATUS_Schedule) ||
+                                user.status.equalsIgnoreCase(AppointmentAdapter.STATUS_Started))) {
                             appointmentList.add(user);
                         }
                     }
@@ -156,6 +157,7 @@ public class MyAppointmentsFragment extends BaseFragment implements AppointmentA
         showLDialog();
         String msg = "Your Appointment is schedule at time slot: "
                 + model.time + ", on " + model.date + " with " + model.doctorName;
+        String msgStart = "Your Appointment is started with " + model.doctorName;
         String msgPatient = "Your Appointment is schedule at time slot: "
                 + model.time + ", on " + model.date + " with " + model.patientName;
         String doctorCancelMsg = "Your Appointment is cancelled by " + model.doctorName;
@@ -168,6 +170,8 @@ public class MyAppointmentsFragment extends BaseFragment implements AppointmentA
                 sendNotification(model.patientId, "Appointment Cancelled", doctorCancelMsg);
             } else if (Objects.equals(status, AppointmentAdapter.STATUS_Schedule)) {
                 sendNotification(model.patientId, "Appointment Scheduled", msg);
+            } else if (Objects.equals(status, AppointmentAdapter.STATUS_Started)) {
+                sendNotification(model.patientId, "Appointment Started", msgStart);
             }
         } else {
             if (Objects.equals(status, AppointmentAdapter.STATUS_Complete)) {
@@ -176,6 +180,8 @@ public class MyAppointmentsFragment extends BaseFragment implements AppointmentA
                 sendNotification(model.doctorId, "Appointment Cancelled", patientCancelMsg);
             } else if (Objects.equals(status, AppointmentAdapter.STATUS_Schedule)) {
                 sendNotification(model.doctorId, "Appointment Scheduled", msgPatient);
+            } else if (Objects.equals(status, AppointmentAdapter.STATUS_Started)) {
+                sendNotification(model.doctorId, "Appointment Scheduled", msgStart);
             }
         }
         model.status = status;

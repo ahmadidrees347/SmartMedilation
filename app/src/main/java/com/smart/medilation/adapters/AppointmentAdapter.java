@@ -20,6 +20,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
     public static String STATUS_Pending = "Pending";
     public static String STATUS_Complete = "Complete";
+    public static String STATUS_Started = "Start";
     public static String STATUS_Cancel = "Cancel";
     public static String STATUS_Schedule = "Schedule";
     private final Context context;
@@ -55,44 +56,65 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                     listener.onAppointmentClick(docList.get(position), STATUS_Cancel, position));
             holder.btnComplete.setOnClickListener(v ->
                     listener.onAppointmentClick(docList.get(position), STATUS_Complete, position));
+            holder.btnStart.setOnClickListener(v ->
+                    listener.onAppointmentClick(docList.get(position), STATUS_Started, position));
             if (isFromDoctor) {
                 if (docList.get(position).status.equalsIgnoreCase(STATUS_Complete) ||
                         docList.get(position).status.equalsIgnoreCase(STATUS_Cancel)) {
                     holder.layout.setVisibility(View.GONE);
                     holder.btnApproved.setVisibility(View.GONE);
                     holder.btbDecline.setVisibility(View.GONE);
+                    holder.btnStart.setVisibility(View.GONE);
                     holder.btnComplete.setVisibility(View.GONE);
                 } else if (docList.get(position).status.equalsIgnoreCase(STATUS_Pending)) {
                     holder.layout.setVisibility(View.VISIBLE);
                     holder.btnApproved.setVisibility(View.VISIBLE);
                     holder.btnComplete.setVisibility(View.GONE);
+                    holder.btnStart.setVisibility(View.GONE);
                     holder.btbDecline.setVisibility(View.VISIBLE);
                 } else if (docList.get(position).status.equalsIgnoreCase(STATUS_Schedule)) {
                     holder.layout.setVisibility(View.VISIBLE);
                     holder.btnApproved.setVisibility(View.GONE);
                     holder.btnComplete.setVisibility(View.GONE);
+                    holder.btnStart.setVisibility(View.VISIBLE);
                     holder.btbDecline.setVisibility(View.VISIBLE);
+                } else if (docList.get(position).status.equalsIgnoreCase(STATUS_Started)) {
+                    holder.layout.setVisibility(View.VISIBLE);
+                    holder.btnApproved.setVisibility(View.GONE);
+                    holder.btnComplete.setVisibility(View.GONE);
+                    holder.btnStart.setVisibility(View.GONE);
+                    holder.btbDecline.setVisibility(View.GONE);
                 }
             } else {
                 if (docList.get(position).status.equalsIgnoreCase(STATUS_Complete) ||
                         docList.get(position).status.equalsIgnoreCase(STATUS_Cancel)) {
                     holder.btnApproved.setVisibility(View.GONE);
                     holder.btbDecline.setVisibility(View.GONE);
+                    holder.btnStart.setVisibility(View.GONE);
                     holder.btnComplete.setVisibility(View.GONE);
                     holder.layout.setVisibility(View.GONE);
                 } else if (docList.get(position).status.equalsIgnoreCase(STATUS_Schedule)) {
                     holder.layout.setVisibility(View.VISIBLE);
                     holder.btnApproved.setVisibility(View.GONE);
-                    holder.btnComplete.setVisibility(View.VISIBLE);
+                    holder.btnStart.setVisibility(View.GONE);
+                    holder.btnComplete.setVisibility(View.GONE);
                     holder.btbDecline.setVisibility(View.VISIBLE);
                 } else if (docList.get(position).status.equalsIgnoreCase(STATUS_Pending)) {
                     holder.layout.setVisibility(View.VISIBLE);
                     holder.btnApproved.setVisibility(View.GONE);
+                    holder.btnStart.setVisibility(View.GONE);
                     holder.btnComplete.setVisibility(View.GONE);
                     holder.btbDecline.setVisibility(View.VISIBLE);
-                }  else {
+                } else if (docList.get(position).status.equalsIgnoreCase(STATUS_Started)) {
                     holder.layout.setVisibility(View.VISIBLE);
                     holder.btnApproved.setVisibility(View.GONE);
+                    holder.btnStart.setVisibility(View.GONE);
+                    holder.btnComplete.setVisibility(View.VISIBLE);
+                    holder.btbDecline.setVisibility(View.GONE);
+                } else {
+                    holder.layout.setVisibility(View.VISIBLE);
+                    holder.btnApproved.setVisibility(View.GONE);
+                    holder.btnStart.setVisibility(View.GONE);
                     holder.btnComplete.setVisibility(View.GONE);
                     holder.btbDecline.setVisibility(View.VISIBLE);
                 }
@@ -119,7 +141,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
         TextView patientName, doctorName, patientTime, patientDate, status;
 
-        Button btnApproved, btbDecline, btnComplete;
+        Button btnApproved, btbDecline, btnComplete, btnStart;
         LinearLayout layout;
 
         public CustomViewHolder(View view) {
@@ -135,6 +157,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             btnApproved = view.findViewById(R.id.btnApproved);
             btnComplete = view.findViewById(R.id.btnComplete);
             btbDecline = view.findViewById(R.id.btbDecline);
+            btnStart = view.findViewById(R.id.btnStart);
         }
     }
 
