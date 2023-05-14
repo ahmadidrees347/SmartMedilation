@@ -90,12 +90,17 @@ public class MyAppointmentsFragment extends BaseFragment implements AppointmentA
                     if (user != null &&
                             (user.doctorId.equalsIgnoreCase(userID) ||
                                     user.patientId.equalsIgnoreCase(userID))) {
-                        if (fromHistory && !user.status.equalsIgnoreCase(AppointmentAdapter.STATUS_Pending)) {
-                            appointmentList.add(user);
-                        }
-                        if (!fromHistory && (user.status.equalsIgnoreCase(AppointmentAdapter.STATUS_Pending) ||
-                                user.status.equalsIgnoreCase(AppointmentAdapter.STATUS_Schedule) ||
-                                user.status.equalsIgnoreCase(AppointmentAdapter.STATUS_Started))) {
+
+                        if (fromDoctor) {
+                            if (fromHistory && (user.status.equalsIgnoreCase(AppointmentAdapter.STATUS_Complete)
+                                    || user.status.equalsIgnoreCase(AppointmentAdapter.STATUS_Cancel))) {
+                                appointmentList.add(user);
+                            } else if (!fromHistory && (user.status.equalsIgnoreCase(AppointmentAdapter.STATUS_Pending) ||
+                                    user.status.equalsIgnoreCase(AppointmentAdapter.STATUS_Schedule) ||
+                                    user.status.equalsIgnoreCase(AppointmentAdapter.STATUS_Started))) {
+                                appointmentList.add(user);
+                            }
+                        } else {
                             appointmentList.add(user);
                         }
                     }
@@ -135,7 +140,8 @@ public class MyAppointmentsFragment extends BaseFragment implements AppointmentA
                     mRef.child(myDocModel.id)
                             .setValue(myDocModel)
                             .addOnCompleteListener(task -> {
-                                dismissDialog();
+//                                dismissDialog();
+                                getAllData();
                             })
                             .addOnFailureListener(task -> dismissDialog());
                 } else {
@@ -188,20 +194,13 @@ public class MyAppointmentsFragment extends BaseFragment implements AppointmentA
         mRef.child(model.id)
                 .setValue(model)
                 .addOnCompleteListener(task -> {
-                    if (fromHistory) {
-                        getAllData();
+                    if (Objects.equals(status, AppointmentAdapter.STATUS_Complete)) {
+                        ReviewDialog dialog = new ReviewDialog(requireContext(), (text, rating) -> {
+                            getDoctors(model.doctorId, new DoctorModel.RatingModel(rating, text));
+                        });
+                        dialog.show();
                     } else {
-                        dismissDialog();
-                        appointmentList.remove(position);
-                        appointmentAdapter.notifyDataSetChanged();
-                        checkList();
-
-                        if (Objects.equals(status, AppointmentAdapter.STATUS_Complete)) {
-                            ReviewDialog dialog = new ReviewDialog(requireContext(), (text, rating) -> {
-                                getDoctors(model.doctorId, new DoctorModel.RatingModel(rating, text));
-                            });
-                            dialog.show();
-                        }
+                        getAllData();
                     }
                 })
                 .addOnFailureListener(task -> dismissDialog());

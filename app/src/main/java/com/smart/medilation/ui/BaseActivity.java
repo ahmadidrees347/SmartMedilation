@@ -101,12 +101,13 @@ public class BaseActivity extends AppCompatActivity {
     protected List<DateModel> getNextDays() {
         List<DateModel> dateList = new ArrayList<>();
         Calendar calendar = Calendar.getInstance(); // Get a calendar instance
-        for (int i = 0; i < 14; i++) {
+        for (int i = 0; i < 10; i++) {
             Date date = calendar.getTime(); // Get the current date
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
             String dateString = dateFormat.format(date);
             String dayOfWeek = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date);
-            dateList.add(new DateModel(dayOfWeek, dateString));
+            if (!dayOfWeek.equalsIgnoreCase("Sunday"))
+                dateList.add(new DateModel(dayOfWeek, dateString));
             Log.d("Next 7 Dates and Days", dateString + " (" + dayOfWeek + ")");
             calendar.add(Calendar.DAY_OF_YEAR, 1); // Add a day to the calendar
         }

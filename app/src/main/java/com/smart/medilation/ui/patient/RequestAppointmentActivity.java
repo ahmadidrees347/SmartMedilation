@@ -164,11 +164,11 @@ public class RequestAppointmentActivity extends BaseActivity {
             showToast("Kindly Select Date");
             return;
         }
-        if (strTime.equalsIgnoreCase("Select Time Slot")) {
+        if (strTime.isEmpty()) {
             showToast("Kindly Select Time");
             return;
         }
-        if (strType.equalsIgnoreCase("")) {
+        if (strType.isEmpty()) {
             showToast("Kindly Select Appointment Type");
             return;
         }
