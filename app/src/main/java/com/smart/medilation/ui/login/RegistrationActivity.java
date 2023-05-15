@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -45,7 +46,9 @@ public class RegistrationActivity extends BaseActivity {
     CircularImageView imageView;
     Spinner spnSpecialization;
     LinearLayout layoutSpecialization;
-    private EditText edtName, edtEmail, edtPassword, edtPhoneNum, edtExp, edtQualification, edtAbout, edtRate;
+    private EditText edtName, edtEmail, edtPhoneNum, edtExp, edtQualification, edtAbout, edtRate;
+
+    private TextInputEditText edtPassword;
     //defining Firebase Auth object
     private FirebaseAuth mAuth;
     FirebaseDatabase mDatabase;
@@ -117,6 +120,10 @@ public class RegistrationActivity extends BaseActivity {
             final String about = edtAbout.getText().toString().trim();
             final String rate = edtRate.getText().toString().trim();
 
+            if (filePath == null) {
+                Toast.makeText(RegistrationActivity.this, "Upload Profile Image!", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if (name.isEmpty()) {
                 edtName.setError("Name Required");
                 return;
@@ -129,23 +136,20 @@ public class RegistrationActivity extends BaseActivity {
                 edtEmail.setError("Invalid Email");
                 return;
             }
+            if (phoneNum.isEmpty()) {
+                edtPhoneNum.setError("Phone Number Required");
+                return;
+            }
+            if (phoneNum.length() < 10) {
+                edtPhoneNum.setError("Phone Number must have 10 characters");
+                return;
+            }
             if (password.isEmpty()) {
                 edtPassword.setError("Password Required");
                 return;
             }
             if (!password.matches(passwordRegex)) {
-                edtPassword.setError("Password must have Special Character with minimum of length 8");
-            }
-            if (phoneNum.isEmpty()) {
-                edtPhoneNum.setError("Phone Number Required");
-                return;
-            }
-            if (phoneNum.length() < 11) {
-                edtPhoneNum.setError("Phone Number must have 11 characters");
-                return;
-            }
-            if (filePath == null) {
-                Toast.makeText(RegistrationActivity.this, "Upload Profile Image!", Toast.LENGTH_SHORT).show();
+                edtPassword.setError("Password must have Special Character, Capital Alphabet with minimum of length 8");
                 return;
             }
 
@@ -154,16 +158,16 @@ public class RegistrationActivity extends BaseActivity {
                     edtExp.setError("Experience Required");
                     return;
                 }
+                if (rate.isEmpty()) {
+                    edtRate.setError("Rate Per Session Required");
+                    return;
+                }
                 if (qualification.isEmpty()) {
                     edtQualification.setError("Qualification Required");
                     return;
                 }
                 if (about.isEmpty()) {
                     edtAbout.setError("About Text Required");
-                    return;
-                }
-                if (rate.isEmpty()) {
-                    edtRate.setError("Rate Per Session Required");
                     return;
                 }
             }

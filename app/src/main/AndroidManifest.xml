@@ -67,13 +67,11 @@
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="false"
-            android:screenOrientation="nosensor"
-            android:windowSoftInputMode="adjustNothing" />
+            android:screenOrientation="nosensor" />
         <activity
             android:name=".ui.login.RegistrationActivity"
             android:exported="false"
-            android:screenOrientation="nosensor"
-            android:windowSoftInputMode="adjustNothing" />
+            android:screenOrientation="nosensor" />
         <activity
             android:name=".ui.patient.PatientDashboardActivity"
             android:exported="false"

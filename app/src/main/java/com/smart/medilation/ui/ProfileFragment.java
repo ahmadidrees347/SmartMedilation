@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smart.medilation.R;
 import com.smart.medilation.model.DoctorModel;
 import com.smart.medilation.model.PatientModel;
+import com.smart.medilation.ui.login.RegistrationActivity;
 
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -129,6 +131,10 @@ public class ProfileFragment extends BaseFragment {
             final String rate = edtRate.getText().toString().trim();
             String specialization = spnSpecialization.getSelectedItem().toString();
 
+            if (filePath == null) {
+                showToast("Upload Profile Image!");
+                return;
+            }
             if (name.isEmpty()) {
                 edtName.setError("Name Required");
                 return;
@@ -145,8 +151,8 @@ public class ProfileFragment extends BaseFragment {
                 edtPhoneNum.setError("Phone Number Required");
                 return;
             }
-            if (filePath == null) {
-                showToast("Upload Profile Image!");
+            if (phoneNum.length() < 10) {
+                edtPhoneNum.setError("Phone Number must have 10 characters");
                 return;
             }
 
@@ -155,16 +161,16 @@ public class ProfileFragment extends BaseFragment {
                     edtExp.setError("Experience Required");
                     return;
                 }
+                if (rate.isEmpty()) {
+                    edtRate.setError("Rate Per Session Required");
+                    return;
+                }
                 if (qualification.isEmpty()) {
                     edtQualification.setError("Qualification Required");
                     return;
                 }
                 if (about.isEmpty()) {
                     edtAbout.setError("About Text Required");
-                    return;
-                }
-                if (rate.isEmpty()) {
-                    edtRate.setError("Rate Per session Required");
                     return;
                 }
             }

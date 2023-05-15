@@ -117,37 +117,74 @@
                     android:padding="12dp"
                     android:textSize="14sp" />
 
-                <EditText
-                    android:id="@+id/edtPhoneNum"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:autofillHints="@string/phone_number"
                     android:background="@drawable/bg_white"
-                    android:drawableStart="@drawable/ic_cell"
-                    android:drawablePadding="12dp"
-                    android:fontFamily="@font/poppins"
-                    android:hint="@string/phone_number"
-                    android:inputType="phone"
-                    android:maxLength="11"
-                    android:padding="12dp"
-                    android:textSize="14sp" />
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:contentDescription="@string/about"
+                        android:src="@drawable/ic_cell" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/poppins"
+                        android:paddingStart="8dp"
+                        android:gravity="center"
+                        android:text="@string/num"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                    <EditText
+                        android:id="@+id/edtPhoneNum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="@string/phone_number"
+                        android:background="@drawable/bg_white"
+                        android:fontFamily="@font/poppins"
+                        android:hint="@string/phone_number"
+                        android:inputType="phone"
+                        android:maxLength="10"
+                        android:padding="12dp"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                <EditText
-                    android:id="@+id/edtPassword"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:autofillHints="@string/email"
                     android:background="@drawable/bg_white"
-                    android:drawableStart="@drawable/ic_password"
-                    android:drawablePadding="18dp"
-                    android:fontFamily="@font/poppins"
-                    android:hint="@string/password"
-                    android:inputType="textPassword"
-                    android:padding="12dp"
-                    android:textSize="14sp" />
+                    android:padding="0dp"
+                    android:textAlignment="center"
+                    app:boxBackgroundMode="none"
+                    app:boxStrokeWidth="0dp"
+                    app:hintAnimationEnabled="false"
+                    app:hintEnabled="false"
+                    app:passwordToggleEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_white"
+                        android:drawableStart="@drawable/ic_password"
+                        android:drawablePadding="14dp"
+                        android:fontFamily="@font/poppins"
+                        android:hint="@string/password"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:padding="0dp"
+                        android:singleLine="true"
+                        android:textSize="14sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
 
                 <EditText
@@ -227,7 +264,6 @@
                         android:textSize="14sp" />
                 </LinearLayout>
 
-
                 <EditText
                     android:id="@+id/edtAbout"
                     android:layout_width="match_parent"
@@ -239,12 +275,11 @@
                     android:drawablePadding="14dp"
                     android:fontFamily="@font/poppins"
                     android:hint="@string/about_me"
-                    android:inputType="text"
-                    android:lines="2"
-                    android:maxLength="120"
+                    android:inputType="textMultiLine"
+                    android:lines="3"
+                    android:maxLength="180"
                     android:padding="12dp"
                     android:textSize="14sp" />
-
                 <Button
                     android:id="@+id/btn_signup"
                     android:layout_width="260dp"

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +35,8 @@ public class LoginActivity extends BaseActivity {
     TextView txtTitle, btn_register;
     ImageView imageBack, imgAdmin;
     CircularImageView image;
-    EditText edt_email, edt_password;
+    EditText edt_email;
+    TextInputEditText edt_password;
     Button btn_login;
     //defining Firebase Auth object
     private FirebaseAuth mAuth;
