@@ -35,6 +35,9 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 public class RegistrationActivity extends BaseActivity {
+
+    String passwordRegex = "^(?=.*[!@#$%^&*()-=_+{};':\"|,.<>/?])(?=.*[A-Z])(?=.*\\d).{8,}$";
+
     TextView txtTitle;
 
     ImageView imageBack;
@@ -130,8 +133,15 @@ public class RegistrationActivity extends BaseActivity {
                 edtPassword.setError("Password Required");
                 return;
             }
+            if (!password.matches(passwordRegex)) {
+                edtPassword.setError("Password must have Special Character with minimum of length 8");
+            }
             if (phoneNum.isEmpty()) {
                 edtPhoneNum.setError("Phone Number Required");
+                return;
+            }
+            if (phoneNum.length() < 11) {
+                edtPhoneNum.setError("Phone Number must have 11 characters");
                 return;
             }
             if (filePath == null) {
