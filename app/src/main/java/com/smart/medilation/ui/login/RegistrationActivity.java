@@ -44,9 +44,9 @@ public class RegistrationActivity extends BaseActivity {
     ImageView imageBack;
     Button btn_signup;
     CircularImageView imageView;
-    Spinner spnSpecialization;
-    LinearLayout layoutSpecialization;
-    private EditText edtName, edtEmail, edtPhoneNum, edtExp, edtQualification, edtAbout, edtRate;
+    Spinner spnSpecialization, spnExp, spnQualification;
+    LinearLayout layoutSpecialization, layoutExp, layoutQualification;
+    private EditText edtName, edtEmail, edtPhoneNum, edtAbout, edtRate;
 
     private TextInputEditText edtPassword;
     //defining Firebase Auth object
@@ -95,16 +95,18 @@ public class RegistrationActivity extends BaseActivity {
         edtPassword = findViewById(R.id.edtPassword);
         edtPhoneNum = findViewById(R.id.edtPhoneNum);
         spnSpecialization = findViewById(R.id.spnSpecialization);
+        spnExp = findViewById(R.id.spnExp);
         layoutSpecialization = findViewById(R.id.layoutSpecialization);
-        edtExp = findViewById(R.id.edtExp);
-        edtQualification = findViewById(R.id.edtQualification);
+        layoutExp = findViewById(R.id.layoutExp);
+        spnQualification = findViewById(R.id.spnQualification);
+        layoutQualification = findViewById(R.id.layoutQualification);
         edtAbout = findViewById(R.id.edtAbout);
         edtRate = findViewById(R.id.edtRate);
 
         if (!fromDoctor) {
             layoutSpecialization.setVisibility(View.GONE);
-            edtExp.setVisibility(View.GONE);
-            edtQualification.setVisibility(View.GONE);
+            layoutExp.setVisibility(View.GONE);
+            layoutQualification.setVisibility(View.GONE);
             edtAbout.setVisibility(View.GONE);
             edtRate.setVisibility(View.GONE);
         }
@@ -115,8 +117,6 @@ public class RegistrationActivity extends BaseActivity {
             final String email = edtEmail.getText().toString().trim();
             final String password = edtPassword.getText().toString().trim();
             final String phoneNum = edtPhoneNum.getText().toString().trim();
-            final String exp = edtExp.getText().toString().trim();
-            final String qualification = edtQualification.getText().toString().trim();
             final String about = edtAbout.getText().toString().trim();
             final String rate = edtRate.getText().toString().trim();
 
@@ -154,16 +154,8 @@ public class RegistrationActivity extends BaseActivity {
             }
 
             if (fromDoctor) {
-                if (exp.isEmpty()) {
-                    edtExp.setError("Experience Required");
-                    return;
-                }
                 if (rate.isEmpty()) {
                     edtRate.setError("Rate Per Session Required");
-                    return;
-                }
-                if (qualification.isEmpty()) {
-                    edtQualification.setError("Qualification Required");
                     return;
                 }
                 if (about.isEmpty()) {
@@ -175,8 +167,6 @@ public class RegistrationActivity extends BaseActivity {
             edtEmail.setError(null);
             edtPassword.setError(null);
             edtPhoneNum.setError(null);
-            edtExp.setError(null);
-            edtQualification.setError(null);
             edtAbout.setError(null);
 
             showLDialog();
@@ -190,6 +180,8 @@ public class RegistrationActivity extends BaseActivity {
                                     if (task1.isSuccessful()) {
                                         if (fromDoctor) {
                                             String specialization = spnSpecialization.getSelectedItem().toString();
+                                            String exp = spnExp.getSelectedItem().toString();
+                                            String qualification = spnQualification.getSelectedItem().toString();
                                             DoctorModel doctor = new DoctorModel(firebaseUser.getUid(), name, email, password,
                                                     phoneNum, exp, rate, specialization, qualification, about, false, false, "");
                                             doctor.rating = doctor.arrayListToJson(new ArrayList<>());

@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center">
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnApproved"
                     android:layout_width="0dp"
                     android:layout_height="38dp"
@@ -82,7 +82,7 @@
                     android:textSize="14sp"
                     app:backgroundTint="@android:color/holo_green_dark" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btbDecline"
                     android:layout_width="0dp"
                     android:layout_height="38dp"

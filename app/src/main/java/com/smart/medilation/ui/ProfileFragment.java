@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +31,6 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smart.medilation.R;
 import com.smart.medilation.model.DoctorModel;
 import com.smart.medilation.model.PatientModel;
-import com.smart.medilation.ui.login.RegistrationActivity;
 
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -41,15 +39,17 @@ public class ProfileFragment extends BaseFragment {
 
     Button btn_signup, btnLogout;
     CircularImageView imageView;
-    Spinner spnSpecialization;
-    LinearLayout layoutSpecialization;
-    private EditText edtName, edtEmail, edtPhoneNum, edtExp, edtQualification, edtAbout, edtRate;
+    Spinner spnSpecialization, spnExp, spnQualification;
+    LinearLayout layoutSpecialization, layoutExp, layoutQualification;
+    private EditText edtName, edtEmail, edtPhoneNum, edtAbout, edtRate;
     //defining Firebase Auth object
     private FirebaseAuth mAuth;
     FirebaseDatabase mDatabase;
     private DatabaseReference mRef;
     private boolean fromDoctor = false;
     private String specialization = "";
+    private String exp = "";
+    private String qualification = "";
 
     private Uri filePath = null;
     DoctorModel doctor;
@@ -104,15 +104,17 @@ public class ProfileFragment extends BaseFragment {
         edtPhoneNum = view.findViewById(R.id.edtPhoneNum);
         spnSpecialization = view.findViewById(R.id.spnSpecialization);
         layoutSpecialization = view.findViewById(R.id.layoutSpecialization);
-        edtExp = view.findViewById(R.id.edtExp);
-        edtQualification = view.findViewById(R.id.edtQualification);
+        layoutExp = view.findViewById(R.id.layoutExp);
+        spnExp = view.findViewById(R.id.spnExp);
+        layoutQualification = view.findViewById(R.id.layoutQualification);
+        spnQualification = view.findViewById(R.id.spnQualification);
         edtAbout = view.findViewById(R.id.edtAbout);
         edtRate = view.findViewById(R.id.edtRate);
 
         if (!fromDoctor) {
             layoutSpecialization.setVisibility(View.GONE);
-            edtExp.setVisibility(View.GONE);
-            edtQualification.setVisibility(View.GONE);
+            layoutExp.setVisibility(View.GONE);
+            layoutQualification.setVisibility(View.GONE);
             edtAbout.setVisibility(View.GONE);
             edtRate.setVisibility(View.GONE);
         }
@@ -125,11 +127,11 @@ public class ProfileFragment extends BaseFragment {
             final String name = edtName.getText().toString().trim();
             final String email = edtEmail.getText().toString().trim();
             final String phoneNum = edtPhoneNum.getText().toString().trim();
-            final String exp = edtExp.getText().toString().trim();
-            final String qualification = edtQualification.getText().toString().trim();
             final String about = edtAbout.getText().toString().trim();
             final String rate = edtRate.getText().toString().trim();
             String specialization = spnSpecialization.getSelectedItem().toString();
+            String exp = spnExp.getSelectedItem().toString();
+            String qualification = spnQualification.getSelectedItem().toString();
 
             if (filePath == null) {
                 showToast("Upload Profile Image!");
@@ -157,16 +159,8 @@ public class ProfileFragment extends BaseFragment {
             }
 
             if (fromDoctor) {
-                if (exp.isEmpty()) {
-                    edtExp.setError("Experience Required");
-                    return;
-                }
                 if (rate.isEmpty()) {
                     edtRate.setError("Rate Per Session Required");
-                    return;
-                }
-                if (qualification.isEmpty()) {
-                    edtQualification.setError("Qualification Required");
                     return;
                 }
                 if (about.isEmpty()) {
@@ -177,8 +171,6 @@ public class ProfileFragment extends BaseFragment {
             edtName.setError(null);
             edtEmail.setError(null);
             edtPhoneNum.setError(null);
-            edtExp.setError(null);
-            edtQualification.setError(null);
             edtAbout.setError(null);
             edtRate.setError(null);
 
@@ -240,17 +232,19 @@ public class ProfileFragment extends BaseFragment {
                             edtName.setText(doctor.name);
                             edtEmail.setText(doctor.email);
                             edtPhoneNum.setText(doctor.phoneNum);
-                            edtExp.setText(doctor.experience);
                             edtRate.setText(doctor.rate);
-                            edtQualification.setText(doctor.qualification);
                             edtAbout.setText(doctor.about);
                             filePath = Uri.parse(doctor.image);
                             specialization = doctor.specialization;
+                            exp = doctor.experience;
+                            qualification = doctor.qualification;
                             Glide.with(ProfileFragment.this)
                                     .load(filePath)
                                     .placeholder(R.drawable.ic_user)
                                     .into(imageView);
                             selectValue(spnSpecialization, specialization);
+                            selectValue(spnExp, exp);
+                            selectValue(spnQualification, qualification);
                             dismissDialog();
                             break;
                         }

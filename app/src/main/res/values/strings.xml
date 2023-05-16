@@ -74,11 +74,11 @@
         <item>Door 2 Door</item>
     </string-array>
     <string-array name="timeSlot">
-<!--        <item>Select Time Slot</item>-->
+        <!--        <item>Select Time Slot</item>-->
         <item>09:00 AM - 10:00 AM</item>
         <item>10:00 AM - 11:00 AM</item>
         <item>11:00 AM - 12:00 PM</item>
-<!--        <item>01:00 PM - 02:00 PM</item>-->
+        <!--        <item>01:00 PM - 02:00 PM</item>-->
         <item>02:00 PM - 03:00 PM</item>
         <item>03:00 PM - 04:00 PM</item>
         <item>04:00 PM - 05:00 PM</item>
@@ -87,6 +87,37 @@
         <item>07:00 PM - 08:00 PM</item>
     </string-array>
 
+    <string-array name="qualifications">
+        <item>M.B.B.S</item>
+        <item>BS Nursing</item>
+        <item>Doctorate Physician</item>
+        <item>Doctorate Medicine</item>
+        <item>Doctorate Osteopathic</item>
+    </string-array>
+
+    <string-array name="exp">
+        <item>1 Year</item>
+        <item>2 Years</item>
+        <item>3 Years</item>
+        <item>4 Years</item>
+        <item>5 Years</item>
+        <item>6 Years</item>
+        <item>7 Years</item>
+        <item>8 Years</item>
+        <item>9 Years</item>
+        <item>10 Years</item>
+        <item>11 Years</item>
+        <item>12 Years</item>
+        <item>13 Years</item>
+        <item>14 Years</item>
+        <item>15 Years</item>
+        <item>16 Years</item>
+        <item>17 Years</item>
+        <item>18 Years</item>
+        <item>19 Years</item>
+        <item>20 Years</item>
+        <item>20+ Years</item>
+    </string-array>
     <string-array name="allCats">
         <item>Anesthesiologists</item>
         <item>Cardiologists</item>
