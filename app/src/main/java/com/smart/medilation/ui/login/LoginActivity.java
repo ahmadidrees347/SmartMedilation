@@ -2,6 +2,8 @@ package com.smart.medilation.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,8 +27,8 @@ import com.smart.medilation.R;
 import com.smart.medilation.model.DoctorModel;
 import com.smart.medilation.model.PatientModel;
 import com.smart.medilation.ui.BaseActivity;
-import com.smart.medilation.ui.doctor.DoctorDashboardActivity;
 import com.smart.medilation.ui.admin.AdminActivity;
+import com.smart.medilation.ui.doctor.DoctorDashboardActivity;
 import com.smart.medilation.ui.patient.PatientDashboardActivity;
 
 import java.util.regex.Pattern;
@@ -87,6 +89,51 @@ public class LoginActivity extends BaseActivity {
         edt_email = findViewById(R.id.edt_email);
         edt_password = findViewById(R.id.edt_password);
 
+        edt_email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.toString().isEmpty()) {
+                    edt_email.setError("Email Required");
+                } else if (!isValidEmail(editable.toString())) {
+                    edt_email.setError("Invalid Email");
+                } else {
+                    edt_email.setError(null);
+                }
+            }
+        });
+
+        edt_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().isEmpty()) {
+                    edt_password.setError("Password Required");
+                } else {
+                    edt_password.setError(null);
+                }
+            }
+        });
+
         btn_login = findViewById(R.id.btn_login);
         btn_register = findViewById(R.id.btn_register);
         btn_register.setOnClickListener(v -> {
@@ -103,8 +150,11 @@ public class LoginActivity extends BaseActivity {
             final String email = edt_email.getText().toString().trim();
             final String password = edt_password.getText().toString().trim();
 
+            edt_email.setError(null);
+            edt_password.setError(null);
+
             if (fromAdmin &&
-                    email.equalsIgnoreCase("admin") &&
+                    email.equalsIgnoreCase("admin@gmail.com") &&
                     password.equalsIgnoreCase("admin")) {
                 pref.setIsAdminLogin(true);
                 imgAdmin.performClick();
@@ -123,13 +173,7 @@ public class LoginActivity extends BaseActivity {
                 edt_password.setError("Password Required");
                 return;
             }
-//            if (password.length() < 8) {
-//                edt_password.setError("Password Length must be grater than 7");
-//                return;
-//            }
 
-            edt_email.setError(null);
-            edt_password.setError(null);
             showLDialog();
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(LoginActivity.this, task -> {

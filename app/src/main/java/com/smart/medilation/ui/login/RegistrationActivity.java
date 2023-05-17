@@ -3,6 +3,8 @@ package com.smart.medilation.ui.login;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -13,10 +15,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -103,6 +103,137 @@ public class RegistrationActivity extends BaseActivity {
         edtAbout = findViewById(R.id.edtAbout);
         edtRate = findViewById(R.id.edtRate);
 
+        edtName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().isEmpty()) {
+                    edtName.setError("Name Required");
+                } else {
+                    edtName.setError(null);
+                }
+            }
+        });
+        edtEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.toString().isEmpty()) {
+                    edtEmail.setError("Email Required");
+                } else if (!isValidEmail(editable.toString())) {
+                    edtEmail.setError("Invalid Email");
+                } else {
+                    edtEmail.setError(null);
+                }
+            }
+        });
+        edtPhoneNum.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.toString().isEmpty()) {
+                    edtPhoneNum.setError("Phone Number Required");
+                } else {
+                    edtPhoneNum.setError(null);
+                }
+            }
+        });
+        edtPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().isEmpty()) {
+                    edtPassword.setError("Password Required");
+                } else if (!editable.toString().matches(passwordRegex)) {
+                    edtPassword.setError("Password must have Special Character, Capital Alphabet with minimum of length 8");
+
+                } else {
+                    edtPassword.setError(null);
+                }
+            }
+        });
+
+        if (fromDoctor) {
+            edtRate.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (editable.toString().isEmpty()) {
+                        edtRate.setError("Rate Per Session Required");
+                    } else {
+                        edtRate.setError(null);
+                    }
+                }
+            });
+            edtAbout.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (editable.toString().isEmpty()) {
+                        edtAbout.setError("About Text Required");
+                    } else {
+                        edtAbout.setError(null);
+                    }
+                }
+            });
+        }
+
         if (!fromDoctor) {
             layoutSpecialization.setVisibility(View.GONE);
             layoutExp.setVisibility(View.GONE);
@@ -120,6 +251,14 @@ public class RegistrationActivity extends BaseActivity {
             final String about = edtAbout.getText().toString().trim();
             final String rate = edtRate.getText().toString().trim();
 
+
+            edtName.setError(null);
+            edtEmail.setError(null);
+            edtPassword.setError(null);
+            edtPhoneNum.setError(null);
+            edtAbout.setError(null);
+
+            validateAllField();
             if (filePath == null) {
                 Toast.makeText(RegistrationActivity.this, "Upload Profile Image!", Toast.LENGTH_SHORT).show();
                 return;
@@ -138,10 +277,6 @@ public class RegistrationActivity extends BaseActivity {
             }
             if (phoneNum.isEmpty()) {
                 edtPhoneNum.setError("Phone Number Required");
-                return;
-            }
-            if (phoneNum.length() < 10) {
-                edtPhoneNum.setError("Phone Number must have 10 characters");
                 return;
             }
             if (password.isEmpty()) {
@@ -163,11 +298,6 @@ public class RegistrationActivity extends BaseActivity {
                     return;
                 }
             }
-            edtName.setError(null);
-            edtEmail.setError(null);
-            edtPassword.setError(null);
-            edtPhoneNum.setError(null);
-            edtAbout.setError(null);
 
             showLDialog();
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -202,14 +332,55 @@ public class RegistrationActivity extends BaseActivity {
                             dismissDialog();
                             Toast.makeText(RegistrationActivity.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(RegistrationActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            dismissDialog();
-                        }
+                    }).addOnFailureListener(e -> {
+                        Toast.makeText(RegistrationActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        dismissDialog();
                     });
         });
+    }
+
+    private void validateAllField() {
+
+        final String name = edtName.getText().toString().trim();
+        final String email = edtEmail.getText().toString().trim();
+        final String password = edtPassword.getText().toString().trim();
+        final String phoneNum = edtPhoneNum.getText().toString().trim();
+        final String about = edtAbout.getText().toString().trim();
+        final String rate = edtRate.getText().toString().trim();
+
+        if (name.isEmpty()) {
+            edtName.setError("Name Required");
+
+        }
+        if (email.isEmpty()) {
+            edtEmail.setError("Email Required");
+
+        }
+        if (!isValidEmail(email)) {
+            edtEmail.setError("Invalid Email");
+
+        }
+        if (phoneNum.isEmpty()) {
+            edtPhoneNum.setError("Phone Number Required");
+
+        }
+        if (password.isEmpty()) {
+            edtPassword.setError("Password Required");
+
+        }
+        if (!password.matches(passwordRegex)) {
+            edtPassword.setError("Password must have Special Character, Capital Alphabet with minimum of length 8");
+
+        }
+
+        if (fromDoctor) {
+            if (rate.isEmpty()) {
+                edtRate.setError("Rate Per Session Required");
+            }
+            if (about.isEmpty()) {
+                edtAbout.setError("About Text Required");
+            }
+        }
     }
 
     private void chooseImage() {
