@@ -20,12 +20,14 @@ public class PaymentActivity extends BaseActivity {
     ImageView imageBack;
     CardView jazzCash, easyPaisa, cash;
     TextView txtPayment;
+    long timeInMillis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
 
+        timeInMillis = getIntent().getLongExtra("timeInMillis", 0);
         AppointmentModel myModel = (AppointmentModel) getIntent().getSerializableExtra("myModel");
         txtPayment = findViewById(R.id.txtPayment);
         String paymentText = getString(R.string.total_payment) + " " + myModel.payment;
@@ -53,11 +55,13 @@ public class PaymentActivity extends BaseActivity {
             dismissDialog();
             if (task.isSuccessful()) {
                 showToast("Add Successfully");
+                String msgSchedule = "Be Ready for you Appointment with doctor in 1 Hour ";
                 String msg = "Your Appointment with doctor is Successfully schedule at time slot: "
                         + myModel.time + ", on " + myModel.date;
                 String docMsg = "Appointment of " + myModel.patientName + " wanted to schedule at time slot: "
                         + myModel.time + ", on " + myModel.date;
                 sendNotification(pref.getUserId(), "Appointment Scheduled", msg);
+                sendNotification(pref.getUserId(), "Appointment Scheduled", msgSchedule, timeInMillis);
                 sendNotification(myModel.doctorId, "New Appointment", docMsg);
                 startActivity(new Intent(PaymentActivity.this, SuccessActivity.class));
             } else {

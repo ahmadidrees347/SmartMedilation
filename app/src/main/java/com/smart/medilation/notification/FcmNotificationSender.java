@@ -26,13 +26,52 @@ public class FcmNotificationSender {
             RequestQueue queue = Volley.newRequestQueue(context);
             JSONObject json = new JSONObject();
             json.put("to", "/topics/" + topic);
+
             JSONObject data = new JSONObject();
             data.put("title", title);
             data.put("message", message);
             json.put("data", data);
             json.put("message", message);
             json.put("title", title);
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, FCM_API_ENDPOINT, json,
+                    response -> {
+                        // Success
+                        Log.d("FCMService", "Notification sent");
+                    },
+                    error -> {
+                        // Error
+                        Log.e("FCMService", "Error sending notification: " + error.getMessage());
+                    }) {
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "key=" + SERVER_KEY);
+                    headers.put("Content-Type", "application/json");
+                    return headers;
+                }
+            };
+            queue.add(request);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public void sendNotificationToTopic(Context context, String topic, String title, String message, long scheduledTime) {
+        Log.d("TAG", "FcmNotificationSender :" + topic);
+        try {
+            RequestQueue queue = Volley.newRequestQueue(context);
+            JSONObject json = new JSONObject();
+            json.put("to", "/topics/" + topic);
 
+            // Set the desired time in UNIX timestamp format (milliseconds since epoch)
+            scheduledTime = scheduledTime - (60 * 60 * 1000); // Before time (1 Hour)
+            json.put("time_to_live", scheduledTime);
+
+            JSONObject data = new JSONObject();
+            data.put("title", title);
+            data.put("message", message);
+            json.put("data", data);
+            json.put("message", message);
+            json.put("title", title);
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, FCM_API_ENDPOINT, json,
                     response -> {
                         // Success

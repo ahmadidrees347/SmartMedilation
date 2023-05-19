@@ -36,15 +36,15 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.CustomViewHold
         return new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.item_date, parent, false));
     }
 
-    public String getSelectedItem() {
-        String time = "";
+    public DateModel getSelectedItem() {
+        DateModel model = null;
         for (int i = 0; i < dateList.size(); i++) {
             if (dateList.get(i).isSelected) {
-                time = dateList.get(i).getDay() + " " + dateList.get(i).getDate();
+                model = dateList.get(i);
                 break;
             }
         }
-        return time;
+        return model;
     }
 
     @Override

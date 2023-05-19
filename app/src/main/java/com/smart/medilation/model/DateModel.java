@@ -4,11 +4,22 @@ public class DateModel {
     private String day;
     private String date;
 
+    public long getTimeInMillis() {
+        return timeInMillis;
+    }
+
+    public void setTimeInMillis(long timeInMillis) {
+        this.timeInMillis = timeInMillis;
+    }
+
+    private long timeInMillis;
+
     public boolean isSelected = false;
 
-    public DateModel(String day, String date) {
+    public DateModel(String day, String date, long timeInMillis) {
         this.day = day;
         this.date = date;
+        this.timeInMillis = timeInMillis;
     }
 
     public String getDay() {

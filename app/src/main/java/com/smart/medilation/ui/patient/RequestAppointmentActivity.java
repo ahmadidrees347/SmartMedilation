@@ -128,7 +128,10 @@ public class RequestAppointmentActivity extends BaseActivity {
         String specialization = myModel.specialization + " Specialist";
 
         btnRequest.setOnClickListener(v -> {
-            bookAppointment(myModel, timeSlotAdapter.getSelectedItem(), dateAdapter.getSelectedItem());
+            DateModel selectedModel = dateAdapter.getSelectedItem();
+
+            String time = selectedModel.getDay() + " " + selectedModel.getDate();
+            bookAppointment(myModel, timeSlotAdapter.getSelectedItem(), time, selectedModel.getTimeInMillis());
         });
 
         imgCall.setOnClickListener(v -> startDialer(myModel.phoneNum));
@@ -158,7 +161,7 @@ public class RequestAppointmentActivity extends BaseActivity {
         startActivity(sendIntent);
     }
 
-    public void bookAppointment(DoctorModel docModel, String strTime, String strDate) {
+    public void bookAppointment(DoctorModel docModel, String strTime, String strDate, long timeInMillis) {
 
         if (strDate.isEmpty()) {
             showToast("Kindly Select Date");
@@ -199,6 +202,7 @@ public class RequestAppointmentActivity extends BaseActivity {
 
                         Intent intent = new Intent(RequestAppointmentActivity.this, PaymentActivity.class);
                         intent.putExtra("myModel", model);
+                        intent.putExtra("timeInMillis", timeInMillis);
                         startActivity(intent);
 
                         dismissDialog();

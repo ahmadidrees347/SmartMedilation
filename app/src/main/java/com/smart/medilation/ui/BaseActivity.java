@@ -105,10 +105,11 @@ public class BaseActivity extends AppCompatActivity {
             Date date = calendar.getTime(); // Get the current date
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
             String dateString = dateFormat.format(date);
+
             String dayOfWeek = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date);
             if (!dayOfWeek.equalsIgnoreCase("Sunday"))
-                dateList.add(new DateModel(dayOfWeek, dateString));
-            Log.d("Next 7 Dates and Days", dateString + " (" + dayOfWeek + ")");
+                dateList.add(new DateModel(dayOfWeek, dateString, date.getTime()));
+            Log.d("Next 7 Dates and Days", dateString + " - " + date.getTime() + " (" + dayOfWeek + ")");
             calendar.add(Calendar.DAY_OF_YEAR, 1); // Add a day to the calendar
         }
         return dateList;
@@ -141,6 +142,13 @@ public class BaseActivity extends AppCompatActivity {
         if (fcmNotification == null)
             fcmNotification = new FcmNotificationSender();
         fcmNotification.sendNotificationToTopic(this, topic, title, message);
+    }
+
+
+    protected void sendNotification(String topic, String title, String message, long timeInMillis) {
+        if (fcmNotification == null)
+            fcmNotification = new FcmNotificationSender();
+        fcmNotification.sendNotificationToTopic(this, topic, title, message, timeInMillis);
     }
 
 
