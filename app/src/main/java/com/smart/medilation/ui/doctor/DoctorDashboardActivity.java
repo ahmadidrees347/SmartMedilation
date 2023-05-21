@@ -40,6 +40,8 @@ public class DoctorDashboardActivity extends BaseActivity {
                 bundle.putBoolean("fromDoctor", pref.getIsDocLogin());
                 bundle.putBoolean("fromHistory", false);
                 navController.navigate(R.id.navDocAppointments);
+            } else if (R.id.navDocSlot == item.getItemId()) {
+                navController.navigate(R.id.navDocSlot);
             } else if (R.id.navDocHistory == item.getItemId()) {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("fromDoctor", pref.getIsDocLogin());

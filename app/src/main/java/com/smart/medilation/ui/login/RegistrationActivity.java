@@ -25,12 +25,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smart.medilation.R;
 import com.smart.medilation.model.DoctorModel;
 import com.smart.medilation.model.PatientModel;
+import com.smart.medilation.model.SlotModel;
 import com.smart.medilation.ui.BaseActivity;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -60,6 +64,21 @@ public class RegistrationActivity extends BaseActivity {
     private boolean isValidEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         return pattern.matcher(email).matches();
+    }
+
+    public ArrayList<SlotModel> setDefaultList() {
+        ArrayList<SlotModel> slotList = new ArrayList<>();
+        String[] days = getResources().getStringArray(R.array.days);
+        String[] timeSlot = getResources().getStringArray(R.array.timeSlot);
+        ArrayList<SlotModel.TimeModel> slots = new ArrayList<>();
+        for (String slot : timeSlot) {
+            slots.add(new SlotModel.TimeModel(slot, false));
+        }
+        for (String time : days) {
+            SlotModel model = new SlotModel(time, slots);
+            slotList.add(model);
+        }
+        return slotList;
     }
 
     @Override
@@ -313,8 +332,9 @@ public class RegistrationActivity extends BaseActivity {
                                             String exp = spnExp.getSelectedItem().toString();
                                             String qualification = spnQualification.getSelectedItem().toString();
                                             DoctorModel doctor = new DoctorModel(firebaseUser.getUid(), name, email, password,
-                                                    phoneNum, exp, rate, specialization, qualification, about, false, false, "");
+                                                    phoneNum, exp, rate, specialization, qualification, about, false, false, "", "");
                                             doctor.rating = doctor.arrayListToJson(new ArrayList<>());
+                                            doctor.timeSlots = slotListToJson(setDefaultList());
                                             uploadImage(firebaseUser.getUid(), doctor, null);
                                         } else {
                                             PatientModel patient = new PatientModel(firebaseUser.getUid(), name, email, password, phoneNum);
@@ -337,6 +357,13 @@ public class RegistrationActivity extends BaseActivity {
                         dismissDialog();
                     });
         });
+    }
+
+    public String slotListToJson(ArrayList<SlotModel> arrayList) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<SlotModel>>() {
+        }.getType();
+        return gson.toJson(arrayList, type);
     }
 
     private void validateAllField() {

@@ -32,6 +32,7 @@
     <string name="no_doctor_found">No Doctor Found</string>
     <string name="no_app_found">No Appointment Found</string>
     <string name="profile">Profile</string>
+    <string name="slots">Doc Availability</string>
     <string name="request_for_appointment">Request For Appointment</string>
     <string name="book_appointment">Book an Appointment</string>
     <string name="request_appointment">Request Appointment</string>
@@ -52,6 +53,7 @@
     <string name="cash">Cash</string>
     <string name="default_method">Default Method</string>
     <string name="update_profile">Update Profile</string>
+    <string name="update_slots">Update Time Slots</string>
     <string name="admin">ADMIN</string>
     <string name="my_appointments">My Appointments</string>
     <string name="schedule_an_appointment">Schedule an Appointment</string>
@@ -73,6 +75,7 @@
         <item>Online</item>
         <item>Door 2 Door</item>
     </string-array>
+
     <string-array name="timeSlot">
         <!--        <item>Select Time Slot</item>-->
         <item>09:00 AM - 10:00 AM</item>
@@ -85,6 +88,16 @@
         <item>05:00 PM - 06:00 PM</item>
         <item>06:00 PM - 07:00 PM</item>
         <item>07:00 PM - 08:00 PM</item>
+    </string-array>
+
+    <string-array name="days">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+<!--        <item>Saturday</item>-->
+<!--        <item>Sunday</item>-->
     </string-array>
 
     <string-array name="qualifications">
@@ -160,7 +173,10 @@
     <string name="date_">Apr 26</string>
     <string name="select_appointment">Select Appointment Type</string>
     <string name="select_date">Schedule Date</string>
+    <string name="select_days">Schedule Days</string>
+    <string name="set_days">Set Available Days</string>
     <string name="select_time">Select Time Slot</string>
+    <string name="set_time">Select Available Time-Slot</string>
 
     <string name="physical">Physical</string>
     <string name="online">Online</string>

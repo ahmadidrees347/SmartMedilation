@@ -107,7 +107,8 @@ public class BaseActivity extends AppCompatActivity {
             String dateString = dateFormat.format(date);
 
             String dayOfWeek = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date);
-            if (!dayOfWeek.equalsIgnoreCase("Sunday"))
+            if (!dayOfWeek.equalsIgnoreCase("Saturday") &&
+                    !dayOfWeek.equalsIgnoreCase("Sunday"))
                 dateList.add(new DateModel(dayOfWeek, dateString, date.getTime()));
             Log.d("Next 7 Dates and Days", dateString + " - " + date.getTime() + " (" + dayOfWeek + ")");
             calendar.add(Calendar.DAY_OF_YEAR, 1); // Add a day to the calendar

@@ -16,13 +16,19 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.smart.medilation.R;
 import com.smart.medilation.adapters.GridSpacingItemDecoration;
+import com.smart.medilation.model.SlotModel;
 import com.smart.medilation.notification.FcmNotificationSender;
 import com.smart.medilation.ui.dialog.LoadingDialog;
 import com.smart.medilation.ui.doctor.DoctorDashboardActivity;
 import com.smart.medilation.ui.login.SelectionActivity;
 import com.smart.medilation.utils.PrefManager;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class BaseFragment extends Fragment {
     public LoadingDialog loadingDialog;
@@ -126,5 +132,19 @@ public class BaseFragment extends Fragment {
         // create alert dialog
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    public ArrayList<SlotModel> jsonToArrayList(String json) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<SlotModel>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
+    public String arrayListToJson(ArrayList<SlotModel> arrayList) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<SlotModel>>() {
+        }.getType();
+        return gson.toJson(arrayList, type);
     }
 }

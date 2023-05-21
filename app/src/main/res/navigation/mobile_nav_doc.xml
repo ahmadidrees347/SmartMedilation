@@ -19,6 +19,13 @@
 
 
     <fragment
+        android:id="@+id/navDocSlot"
+        android:name="com.smart.medilation.ui.doctor.AvailableSlotsFragment"
+        android:label="@string/slots"
+        tools:layout="@layout/fragment_available_slots" />
+
+
+    <fragment
         android:id="@+id/navDocProfile"
         android:name="com.smart.medilation.ui.ProfileFragment"
         android:label="@string/profile"

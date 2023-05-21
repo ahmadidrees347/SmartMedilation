@@ -182,7 +182,7 @@ public class ProfileFragment extends BaseFragment {
                 if (fromDoctor && doctor != null) {
                     DoctorModel doctorModel = new DoctorModel(userId, name, email, doctor.password,
                             phoneNum, exp, rate, specialization, qualification, about, doctor.isApproved,
-                            doctor.isRejected, doctor.rating);
+                            doctor.isRejected, doctor.rating, doctor.timeSlots);
 
                     doctorModel.image = (filePath.toString());
                     mRef.child(userId)

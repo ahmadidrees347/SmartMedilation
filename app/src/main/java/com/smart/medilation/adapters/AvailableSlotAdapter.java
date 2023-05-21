@@ -15,52 +15,50 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.smart.medilation.R;
 import com.smart.medilation.model.SlotModel;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.CustomViewHolder> {
+public class AvailableSlotAdapter extends RecyclerView.Adapter<AvailableSlotAdapter.CustomViewHolder> {
 
     private final Context context;
-    private final List<SlotModel.TimeModel> dateList;
+    private final List<SlotModel.TimeModel> list;
+    public final OnSlotClick listener;
 
-    private String timeSlot = "";
-
-    public TimeSlotAdapter(Context context, List<SlotModel.TimeModel> dateList) {
+    public AvailableSlotAdapter(Context context, List<SlotModel.TimeModel> list, OnSlotClick listener) {
         this.context = context;
-        this.dateList = dateList;
-//        setHasStableIds(true);
+        this.list = list;
+        this.listener = listener;
+        setHasStableIds(true);
     }
 
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.item_timeslot, parent, false));
+        return new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.item_day_slot, parent, false));
     }
 
-    public String getSelectedItem() {
-        return timeSlot;
+    public ArrayList<SlotModel.TimeModel> getSelectedItem() {
+        ArrayList<SlotModel.TimeModel> selectedList = new ArrayList<>();
+        for (SlotModel.TimeModel item : list) {
+//            if (item.isSelected)
+                selectedList.add(item);
+        }
+        return selectedList;
     }
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, final int position) {
-        if (dateList.size() > 0) {
-            holder.txtTime.setText(dateList.get(position).slot);
+        if (list.size() > 0) {
+            holder.txtTime.setText(list.get(position).slot);
             holder.layout.setOnClickListener(v -> {
-                timeSlot = dateList.get(position).slot;
+                list.get(position).isSelected = !list.get(position).isSelected;
+                listener.onSlotClick(position);
                 notifyDataSetChanged();
             });
         }
-
-        if (dateList.get(position).isSelected) {
-            holder.layout.setAlpha(1.0f);
-            holder.layout.setEnabled(true);
-        } else {
-            holder.layout.setAlpha(0.35f);
-            holder.layout.setEnabled(false);
-        }
         Drawable backgroundDrawable;
         int color;
-        if (Objects.equals(dateList.get(position).slot, timeSlot)) {
+        if (list.get(position).isSelected) {
             backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.round_);
             color = ContextCompat.getColor(context, R.color.white);
         } else {
@@ -83,7 +81,7 @@ public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.Custom
 
     @Override
     public int getItemCount() {
-        return dateList == null ? 0 : dateList.size();
+        return list == null ? 0 : list.size();
     }
 
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
@@ -95,7 +93,10 @@ public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.Custom
             super(view);
             txtTime = view.findViewById(R.id.txtTime);
             layout = view.findViewById(R.id.layout);
-
         }
+    }
+
+    public interface OnSlotClick {
+        void onSlotClick(int position);
     }
 }

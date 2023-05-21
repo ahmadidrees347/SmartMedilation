@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smart.medilation.R;
 import com.smart.medilation.adapters.AppointmentAdapter;
@@ -30,10 +32,12 @@ import com.smart.medilation.adapters.TimeSlotAdapter;
 import com.smart.medilation.model.AppointmentModel;
 import com.smart.medilation.model.DateModel;
 import com.smart.medilation.model.DoctorModel;
+import com.smart.medilation.model.SlotModel;
 import com.smart.medilation.ui.BaseActivity;
 import com.smart.medilation.ui.payment.PaymentActivity;
 import com.smart.medilation.utils.Constants;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +51,7 @@ public class RequestAppointmentActivity extends BaseActivity {
     Button btnRequest;
 
     List<DateModel> dateList = new ArrayList<>();
-    List<String> timeSlotList = new ArrayList<>();
+    ArrayList<SlotModel.TimeModel> timeSlotList = new ArrayList<>();
     DateAdapter dateAdapter;
     TimeSlotAdapter timeSlotAdapter;
     String strType = "";
@@ -102,17 +106,32 @@ public class RequestAppointmentActivity extends BaseActivity {
             layoutDoor.setBackground(backgroundDrawable);
         });
 
-        dateList = getNextDays();
-        RecyclerView recyclerDate = findViewById(R.id.recyclerDate);
-        recyclerDate.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-        dateAdapter = new DateAdapter(this, dateList);
-        recyclerDate.setAdapter(dateAdapter);
+        DoctorModel myModel = (DoctorModel) getIntent().getSerializableExtra("myModel");
+        ArrayList<SlotModel> timeSlots = jsonToSlotList(myModel.timeSlots);
 
-        timeSlotList = getTimeSlots();
+
+//        timeSlotList = getTimeSlots();
         RecyclerView recyclerTime = findViewById(R.id.recyclerTime);
         recyclerTime.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         timeSlotAdapter = new TimeSlotAdapter(this, timeSlotList);
         recyclerTime.setAdapter(timeSlotAdapter);
+
+        dateList = getNextDays();
+        RecyclerView recyclerDate = findViewById(R.id.recyclerDate);
+        recyclerDate.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        dateAdapter = new DateAdapter(this, dateList, position -> {
+            String day = dateList.get(position).getDay();
+            for (SlotModel model :timeSlots) {
+                if(day.equalsIgnoreCase(model.getDay())) {
+                    timeSlotList = model.getSlots();
+                    timeSlotAdapter = new TimeSlotAdapter(this, timeSlotList);
+                    recyclerTime.setAdapter(timeSlotAdapter);
+                    break;
+                }
+            }
+        });
+        recyclerDate.setAdapter(dateAdapter);
+        dateAdapter.listener.onDateClick(0);
 
         imgLogout = findViewById(R.id.imgLogout);
         imgLogout.setOnClickListener(v -> showLogoutDialog());
@@ -124,7 +143,6 @@ public class RequestAppointmentActivity extends BaseActivity {
         imageBack.setOnClickListener(v -> onBackPressed());
 
 
-        DoctorModel myModel = (DoctorModel) getIntent().getSerializableExtra("myModel");
         String specialization = myModel.specialization + " Specialist";
 
         btnRequest.setOnClickListener(v -> {
@@ -147,6 +165,34 @@ public class RequestAppointmentActivity extends BaseActivity {
 
         txtName.setText(myModel.name);
         txtType.setText(specialization);
+    }
+
+    public String slotListToJson(ArrayList<SlotModel> arrayList) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<SlotModel>>() {
+        }.getType();
+        return gson.toJson(arrayList, type);
+    }
+
+    public ArrayList<SlotModel> jsonToSlotList(String json) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<SlotModel>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
+    public ArrayList<SlotModel.TimeModel> jsonToArrayList(String json) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<SlotModel.TimeModel>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
+    public String arrayListToJson(ArrayList<SlotModel.TimeModel> arrayList) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<SlotModel.TimeModel>>() {
+        }.getType();
+        return gson.toJson(arrayList, type);
     }
 
     private void startDialer(String tel) {

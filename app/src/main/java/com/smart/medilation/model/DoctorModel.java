@@ -25,6 +25,7 @@ public class DoctorModel implements Serializable {
 
     public String rate;
     public String rating;
+    public String timeSlots;
 
     public static class RatingModel {
         public RatingModel(float rating, String review) {
@@ -60,7 +61,7 @@ public class DoctorModel implements Serializable {
     public DoctorModel(String id, String name, String email, String password,
                        String phoneNum, String experience,String rate,
                        String specialization, String qualification,String about,
-                       boolean isApproved, boolean isRejected,String rating) {
+                       boolean isApproved, boolean isRejected,String rating, String timeSlots) {
         this.id = id;
         this.experience = experience;
         this.specialization = specialization;
@@ -74,5 +75,6 @@ public class DoctorModel implements Serializable {
         this.isRejected = isRejected;
         this.rating = rating;
         this.rate = rate;
+        this.timeSlots = timeSlots;
     }
 }

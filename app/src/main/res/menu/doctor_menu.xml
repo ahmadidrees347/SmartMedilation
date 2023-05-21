@@ -5,6 +5,10 @@
         android:id="@+id/navDocAppointments"
         android:icon="@drawable/ic_dashboard"
         android:title="@string/home" />
+    <item
+        android:id="@+id/navDocSlot"
+        android:icon="@drawable/ic_categories"
+        android:title="@string/slots" />
 
     <item
         android:id="@+id/navDocHistory"

@@ -13,19 +13,21 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.smart.medilation.R;
-import com.smart.medilation.model.DateModel;
+import com.smart.medilation.model.SlotModel;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class DateAdapter extends RecyclerView.Adapter<DateAdapter.CustomViewHolder> {
+public class SlotAdapter extends RecyclerView.Adapter<SlotAdapter.CustomViewHolder> {
 
     private final Context context;
-    private final List<DateModel> dateList;
-    public final DateListener listener;
+    private final List<SlotModel> dateList;
 
-    private int lastPosition = -1;
+    public String timeSlot = "";
+    public final OnDayClick listener;
 
-    public DateAdapter(Context context, List<DateModel> dateList, DateListener listener) {
+    public SlotAdapter(Context context, List<SlotModel> dateList, OnDayClick listener) {
         this.context = context;
         this.dateList = dateList;
         this.listener = listener;
@@ -35,53 +37,34 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.CustomViewHold
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.item_date, parent, false));
-    }
-
-    public DateModel getSelectedItem() {
-        DateModel model = null;
-        for (int i = 0; i < dateList.size(); i++) {
-            if (dateList.get(i).isSelected) {
-                model = dateList.get(i);
-                break;
-            }
-        }
-        return model;
+        return new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.item_timeslot, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CustomViewHolder holder, final int position) {
         if (dateList.size() > 0) {
-            holder.txtDate.setText(dateList.get(position).getDate());
-            holder.txtDay.setText(dateList.get(position).getDay());
+            holder.txtTime.setText(dateList.get(position).getDay());
             holder.layout.setOnClickListener(v -> {
-                if (lastPosition == position) {
-                    return;
+                if (listener != null) {
+                    listener.onDayClick(dateList.get(position), position);
                 }
-                if (lastPosition != -1) {
-                    dateList.get(lastPosition).isSelected = false;
-                    notifyItemChanged(lastPosition);
-                }
-                dateList.get(position).isSelected = true;
-                lastPosition = position;
-
-                listener.onDateClick(position);
-                notifyDataSetChanged();
             });
         }
-
         Drawable backgroundDrawable;
         int color;
-        if (dateList.get(position).isSelected) {
+        if (Objects.equals(dateList.get(position).getDay(), timeSlot)) {
             backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.round_);
             color = ContextCompat.getColor(context, R.color.white);
         } else {
             backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.round_stroke);
             color = ContextCompat.getColor(context, R.color.black);
         }
-        holder.txtDate.setTextColor(color);
-        holder.txtDay.setTextColor(color);
+        holder.txtTime.setTextColor(color);
         holder.layout.setBackground(backgroundDrawable);
+    }
+
+    public ArrayList<SlotModel> getSelectedSlots() {
+        return new ArrayList<>(dateList);
     }
 
     @Override
@@ -101,18 +84,18 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.CustomViewHold
 
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtDay, txtDate;
+        TextView txtTime;
         LinearLayout layout;
 
         public CustomViewHolder(View view) {
             super(view);
-            txtDay = view.findViewById(R.id.txtDay);
-            txtDate = view.findViewById(R.id.txtDate);
+            txtTime = view.findViewById(R.id.txtTime);
             layout = view.findViewById(R.id.layout);
+
         }
     }
 
-    public interface DateListener {
-        void onDateClick(int position);
+    public interface OnDayClick {
+        void onDayClick(SlotModel slotModel, int position);
     }
 }
