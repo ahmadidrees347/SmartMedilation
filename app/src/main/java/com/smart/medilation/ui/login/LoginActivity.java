@@ -34,7 +34,7 @@ import com.smart.medilation.ui.patient.PatientDashboardActivity;
 import java.util.regex.Pattern;
 
 public class LoginActivity extends BaseActivity {
-    TextView txtTitle, btn_register;
+    TextView txtTitle, btn_register, txtForgotPassword;
     ImageView imageBack, imgAdmin;
     CircularImageView image;
     EditText edt_email;
@@ -136,6 +136,7 @@ public class LoginActivity extends BaseActivity {
 
         btn_login = findViewById(R.id.btn_login);
         btn_register = findViewById(R.id.btn_register);
+        txtForgotPassword = findViewById(R.id.txtForgotPassword);
         btn_register.setOnClickListener(v -> {
             if (fromAdmin) {
                 Toast.makeText(LoginActivity.this, "Admin can not be Registered!", Toast.LENGTH_SHORT).show();
@@ -144,6 +145,10 @@ public class LoginActivity extends BaseActivity {
                 register.putExtra("fromDoctor", fromDoctor);
                 startActivity(register);
             }
+        });
+        txtForgotPassword.setOnClickListener(v -> {
+            Intent reset = new Intent(getApplicationContext(), ResetPasswordActivity.class);
+            startActivity(reset);
         });
         btn_login.setOnClickListener(v -> {
 
