@@ -55,14 +55,4 @@ public class SelectionActivity extends BaseActivity {
             startActivity(intent);
         });
     }
-
-    private void openLocationInGoogleMaps() {
-        Uri gmmIntentUri = Uri.parse("geo:" + 37.7749f + "," + -122.4194f);
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        mapIntent.setPackage("com.google.android.apps.maps");
-
-        if (mapIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(mapIntent);
-        }
-    }
 }

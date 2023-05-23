@@ -45,10 +45,23 @@ public class BaseActivity extends AppCompatActivity {
     public PrefManager pref;
     public FcmNotificationSender fcmNotification;
 
+    public static float LAT = 37.7749f;
+    public static float LONG = -122.4194f;
+
     public interface BottomMenuInterface {
         void onNavChange(int value);
     }
 
+
+    protected void openLocationInGoogleMaps() {
+        Uri gmmIntentUri = Uri.parse("geo:" + LAT + "," + LONG);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+
+        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mapIntent);
+        }
+    }
     private boolean isInternetAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 

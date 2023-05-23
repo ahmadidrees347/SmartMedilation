@@ -43,7 +43,7 @@ import java.util.List;
 
 public class RequestAppointmentActivity extends BaseActivity {
 
-    ImageView imageBack, imgChat, imgCall, imgLogout;
+    ImageView imageBack, imgChat, imgCall, imgLogout, imgLocation;
 
     CircularImageView image;
     TextView txtName, txtType;
@@ -83,7 +83,11 @@ public class RequestAppointmentActivity extends BaseActivity {
         txtPhysical = findViewById(R.id.txtPhysical);
         txtOnline = findViewById(R.id.txtOnline);
         txtDoor = findViewById(R.id.txtDoor);
+        imgLocation = findViewById(R.id.imgLocation);
 
+        imgLocation.setOnClickListener(v -> {
+            openLocationInGoogleMaps();
+        });
         Drawable backgroundDrawable = ContextCompat.getDrawable(this, R.drawable.round_);
         int color = ContextCompat.getColor(this, R.color.white);
 
