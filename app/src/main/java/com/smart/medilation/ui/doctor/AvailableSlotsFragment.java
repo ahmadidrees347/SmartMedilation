@@ -91,6 +91,7 @@ public class AvailableSlotsFragment extends BaseFragment {
 
         btnUpdate = view.findViewById(R.id.btnUpdate);
         btnUpdate.setOnClickListener(v -> {
+            showLDialog();
             if(mAuth != null && mAuth.getCurrentUser() != null) {
                 doctorData.timeSlots = arrayListToJson(daysAdapter.getSelectedSlots());
                 String userId = mAuth.getCurrentUser().getUid();

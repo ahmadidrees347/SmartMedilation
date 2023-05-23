@@ -147,6 +147,10 @@ public class RequestAppointmentActivity extends BaseActivity {
 
         btnRequest.setOnClickListener(v -> {
             DateModel selectedModel = dateAdapter.getSelectedItem();
+            if(selectedModel == null) {
+                showToast("Select Time and Date");
+                return;
+            }
 
             String time = selectedModel.getDay() + " " + selectedModel.getDate();
             bookAppointment(myModel, timeSlotAdapter.getSelectedItem(), time, selectedModel.getTimeInMillis());
