@@ -50,7 +50,7 @@ public class RegistrationActivity extends BaseActivity {
     CircularImageView imageView;
     Spinner spnSpecialization, spnExp, spnQualification;
     LinearLayout layoutSpecialization, layoutExp, layoutQualification;
-    private EditText edtName, edtEmail, edtPhoneNum, edtAbout, edtRate;
+    private EditText edtName, edtEmail, edtPhoneNum, edtAbout, edtRateOnline, edtRatePhysical;
 
     private TextInputEditText edtPassword;
     //defining Firebase Auth object
@@ -120,7 +120,8 @@ public class RegistrationActivity extends BaseActivity {
         spnQualification = findViewById(R.id.spnQualification);
         layoutQualification = findViewById(R.id.layoutQualification);
         edtAbout = findViewById(R.id.edtAbout);
-        edtRate = findViewById(R.id.edtRate);
+        edtRateOnline = findViewById(R.id.edtRateOnline);
+        edtRatePhysical = findViewById(R.id.edtRatePhysical);
 
         edtName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -211,7 +212,7 @@ public class RegistrationActivity extends BaseActivity {
         });
 
         if (fromDoctor) {
-            edtRate.addTextChangedListener(new TextWatcher() {
+            edtRateOnline.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -225,9 +226,29 @@ public class RegistrationActivity extends BaseActivity {
                 @Override
                 public void afterTextChanged(Editable editable) {
                     if (editable.toString().isEmpty()) {
-                        edtRate.setError("Rate Per Session Required");
+                        edtRateOnline.setError("Online Appointment Required");
                     } else {
-                        edtRate.setError(null);
+                        edtRateOnline.setError(null);
+                    }
+                }
+            });
+            edtRatePhysical.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (editable.toString().isEmpty()) {
+                        edtRatePhysical.setError("Physical Appointment Required");
+                    } else {
+                        edtRatePhysical.setError(null);
                     }
                 }
             });
@@ -258,7 +279,8 @@ public class RegistrationActivity extends BaseActivity {
             layoutExp.setVisibility(View.GONE);
             layoutQualification.setVisibility(View.GONE);
             edtAbout.setVisibility(View.GONE);
-            edtRate.setVisibility(View.GONE);
+            edtRatePhysical.setVisibility(View.GONE);
+            edtRateOnline.setVisibility(View.GONE);
         }
 
         imageView.setOnClickListener(v -> chooseImage());
@@ -268,7 +290,8 @@ public class RegistrationActivity extends BaseActivity {
             final String password = edtPassword.getText().toString().trim();
             final String phoneNum = edtPhoneNum.getText().toString().trim();
             final String about = edtAbout.getText().toString().trim();
-            final String rate = edtRate.getText().toString().trim();
+            final String rateOnline = edtRateOnline.getText().toString().trim();
+            final String ratePhysical = edtRatePhysical.getText().toString().trim();
 
 
             edtName.setError(null);
@@ -276,6 +299,8 @@ public class RegistrationActivity extends BaseActivity {
             edtPassword.setError(null);
             edtPhoneNum.setError(null);
             edtAbout.setError(null);
+            edtRatePhysical.setError(null);
+            edtRateOnline.setError(null);
 
             validateAllField();
             if (filePath == null) {
@@ -308,8 +333,12 @@ public class RegistrationActivity extends BaseActivity {
             }
 
             if (fromDoctor) {
-                if (rate.isEmpty()) {
-                    edtRate.setError("Rate Per Session Required");
+                if (rateOnline.isEmpty()) {
+                    edtRateOnline.setError("Online Appointment Rate Required");
+                    return;
+                }
+                if (ratePhysical.isEmpty()) {
+                    edtRatePhysical.setError("Physical Appointment Rate Required");
                     return;
                 }
                 if (about.isEmpty()) {
@@ -332,7 +361,7 @@ public class RegistrationActivity extends BaseActivity {
                                             String exp = spnExp.getSelectedItem().toString();
                                             String qualification = spnQualification.getSelectedItem().toString();
                                             DoctorModel doctor = new DoctorModel(firebaseUser.getUid(), name, email, password,
-                                                    phoneNum, exp, rate, specialization, qualification, about, false, false, "", "");
+                                                    phoneNum, exp, rateOnline, ratePhysical, specialization, qualification, about, false, false, "", "");
                                             doctor.rating = doctor.arrayListToJson(new ArrayList<>());
                                             doctor.timeSlots = slotListToJson(setDefaultList());
                                             uploadImage(firebaseUser.getUid(), doctor, null);
@@ -373,7 +402,8 @@ public class RegistrationActivity extends BaseActivity {
         final String password = edtPassword.getText().toString().trim();
         final String phoneNum = edtPhoneNum.getText().toString().trim();
         final String about = edtAbout.getText().toString().trim();
-        final String rate = edtRate.getText().toString().trim();
+        final String ratePhysical = edtRatePhysical.getText().toString().trim();
+        final String rateOnline = edtRatePhysical.getText().toString().trim();
 
         if (name.isEmpty()) {
             edtName.setError("Name Required");
@@ -401,8 +431,11 @@ public class RegistrationActivity extends BaseActivity {
         }
 
         if (fromDoctor) {
-            if (rate.isEmpty()) {
-                edtRate.setError("Rate Per Session Required");
+            if (ratePhysical.isEmpty()) {
+                edtRatePhysical.setError("Physical Rate Per Session Required");
+            }
+            if (rateOnline.isEmpty()) {
+                edtRateOnline.setError("Online Rate Per Session Required");
             }
             if (about.isEmpty()) {
                 edtAbout.setError("About Text Required");

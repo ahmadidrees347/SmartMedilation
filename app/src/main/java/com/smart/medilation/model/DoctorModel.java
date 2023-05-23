@@ -24,6 +24,7 @@ public class DoctorModel implements Serializable {
     public boolean isRejected = false;
 
     public String rate;
+    public String ratePhysical;
     public String rating;
     public String timeSlots;
 
@@ -59,7 +60,7 @@ public class DoctorModel implements Serializable {
     }
 
     public DoctorModel(String id, String name, String email, String password,
-                       String phoneNum, String experience,String rate,
+                       String phoneNum, String experience,String rate,String ratePhysical,
                        String specialization, String qualification,String about,
                        boolean isApproved, boolean isRejected,String rating, String timeSlots) {
         this.id = id;
@@ -75,6 +76,7 @@ public class DoctorModel implements Serializable {
         this.isRejected = isRejected;
         this.rating = rating;
         this.rate = rate;
+        this.ratePhysical = ratePhysical;
         this.timeSlots = timeSlots;
     }
 }

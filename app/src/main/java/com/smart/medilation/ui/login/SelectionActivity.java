@@ -13,7 +13,7 @@ public class SelectionActivity extends BaseActivity {
 
     MaterialCardView btn_doctor, btn_patient, btn_admin;
 
-    ImageView imgEmergency;
+    ImageView imgEmergency, imgLocation;
     private final String whatsAppChatUrl = "http://api.whatsapp.com/send?phone=";
 
     @Override
@@ -25,6 +25,7 @@ public class SelectionActivity extends BaseActivity {
         btn_doctor = findViewById(R.id.btn_doctor);
         btn_patient = findViewById(R.id.btn_patient);
         imgEmergency = findViewById(R.id.imgEmergency);
+        imgLocation = findViewById(R.id.imgLocation);
 
         imgEmergency.setOnClickListener(v -> {
             try {
@@ -34,6 +35,9 @@ public class SelectionActivity extends BaseActivity {
             } catch (Exception exp) {
                 showToast(exp.getMessage());
             }
+        });
+        imgLocation.setOnClickListener(v -> {
+            openLocationInGoogleMaps();
         });
         btn_admin.setOnClickListener(v -> {
             Intent intent = new Intent(SelectionActivity.this, LoginActivity.class);
@@ -50,5 +54,15 @@ public class SelectionActivity extends BaseActivity {
             intent.putExtra("fromDoctor", false);
             startActivity(intent);
         });
+    }
+
+    private void openLocationInGoogleMaps() {
+        Uri gmmIntentUri = Uri.parse("geo:" + 37.7749f + "," + -122.4194f);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+
+        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mapIntent);
+        }
     }
 }

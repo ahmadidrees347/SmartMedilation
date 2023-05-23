@@ -121,8 +121,8 @@ public class RequestAppointmentActivity extends BaseActivity {
         recyclerDate.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         dateAdapter = new DateAdapter(this, dateList, position -> {
             String day = dateList.get(position).getDay();
-            for (SlotModel model :timeSlots) {
-                if(day.equalsIgnoreCase(model.getDay())) {
+            for (SlotModel model : timeSlots) {
+                if (day.equalsIgnoreCase(model.getDay())) {
                     timeSlotList = model.getSlots();
                     timeSlotAdapter = new TimeSlotAdapter(this, timeSlotList);
                     recyclerTime.setAdapter(timeSlotAdapter);
@@ -242,9 +242,14 @@ public class RequestAppointmentActivity extends BaseActivity {
                         }
                     }
                     if (!isAlreadyHasAppointment) {
+                        String rate = "";
+                        if (strType.equalsIgnoreCase("Physical"))
+                            rate = docModel.ratePhysical;
+                        else
+                            rate = docModel.rate;
                         AppointmentModel model = new AppointmentModel("", docModel.id, docModel.name, user.getUid(),
                                 pref.getUserName(), strTime, strDate, AppointmentAdapter.STATUS_Pending, strType,
-                                docModel.rate, "", false);
+                                rate, "", false);
 
                         Intent intent = new Intent(RequestAppointmentActivity.this, PaymentActivity.class);
                         intent.putExtra("myModel", model);

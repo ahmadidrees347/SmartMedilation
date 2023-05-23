@@ -41,7 +41,7 @@ public class ProfileFragment extends BaseFragment {
     CircularImageView imageView;
     Spinner spnSpecialization, spnExp, spnQualification;
     LinearLayout layoutSpecialization, layoutExp, layoutQualification;
-    private EditText edtName, edtEmail, edtPhoneNum, edtAbout, edtRate;
+    private EditText edtName, edtEmail, edtPhoneNum, edtAbout, edtRateOnline, edtRatePhysical;
     //defining Firebase Auth object
     private FirebaseAuth mAuth;
     FirebaseDatabase mDatabase;
@@ -109,14 +109,16 @@ public class ProfileFragment extends BaseFragment {
         layoutQualification = view.findViewById(R.id.layoutQualification);
         spnQualification = view.findViewById(R.id.spnQualification);
         edtAbout = view.findViewById(R.id.edtAbout);
-        edtRate = view.findViewById(R.id.edtRate);
+        edtRateOnline = view.findViewById(R.id.edtRateOnline);
+        edtRatePhysical = view.findViewById(R.id.edtRatePhysical);
 
         if (!fromDoctor) {
             layoutSpecialization.setVisibility(View.GONE);
             layoutExp.setVisibility(View.GONE);
             layoutQualification.setVisibility(View.GONE);
             edtAbout.setVisibility(View.GONE);
-            edtRate.setVisibility(View.GONE);
+            edtRateOnline.setVisibility(View.GONE);
+            edtRatePhysical.setVisibility(View.GONE);
         }
 
         imageView.setOnClickListener(v -> chooseImage());
@@ -128,7 +130,8 @@ public class ProfileFragment extends BaseFragment {
             final String email = edtEmail.getText().toString().trim();
             final String phoneNum = edtPhoneNum.getText().toString().trim();
             final String about = edtAbout.getText().toString().trim();
-            final String rate = edtRate.getText().toString().trim();
+            final String rateOnline = edtRateOnline.getText().toString().trim();
+            final String ratePhysical = edtRatePhysical.getText().toString().trim();
             String specialization = spnSpecialization.getSelectedItem().toString();
             String exp = spnExp.getSelectedItem().toString();
             String qualification = spnQualification.getSelectedItem().toString();
@@ -159,8 +162,12 @@ public class ProfileFragment extends BaseFragment {
             }
 
             if (fromDoctor) {
-                if (rate.isEmpty()) {
-                    edtRate.setError("Rate Per Session Required");
+                if (rateOnline.isEmpty()) {
+                    edtRateOnline.setError("Online Rate Per Session Required");
+                    return;
+                }
+                if (ratePhysical.isEmpty()) {
+                    edtRatePhysical.setError("Physical Rate Per Session Required");
                     return;
                 }
                 if (about.isEmpty()) {
@@ -172,7 +179,8 @@ public class ProfileFragment extends BaseFragment {
             edtEmail.setError(null);
             edtPhoneNum.setError(null);
             edtAbout.setError(null);
-            edtRate.setError(null);
+            edtRateOnline.setError(null);
+            edtRatePhysical.setError(null);
 
             showLDialog();
 
@@ -181,7 +189,7 @@ public class ProfileFragment extends BaseFragment {
 
                 if (fromDoctor && doctor != null) {
                     DoctorModel doctorModel = new DoctorModel(userId, name, email, doctor.password,
-                            phoneNum, exp, rate, specialization, qualification, about, doctor.isApproved,
+                            phoneNum, exp, rateOnline,ratePhysical, specialization, qualification, about, doctor.isApproved,
                             doctor.isRejected, doctor.rating, doctor.timeSlots);
 
                     doctorModel.image = (filePath.toString());
@@ -232,7 +240,8 @@ public class ProfileFragment extends BaseFragment {
                             edtName.setText(doctor.name);
                             edtEmail.setText(doctor.email);
                             edtPhoneNum.setText(doctor.phoneNum);
-                            edtRate.setText(doctor.rate);
+                            edtRateOnline.setText(doctor.rate);
+                            edtRatePhysical.setText(doctor.ratePhysical);
                             edtAbout.setText(doctor.about);
                             filePath = Uri.parse(doctor.image);
                             specialization = doctor.specialization;
