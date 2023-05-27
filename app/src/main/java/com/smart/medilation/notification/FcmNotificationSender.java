@@ -1,8 +1,10 @@
 package com.smart.medilation.notification;
 
-import static androidx.fragment.app.FragmentManager.TAG;
-
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -55,43 +57,33 @@ public class FcmNotificationSender {
             e.printStackTrace();
         }
     }
-    public void sendNotificationToTopic(Context context, String topic, String title, String message, long scheduledTime) {
-        Log.d("TAG", "FcmNotificationSender :" + topic);
-        try {
-            RequestQueue queue = Volley.newRequestQueue(context);
-            JSONObject json = new JSONObject();
-            json.put("to", "/topics/" + topic);
 
-            // Set the desired time in UNIX timestamp format (milliseconds since epoch)
-            scheduledTime = scheduledTime - (60 * 60 * 1000); // Before time (1 Hour)
-            json.put("time_to_live", scheduledTime);
+    public static void scheduleNotification(Context context, String topic, String title, String message, long delayInMillis) {
+        // Calculate the scheduled time by adding the delay to the current time
+        long scheduledTime = System.currentTimeMillis() + delayInMillis;
 
-            JSONObject data = new JSONObject();
-            data.put("title", title);
-            data.put("message", message);
-            json.put("data", data);
-            json.put("message", message);
-            json.put("title", title);
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, FCM_API_ENDPOINT, json,
-                    response -> {
-                        // Success
-                        Log.d("FCMService", "Notification sent");
-                    },
-                    error -> {
-                        // Error
-                        Log.e("FCMService", "Error sending notification: " + error.getMessage());
-                    }) {
-                @Override
-                public Map<String, String> getHeaders() {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", "key=" + SERVER_KEY);
-                    headers.put("Content-Type", "application/json");
-                    return headers;
-                }
-            };
-            queue.add(request);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        // Create an intent for the broadcast receiver
+        Intent intent = new Intent(context, MyBroadcastReceiver.class);
+        intent.putExtra("topic", topic);
+        intent.putExtra("title", title);
+        intent.putExtra("message", message);
+
+        // Create a pending intent with unique ID
+        PendingIntent pendingIntent;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            pendingIntent = PendingIntent.getBroadcast(context, generateUniqueId(), intent, PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getBroadcast(context, generateUniqueId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
+        // Get the alarm manager
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        // Schedule the notification
+        alarmManager.set(AlarmManager.RTC_WAKEUP, scheduledTime, pendingIntent);
     }
+
+    private static int generateUniqueId() {
+        return (int) (System.currentTimeMillis() % Integer.MAX_VALUE);
+    }
+
 }
