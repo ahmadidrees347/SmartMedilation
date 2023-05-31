@@ -203,5 +203,6 @@
     <string name="reviews">Reviews</string>
     <string name="no_reviews">No Reviews Found</string>
     <string name="note"> Note Your Payment is Due.\n You select Cash in Payment Method.</string>
+    <string name="title_activity_map">MapActivity</string>
 
 </resources>

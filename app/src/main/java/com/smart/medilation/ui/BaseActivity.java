@@ -54,13 +54,14 @@ public class BaseActivity extends AppCompatActivity {
 
 
     protected void openLocationInGoogleMaps() {
+        startActivity(new Intent(this, MapActivity.class));
         Uri gmmIntentUri = Uri.parse("geo:" + LAT + "," + LONG);
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
 
-        if (mapIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(mapIntent);
-        }
+//        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+//            startActivity(mapIntent);
+//        }
     }
 
     private boolean isInternetAvailable() {
@@ -90,8 +91,13 @@ public class BaseActivity extends AppCompatActivity {
     protected void requestPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+                    new String[]{Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        } else {
 
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,}, 1);
         }
     }
 
@@ -100,8 +106,16 @@ public class BaseActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 1) {
             if (grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.POST_NOTIFICATIONS)) {
+                boolean notificationPermission = false;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    notificationPermission = ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.POST_NOTIFICATIONS);
+                }
+                if (notificationPermission ||
+                        ActivityCompat.shouldShowRequestPermissionRationale(this,
+                                Manifest.permission.ACCESS_FINE_LOCATION) ||
+                        ActivityCompat.shouldShowRequestPermissionRationale(this,
+                                Manifest.permission.ACCESS_COARSE_LOCATION)) {
                     requestPermissions();
                 } else {
                     Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
