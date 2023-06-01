@@ -1,4 +1,6 @@
 <resources>
+    <string name="google_maps_api_key">AIzaSyBnWLPmG_U4vsjQBUO7CXSLyA7jxC0maxs</string>
+
     <string name="app_name">Smart Medilation</string>
     <string name="new_account">REGISTER</string>
     <string name="signup_desc">Start by entering your name and categories below.</string>
