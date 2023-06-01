@@ -28,11 +28,63 @@
             android:layout_centerInParent="true"
             android:fontFamily="@font/poppins"
             android:gravity="center"
-            android:text="MAP"
+            android:text="@string/map"
             android:textColor="@color/white"
             android:textSize="22sp" />
     </RelativeLayout>
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="10dp"
+            android:text="@string/estimated_distance"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/txtDistance"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="10dp"
+            android:text="@string/estimated_time"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/txtTime"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+    </LinearLayout>
 
     <fragment
         android:id="@+id/map"

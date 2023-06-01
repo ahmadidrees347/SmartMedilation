@@ -4,7 +4,9 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,14 +41,18 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
     private GoogleMap googleMap;
     private FusedLocationProviderClient fusedLocationClient;
 
-    private ImageView imageBack;
+    private TextView txtTime;
+    private TextView txtDistance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        imageBack = findViewById(R.id.imageBack);
+        txtTime = findViewById(R.id.txtTime);
+        txtDistance = findViewById(R.id.txtDistance);
+
+        ImageView imageBack = findViewById(R.id.imageBack);
         imageBack.setOnClickListener(v -> onBackPressed());
 
         // Initialize the FusedLocationProviderClient
@@ -121,10 +127,32 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
                             JSONObject routeObject = routesArray.getJSONObject(0);
                             JSONArray legsArray = routeObject.getJSONArray("legs");
 
+
                             // Assuming a single leg for simplicity
                             if (legsArray.length() > 0) {
                                 JSONObject legObject = legsArray.getJSONObject(0);
                                 JSONArray stepsArray = legObject.getJSONArray("steps");
+
+
+                                // Get the distance object
+                                JSONObject distanceObject = legObject.getJSONObject("distance");
+
+                                // Extract the distance value and text
+                                int distanceValue = distanceObject.getInt("value"); // Distance in meters
+                                String distanceText = distanceObject.getString("text"); // Formatted distance text
+
+                                txtDistance.setText(distanceText);
+                                Log.e("map**", "distanceValue:" + distanceValue + " - distanceText:" + distanceText);
+
+                                // Get the duration object
+                                JSONObject durationObject = legObject.getJSONObject("duration");
+
+                                // Extract the estimated time value and text
+                                int durationValue = durationObject.getInt("value"); // Duration in seconds
+                                String durationText = durationObject.getString("text"); // Formatted duration text
+
+                                txtTime.setText(durationText);
+                                Log.e("map**", "durationValue:" + durationValue + " - durationText:" + durationText);
 
                                 // Extract and decode the polyline
                                 List<LatLng> points = new ArrayList<>();

@@ -44,8 +44,8 @@ public class BaseActivity extends AppCompatActivity {
     public LoadingDialog loadingDialog;
     public PrefManager pref;
     public FcmNotificationSender fcmNotification;
-    public static float LAT = 33.703512384166636f;
-    public static float LONG = 73.052383783085f;
+    public static float LAT = 33.546881292649026f;
+    public static float LONG = 73.0027194965758f;
 
     public interface BottomMenuInterface {
         void onNavChange(int value);
